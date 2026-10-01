@@ -1,3 +1,7 @@
+from app.providers.openai_compatible import (
+    OpenAICompatibleProviderError,
+    OpenAICompatibleTextGenerationProvider,
+)
 from app.providers.text_generation import (
     TextGenerationProvider,
     TextGenerationRequestV1,
@@ -6,6 +10,8 @@ from app.providers.text_generation import (
 )
 
 __all__ = [
+    "OpenAICompatibleProviderError",
+    "OpenAICompatibleTextGenerationProvider",
     "TextGenerationProvider",
     "TextGenerationRequestV1",
     "TextGenerationResponseV1",
