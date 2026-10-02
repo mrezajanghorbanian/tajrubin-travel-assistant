@@ -173,6 +173,40 @@ def test_country_filter():
     ]
 
 
+
+def test_region_filter_is_case_insensitive():
+    tehran = _document(
+        document_id="tehran.region",
+        region="Tehran Province",
+        title="Tehran",
+        summary="Capital region.",
+        content="Tehran travel.",
+    )
+
+    fars = _document(
+        document_id="fars.region",
+        region="Fars Province",
+        city="Shiraz",
+        title="Shiraz",
+        summary="Travel guide.",
+        content="Tehran comparison.",
+    )
+
+    retriever = InMemoryTravelKnowledgeRetriever(
+        [fars, tehran]
+    )
+
+    result = retriever.retrieve(
+        RetrievalQueryV1(
+            text="Tehran",
+            region="tehran province",
+        )
+    )
+
+    assert [hit.document.document_id for hit in result.hits] == [
+        "tehran.region"
+    ]
+
 def test_city_filter_is_case_insensitive():
     document = _document(
         document_id="tehran.city",
