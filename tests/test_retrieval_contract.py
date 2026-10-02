@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import runtime_checkable
-
 import pytest
 from pydantic import ValidationError
 
@@ -66,6 +64,14 @@ def test_query_rejects_invalid_limit(limit: int):
             limit=limit,
         )
 
+
+
+def test_query_rejects_unknown_category():
+    with pytest.raises(ValidationError):
+        RetrievalQueryV1(
+            text="Tehran",
+            category="hotel",
+        )
 
 def test_query_rejects_empty_text():
     with pytest.raises(ValidationError):

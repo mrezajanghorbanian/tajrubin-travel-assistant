@@ -4,7 +4,7 @@ from typing import Protocol
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.knowledge.contract import TravelKnowledgeDocumentV1
+from app.knowledge.contract import KnowledgeCategory, TravelKnowledgeDocumentV1
 
 
 class RetrievalQueryV1(BaseModel):
@@ -19,7 +19,7 @@ class RetrievalQueryV1(BaseModel):
     country_code: str | None = Field(default=None, min_length=2, max_length=2)
     region: str | None = Field(default=None, min_length=1, max_length=120)
     city: str | None = Field(default=None, min_length=1, max_length=120)
-    category: str | None = Field(default=None, min_length=1, max_length=80)
+    category: KnowledgeCategory | None = None
 
 
 class RetrievalHitV1(BaseModel):
