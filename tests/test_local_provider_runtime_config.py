@@ -31,7 +31,8 @@ def test_runtime_config_accepts_custom_values():
 
     assert config.base_url == "http://localhost:9999"
     assert config.model == "custom-local-model"
-    assert config.api_key == "local-key"
+    assert config.api_key is not None
+    assert config.api_key.get_secret_value() == "local-key"
     assert config.timeout_seconds == 120.0
 
 
