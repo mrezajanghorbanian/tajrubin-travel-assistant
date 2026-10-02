@@ -134,6 +134,32 @@ def test_item_text_is_truncated():
     assert len(context.items[0].text) <= 150
 
 
+
+def test_total_budget_keeps_items_consistent_with_rendered_text():
+    hits = tuple(
+        RetrievalHitV1(
+            document=_document(
+                document_id=f"bounded.{index}",
+                content="X" * 1000,
+            ),
+            score=0.8,
+        )
+        for index in range(3)
+    )
+
+    context = build_grounded_retrieval_context(
+        _result(*hits),
+        max_items=3,
+        max_item_chars=300,
+        max_total_chars=500,
+    )
+
+    assert len(context.rendered_text) <= 500
+
+    for item in context.items:
+        assert item.text in context.rendered_text
+        assert f"document_id={item.document_id}" in context.rendered_text
+
 def test_rendered_text_respects_total_limit():
     hits = tuple(
         RetrievalHitV1(

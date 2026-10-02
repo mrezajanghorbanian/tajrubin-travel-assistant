@@ -59,31 +59,30 @@ def build_grounded_retrieval_context(
             content=document.content,
         )
 
-        source_text = _truncate(
-            source_text,
-            max_item_chars,
-        )
+        separator_size = 2 if rendered_parts else 0
+        remaining = max_total_chars - used_chars - separator_size
 
-        rendered = (
+        header = (
             f"[document_id={document.document_id} score={hit.score:.4f}]\n"
-            f"{source_text}"
         )
 
-        remaining = max_total_chars - used_chars
-
-        if remaining <= 0:
+        if remaining <= len(header):
             break
 
-        if len(rendered) > remaining:
-            rendered = _truncate(
-                rendered,
-                remaining,
-            )
+        item_budget = min(
+            max_item_chars,
+            remaining - len(header),
+        )
 
-        if not rendered.strip():
+        item_text = _truncate(
+            source_text,
+            item_budget,
+        )
+
+        if not item_text.strip():
             break
 
-        item_text = source_text
+        rendered = f"{header}{item_text}"
 
         items.append(
             GroundedContextItemV1(
@@ -95,7 +94,7 @@ def build_grounded_retrieval_context(
         )
 
         rendered_parts.append(rendered)
-        used_chars += len(rendered)
+        used_chars += separator_size + len(rendered)
 
     rendered_text = "\n\n".join(rendered_parts)
 
