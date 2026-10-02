@@ -1,3 +1,5 @@
+from app.retrieval.in_memory import InMemoryTravelKnowledgeRetriever
+
 from app.retrieval.contract import (
     RetrievalHitV1,
     RetrievalQueryV1,
@@ -6,6 +8,7 @@ from app.retrieval.contract import (
 )
 
 __all__ = [
+    "InMemoryTravelKnowledgeRetriever",
     "RetrievalHitV1",
     "RetrievalQueryV1",
     "RetrievalResultV1",
