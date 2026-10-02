@@ -54,7 +54,7 @@ def test_runtime_config_rejects_non_loopback_or_invalid_urls(base_url):
 
 def test_api_key_uses_secret_type():
     config = LocalProviderRuntimeConfigV1(
-        api_key="super-secret-value"
+        api_key="super-secret-value"  # pragma: allowlist secret
     )
 
     assert isinstance(config.api_key, SecretStr)
@@ -63,7 +63,7 @@ def test_api_key_uses_secret_type():
 
 def test_api_key_is_redacted_in_repr():
     config = LocalProviderRuntimeConfigV1(
-        api_key="super-secret-value"
+        api_key="super-secret-value"  # pragma: allowlist secret
     )
 
     rendered = repr(config)
@@ -74,11 +74,11 @@ def test_api_key_is_redacted_in_repr():
 
 def test_builder_unwraps_secret_only_for_provider_runtime():
     config = LocalProviderRuntimeConfigV1(
-        api_key="runtime-secret"
+        api_key="runtime-secret"  # pragma: allowlist secret  # pragma: allowlist secret
     )
 
     provider = build_local_text_generation_provider(config)
 
-    assert provider._api_key == "runtime-secret"
+    assert provider._api_key == "runtime-secret"  # pragma: allowlist secret
 
     provider.close()

@@ -25,7 +25,7 @@ def test_runtime_config_accepts_custom_values():
     config = LocalProviderRuntimeConfigV1(
         base_url="http://localhost:9999",
         model="custom-local-model",
-        api_key="local-key",
+        api_key="local-key",  # pragma: allowlist secret
         timeout_seconds=120.0,
     )
 

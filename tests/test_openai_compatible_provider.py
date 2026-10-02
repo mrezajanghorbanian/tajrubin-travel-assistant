@@ -51,7 +51,7 @@ def test_provider_sends_openai_compatible_chat_request():
     provider = OpenAICompatibleTextGenerationProvider(
         base_url="http://127.0.0.1:1234",
         model="local-qwen",
-        api_key="test-key",
+        api_key="test-key",  # pragma: allowlist secret
         client=client,
     )
 
