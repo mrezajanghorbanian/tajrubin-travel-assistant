@@ -74,7 +74,7 @@ def test_api_key_is_redacted_in_repr():
 
 def test_builder_unwraps_secret_only_for_provider_runtime():
     config = LocalProviderRuntimeConfigV1(
-        api_key="runtime-secret"  # pragma: allowlist secret  # pragma: allowlist secret
+        api_key="runtime-secret"  # pragma: allowlist secret
     )
 
     provider = build_local_text_generation_provider(config)
