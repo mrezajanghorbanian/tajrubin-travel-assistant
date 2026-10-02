@@ -29,3 +29,6 @@ models/
 
 .DS_Store
 Thumbs.db
+# Security scan artifacts
+pip-audit-result.json
+.secrets.scan.json
