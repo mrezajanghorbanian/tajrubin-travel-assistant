@@ -1,3 +1,8 @@
+from app.retrieval.context import (
+    GroundedContextItemV1,
+    GroundedRetrievalContextV1,
+    build_grounded_retrieval_context,
+)
 from app.retrieval.in_memory import InMemoryTravelKnowledgeRetriever
 
 from app.retrieval.contract import (
@@ -8,6 +13,9 @@ from app.retrieval.contract import (
 )
 
 __all__ = [
+    "GroundedContextItemV1",
+    "GroundedRetrievalContextV1",
+    "build_grounded_retrieval_context",
     "InMemoryTravelKnowledgeRetriever",
     "RetrievalHitV1",
     "RetrievalQueryV1",
