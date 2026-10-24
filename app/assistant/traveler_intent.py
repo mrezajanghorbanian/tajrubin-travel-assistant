@@ -49,7 +49,7 @@ _PARTY_REGEX = re.compile(
 )
 _INTEREST_PATTERNS: tuple[tuple[Interest, tuple[str, ...]], ...] = (
     ("history", ("history", "historic", "heritage", "تاریخ", "تاریخی", "میراث")),
-    ("food", ("food", "cuisine", "restaurant", "restaurants", "غذا", "غذای", "خوراک", "رستوران")),
+    ("food", ("food", "cuisine", "restaurant", "restaurants", "غذا", "غذای", "غذاهای", "خوراک", "رستوران")),
     ("art_culture", ("art", "arts", "architecture", "museum", "museums", "culture", "هنر", "هنری", "معماری", "موزه", "فرهنگ")),
     ("nature", ("nature", "forest", "forests", "mountains", "طبیعت", "جنگل", "کوه", "کوهستان")),
     ("adventure", ("adventure", "hiking", "trekking", "climbing", "ماجراجویی", "کوهنوردی", "پیاده روی")),
