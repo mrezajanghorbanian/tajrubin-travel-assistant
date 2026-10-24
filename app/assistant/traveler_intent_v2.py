@@ -16,7 +16,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.assistant.traveler_intent import (
     TravelerIntentV1,
     _CITY_ALIASES,
-    _normalize,
     analyze_traveler_intent,
 )
 
@@ -99,7 +98,7 @@ def _places(text: str) -> tuple[str | None, tuple[str, ...], bool]:
         explicit = True
     elif len(unique) > 1:
         # A textual mention order is not proof of an intended visit order.
-        explicit = re.search(r"(?:\bthen\b|سپس|بعد|(?<=\s)to(?=\s)|(?<=\s)به(?=\s))", text) is not None
+        explicit = re.search(r"(?:\bthen\b|سپس|بعد)", text) is not None
     return origin, unique, explicit
 
 
@@ -177,7 +176,12 @@ def _budget(text: str) -> tuple[TravelBudgetV2 | None, bool]:
 
 def analyze_traveler_intent_v2(text: str) -> TravelerIntentV2:
     base = analyze_traveler_intent(text)
-    normalized = _normalize(base.request)
+    # Preserve ISO hyphens: the v1 normalization intentionally strips them.
+    digits = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+    normalized = " ".join(
+        base.request.translate(digits).replace("ي", "ی").replace("ك", "ک")
+        .replace("\u200c", " ").casefold().split()
+    )
     origin, destinations, order_explicit = _places(normalized)
     dates, ambiguous_dates = _travel_dates(normalized)
     budget, ambiguous_budget = _budget(normalized)
