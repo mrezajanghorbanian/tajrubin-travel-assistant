@@ -144,7 +144,8 @@ def assess_planning_readiness(
             clarification_question=questions[blockers_tuple[0]],
         )
 
-    assert days is not None  # Guaranteed by blockers above.
+    if days is None:
+        raise ValueError("Trip duration must be resolved before drafting")
     return PlanningReadinessV1(
         status="ready_for_draft",
         intent=intent,
