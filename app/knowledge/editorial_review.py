@@ -298,7 +298,7 @@ class SQLiteEditorialReviewQueue:
         # Bounded page over approved records *after* all filters. We do not
         # apply SQL LIMIT before filtering out expired records.
         rows = self._connection.execute(
-            """SELECT record_json, reviewed_on FROM editorial_submissions
+            """SELECT record_json, record_sha256, reviewed_on FROM editorial_submissions
                WHERE state = 'approved' AND reviewed_on <= ?
                ORDER BY attraction_id""",
             (as_of.isoformat(),),
