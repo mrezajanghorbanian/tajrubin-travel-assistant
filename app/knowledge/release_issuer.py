@@ -161,6 +161,17 @@ class SQLiteCatalogReleaseIssuer:
                 current_date=lambda: snapshot.created_on,
                 minimum_sequence=sequence,
             )
+            # Approval data is stored separately from this issuer ledger.
+            # Revalidate after potentially slow remote signing. This detects
+            # revocations or edits that happen during signing, but does NOT
+            # make the two databases a single ACID transaction.
+            latest = access.create_release_snapshot(
+                credential, maximum_records=maximum_records
+            )
+            if latest != snapshot:
+                raise ReleaseIssuanceError(
+                    "Editorial snapshot changed during signing; issuance aborted"
+                )
             self._db.execute(
                 """INSERT INTO catalog_issuances
                    (channel, sequence, request_id, key_id, envelope_json)
