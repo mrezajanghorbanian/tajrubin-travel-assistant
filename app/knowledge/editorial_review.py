@@ -305,6 +305,8 @@ class SQLiteEditorialReviewQueue:
         ).fetchall()
         visible: list[AttractionRecordV1] = []
         for row in rows:
+            if _digest(row["record_json"]) != row["record_sha256"]:
+                raise EditorialWorkflowError("Approved record fingerprint mismatch")
             record = AttractionRecordV1.model_validate_json(row["record_json"])
             if country_code is not None and record.country_code != country_code:
                 continue
@@ -316,6 +318,55 @@ class SQLiteEditorialReviewQueue:
             if len(visible) == limit:
                 break
         return tuple(visible)
+
+    def approved_by_ids(
+        self,
+        attraction_ids: tuple[str, ...],
+        *,
+        as_of: date,
+    ) -> tuple[AttractionRecordV1, ...]:
+        """Retrieve exactly requested, currently approved IDs in input order.
+
+        Recheck source metadata and content digests at every read. Unapproved,
+        revoked or stale entries are omitted: the caller must reject a
+        partial response instead of silently downgrading a requested plan.
+        """
+        if not isinstance(as_of, date):
+            raise EditorialWorkflowError("as_of must be a date")
+        if len(attraction_ids) > MAX_QUEUE_BATCH:
+            raise EditorialWorkflowError("Requested ID count exceeds limit")
+        if any(
+            not isinstance(item, str) or not item.strip() or len(item) > 100
+            for item in attraction_ids
+        ):
+            raise EditorialWorkflowError("Invalid attraction ID")
+        if len(set(attraction_ids)) != len(attraction_ids):
+            raise EditorialWorkflowError("Duplicate attraction IDs")
+        if not attraction_ids:
+            return ()
+
+        placeholders = ",".join("?" for _ in attraction_ids)
+        rows = self._connection.execute(
+            """SELECT attraction_id, record_json, record_sha256
+               FROM editorial_submissions
+               WHERE state = 'approved' AND reviewed_on <= ?
+               AND attraction_id IN (""" + placeholders + ")",
+            (as_of.isoformat(), *attraction_ids),
+        ).fetchall()
+        available: dict[str, AttractionRecordV1] = {}
+        for row in rows:
+            if _digest(row["record_json"]) != row["record_sha256"]:
+                raise EditorialWorkflowError("Approved record fingerprint mismatch")
+            record = AttractionRecordV1.model_validate_json(row["record_json"])
+            if record.attraction_id != row["attraction_id"]:
+                raise EditorialWorkflowError("Approved record ID mismatch")
+            if _reviewable(record, as_of):
+                available[row["attraction_id"]] = record
+        return tuple(
+            available[identifier]
+            for identifier in attraction_ids
+            if identifier in available
+        )
 
     def audit(self, attraction_id: str) -> tuple[ReviewEventV1, ...]:
         key = _nonempty(attraction_id, "attraction_id", 100)
