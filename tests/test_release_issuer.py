@@ -76,8 +76,9 @@ def test_retries_idempotent_and_persistent(tmp_path):
         first=issue(issuer,api,key)
         second=issue(issuer,api,key)
         assert first==second
-    with SQLiteCatalogReleaseIssuer(db) as issuer:
-        third=issue(issuer,api,key,request_id="req-2")
+    with SQLiteEditorialReviewQueue(tmp_path/"editorial.db") as reopened_queue, SQLiteCatalogReleaseIssuer(db) as issuer:
+        reopened_api=EditorialAccessService(reopened_queue,Verifier(),current_date=lambda:TODAY)
+        third=issue(issuer,reopened_api,key,request_id="req-2")
         assert third.sequence==2
 
 
