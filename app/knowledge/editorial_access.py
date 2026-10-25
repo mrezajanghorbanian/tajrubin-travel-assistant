@@ -142,6 +142,26 @@ class EditorialAccessService:
         self._require(credential, "audit")
         return self._queue.audit(attraction_id)
 
+    def create_release_snapshot(
+        self,
+        credential: str,
+        *,
+        maximum_records: int = 20,
+    ):
+        """Publisher-only snapshot from a trusted clock and reviewed records.
+
+        A caller-provided date cannot backdate a revoked or expired claim.
+        The return is still editorially reviewed, not independently verified.
+        """
+        from app.knowledge.release_snapshot import create_editorial_release_snapshot
+
+        self._require(credential, "approved")
+        return create_editorial_release_snapshot(
+            self._queue,
+            created_on=self._today(),
+            maximum_records=maximum_records,
+        )
+
     def approved(
         self,
         credential: str,
