@@ -85,6 +85,50 @@ class SQLiteReleaseState:
             self._db.execute("ROLLBACK")
             raise
 
+    def accept_v2(
+        self,
+        release,
+        *,
+        channel: str,
+        trusted_keys,
+        current_date,
+    ):
+        """Atomically verify and record a channel-bound signed release v2."""
+        from app.knowledge.release_protocol_v2 import verify_release_v2
+
+        if not isinstance(channel, str) or not 1 <= len(channel) <= 80 or not all(
+            c.isascii() and (c.isalnum() or c in "._-") for c in channel
+        ):
+            raise ReleaseStateError("Invalid release channel")
+        self._db.execute("BEGIN IMMEDIATE")
+        try:
+            previous = self._db.execute(
+                "SELECT highest_sequence, release_signature FROM release_state WHERE channel=?",
+                (channel,),
+            ).fetchone()
+            minimum = previous[0] if previous else 1
+            snapshot = verify_release_v2(
+                release, expected_channel=channel,
+                trusted_keys=trusted_keys, current_date=current_date,
+                minimum_sequence=minimum,
+            )
+            if previous and release.sequence == previous[0]:
+                if previous[1] != release.signature_b64:
+                    raise ReleaseStateError("Conflicting release at existing sequence")
+            else:
+                self._db.execute(
+                    """INSERT INTO release_state(channel,highest_sequence,release_signature)
+                       VALUES(?,?,?) ON CONFLICT(channel) DO UPDATE SET
+                       highest_sequence=excluded.highest_sequence,
+                       release_signature=excluded.release_signature""",
+                    (channel, release.sequence, release.signature_b64),
+                )
+            self._db.execute("COMMIT")
+            return snapshot
+        except Exception:
+            self._db.execute("ROLLBACK")
+            raise
+
     def highest_sequence(self, channel: str) -> int | None:
         row = self._db.execute(
             "SELECT highest_sequence FROM release_state WHERE channel=?", (channel,)
