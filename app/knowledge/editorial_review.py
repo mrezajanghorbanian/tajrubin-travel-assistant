@@ -345,14 +345,17 @@ class SQLiteEditorialReviewQueue:
         if not attraction_ids:
             return ()
 
-        placeholders = ",".join("?" for _ in attraction_ids)
-        rows = self._connection.execute(
-            """SELECT attraction_id, record_json, record_sha256
-               FROM editorial_submissions
-               WHERE state = 'approved' AND reviewed_on <= ?
-               AND attraction_id IN (""" + placeholders + ")",
-            (as_of.isoformat(), *attraction_ids),
-        ).fetchall()
+        rows = [
+            row
+            for identifier in attraction_ids
+            for row in self._connection.execute(
+                """SELECT attraction_id, record_json, record_sha256
+                   FROM editorial_submissions
+                   WHERE state = 'approved' AND reviewed_on <= ?
+                     AND attraction_id = ?""",
+                (as_of.isoformat(), identifier),
+            ).fetchall()
+        ]
         available: dict[str, AttractionRecordV1] = {}
         for row in rows:
             if _digest(row["record_json"]) != row["record_sha256"]:
