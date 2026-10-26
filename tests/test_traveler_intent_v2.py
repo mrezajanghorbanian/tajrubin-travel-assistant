@@ -89,3 +89,19 @@ def test_v1_contract_unchanged():
     original = analyze_traveler_intent("۳ روز شیراز، معماری و غذاهای محلی دوست دارم")
     x = analyze_traveler_intent_v2("۳ روز شیراز، معماری و غذاهای محلی دوست دارم")
     assert x.base == original
+
+
+def test_ticket_cost_is_not_travel_budget():
+    x = analyze_traveler_intent_v2(
+        "Museum tickets in Tehran cost 20 USD"
+    )
+    assert x.budget is None
+
+
+def test_explicit_trip_cost_is_budget():
+    x = analyze_traveler_intent_v2(
+        "Plan a 3 day trip to Tehran. Trip cost 400 USD"
+    )
+    assert x.budget is not None
+    assert x.budget.amount == Decimal("400")
+    assert x.budget.unit == "USD"
