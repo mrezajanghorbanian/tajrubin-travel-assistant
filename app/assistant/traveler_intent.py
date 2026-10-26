@@ -165,7 +165,7 @@ def _detect_destination(text: str) -> str | None:
 def _type_of_request(text: str, duration_days: int | None) -> IntentType:
     if duration_days is not None or _matches_pattern(
         text,
-        (r"\bitinerary\b", r"\bplan (?:a |my |our )?trip\b", r"\btrip plan\b", r"برنامه سفر", r"برنامه ریزی سفر", r"سفر\s+\S+\s+روز"),
+        (r"\bitinerary\b", r"\bplan (?:a |my |our )?trip\b", r"\bplan (?:a |my |our )?(?:(?:[0-9]+|one|two|three|four|five|six|seven|eight|nine|ten|or|day|days|\s|-)+)\s+trip\b", r"\btrip plan\b", r"برنامه سفر", r"برنامه ریزی سفر", r"سفر\s+\S+\s+روز"),
     ):
         return "trip_planning"
     if _matches_pattern(
