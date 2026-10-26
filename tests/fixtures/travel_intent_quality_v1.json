@@ -1,0 +1,320 @@
+{
+  "dataset_version": "1.0",
+  "purpose": "Independent field-level regression cohort; synthetic, no real travel or personally identifying data. Not an official Harness² dataset.",
+  "cases": [
+    {
+      "id": "q01",
+      "request": "۳ روز تهران",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q02",
+      "request": "3 روز تهران",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q03",
+      "request": "٣ روز تهران",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q04",
+      "request": "سه روز شیراز",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Shiraz",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q05",
+      "request": "سه‌روزه شیراز",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Shiraz",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q06",
+      "request": "three days Shiraz",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Shiraz",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q07",
+      "request": "Plan a trip to Tehran for 3 days",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q08",
+      "request": "Plan a trip to Tehran in 3 days",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q09",
+      "request": "Plan a 3 day trip to Tehran on 2026-11-03",
+      "expected": {
+        "status": "needs_activity_selection",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q10",
+      "request": "Plan a 3 day trip to Tehran from 2026-11-03 to 2026-11-06",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q11",
+      "request": "Plan a trip to Yazd from 2026-11-03 to 2026-11-04",
+      "expected": {
+        "status": "needs_activity_selection",
+        "destination": "Yazd",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q12",
+      "request": "Plan a 3 day trip from Tehran to Shiraz",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Shiraz",
+        "duration_days": 3,
+        "origin": "Tehran",
+        "budget": null
+      }
+    },
+    {
+      "id": "q13",
+      "request": "Plan a 3 day trip to Tehran and Shiraz",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": null,
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q14",
+      "request": "Plan a 3 day trip to Shiraz then Yazd on 2026-11-03",
+      "expected": {
+        "status": "unsupported_multicity",
+        "destination": null,
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q15",
+      "request": "Plan a 4 day trip to Tehran under 500 USD",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 4,
+        "origin": null,
+        "budget": {
+          "amount": "500",
+          "unit": "USD"
+        }
+      }
+    },
+    {
+      "id": "q16",
+      "request": "۴ روز شیراز، بودجه ۵ میلیون تومان",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Shiraz",
+        "duration_days": 4,
+        "origin": null,
+        "budget": {
+          "amount": "5000000",
+          "unit": "TOMAN"
+        }
+      }
+    },
+    {
+      "id": "q17",
+      "request": "Plan a 3 day trip to Tehran. Budget 500",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q18",
+      "request": "Plan a 3 day trip to Tehran. Budget 300 USD or 500 EUR",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q19",
+      "request": "Plan a 3 day trip to Tehran on 2026-02-31",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q20",
+      "request": "۳ روز شیراز، تاریخ ۱۴۰۵/۰۸/۱۵",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Shiraz",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q21",
+      "request": "Plan a 100 day trip to Tehran",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q22",
+      "request": "Plan a trip to Tehran tomorrow",
+      "expected": {
+        "status": "needs_clarification",
+        "destination": "Tehran",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q23",
+      "request": "Plan a 2 day trip to Qeshm on 2026-11-03",
+      "expected": {
+        "status": "needs_activity_selection",
+        "destination": "Qeshm",
+        "duration_days": 2,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q24",
+      "request": "I want 3 days in Isfahan",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Isfahan",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q25",
+      "request": "Museum tickets in Tehran cost 20 USD",
+      "expected": {
+        "status": "not_planning",
+        "destination": "Tehran",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q26",
+      "request": "Tell me about Tehran museums",
+      "expected": {
+        "status": "not_planning",
+        "destination": "Tehran",
+        "duration_days": null,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q27",
+      "request": "Plan a 3 day trip to Tehran, 2 people",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 3,
+        "origin": null,
+        "budget": null
+      }
+    },
+    {
+      "id": "q28",
+      "request": "۲ روز تهران برای ۳ نفر",
+      "expected": {
+        "status": "needs_visit_date",
+        "destination": "Tehran",
+        "duration_days": 2,
+        "origin": null,
+        "budget": null
+      }
+    }
+  ]
+}
