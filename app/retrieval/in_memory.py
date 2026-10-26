@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections.abc import Iterable
 
 from app.knowledge.contract import TravelKnowledgeDocumentV1
@@ -139,10 +140,36 @@ def _score_document(
     )
 
 
+_ARABIC_PERSIAN_CHARS = str.maketrans({
+    "ي": "ی", "ى": "ی", "ك": "ک",
+    "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4",
+    "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
+    "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4",
+    "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
+})
+
+
+def _canonical_text(value: str) -> str:
+    """Normalize Arabic/Persian letter and numeric variants for retrieval.
+
+    Treat half-spaces as word boundaries. This is not morphological
+    stemming, semantic retrieval or a Farsi grammar model.
+    """
+    normalized = unicodedata.normalize("NFKC", value).translate(
+        _ARABIC_PERSIAN_CHARS
+    )
+    normalized = normalized.replace("\u200c", " ").replace("\u200d", " ")
+    normalized = normalized.replace("\u0640", "")
+    normalized = "".join(
+        ch for ch in normalized if unicodedata.category(ch) != "Mn"
+    )
+    return normalized.casefold()
+
+
 def _tokenize(value: str) -> frozenset[str]:
     return frozenset(
-        token.casefold()
-        for token in _TOKEN_PATTERN.findall(value)
+        token
+        for token in _TOKEN_PATTERN.findall(_canonical_text(value))
         if token
     )
 
@@ -150,8 +177,7 @@ def _tokenize(value: str) -> frozenset[str]:
 def _normalize(value: str | None) -> str | None:
     if value is None:
         return None
-
-    return " ".join(value.casefold().split())
+    return " ".join(_canonical_text(value).split())
 
 
 __all__ = [
