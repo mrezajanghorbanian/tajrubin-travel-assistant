@@ -155,6 +155,24 @@ def _extract_interests(text: str) -> tuple[Interest, ...]:
 
 
 def _detect_destination(text: str) -> str | None:
+    """For an explicit origin-to-destination route, return the target city.
+
+    Without the full route pattern, two cities remain intentionally ambiguous.
+    """
+    city_aliases = {
+        alias: city for city, aliases in _CITY_ALIASES for alias in aliases
+    }
+    city_terms = "|".join(
+        re.escape(alias) for alias in sorted(city_aliases, key=len, reverse=True)
+    )
+    route = re.search(
+        rf"(?<!\w)(?:from|از)\s+(?P<origin>{city_terms})\s+"
+        rf"(?:to|به)\s+(?P<destination>{city_terms})(?!\w)",
+        text,
+    )
+    if route:
+        return city_aliases[route.group("destination")]
+
     choices = [
         city for city, aliases in _CITY_ALIASES
         if _matches_any(text, aliases)
