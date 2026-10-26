@@ -46,7 +46,7 @@ _MONEY_REGEX = re.compile(
     rf"(?P<suffix>{_MONEY_UNIT})?(?!\w)"
 )
 _BUDGET_CUE = re.compile(
-    r"(?:\bbudget\b|\bcost\b|\bspend\b|\bunder\b|\bup to\b|بودجه|هزینه|حداکثر|سقف)"
+    r"(?:\bbudget\b|\b(?:trip|travel|vacation)\s+cost\b|\bcost\s+of\s+(?:my|our|the)\s+trip\b|\bspend\b|\bunder\b|\bup to\b|بودجه|هزینه|حداکثر|سقف)"
 )
 
 
