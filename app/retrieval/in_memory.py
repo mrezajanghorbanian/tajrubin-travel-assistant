@@ -33,7 +33,7 @@ class InMemoryTravelKnowledgeRetriever:
             if _matches_filters(document, query)
         )
 
-        query_tokens = _tokenize(query.text)
+        query_tokens = _query_tokens(query.text, city=query.city)
 
         scored = [
             (
@@ -122,6 +122,13 @@ def _score_document(
     content_overlap = len(query_tokens & content_tokens)
     tag_overlap = len(query_tokens & tag_tokens)
 
+    # Do not present a partially matching document as evidence for an
+    # unsupported qualifier (e.g. "museum opening hours" when only museum
+    # information is available). Lexical AND is intentionally conservative.
+    known_tokens = title_tokens | summary_tokens | content_tokens | tag_tokens
+    if not query_tokens.issubset(known_tokens):
+        return 0.0
+
     weighted_matches = (
         title_overlap * 4
         + tag_overlap * 3
@@ -166,9 +173,46 @@ def _canonical_text(value: str) -> str:
     return normalized.casefold()
 
 
+_QUERY_STOPWORDS = frozenset({
+    "a", "an", "the", "in", "at", "on", "to", "for", "of",
+    "and", "about", "please", "find", "show", "me", "my", "our",
+    "where", "are", "can", "i", "is", "what", "which",
+    "در", "به", "از", "برای", "با", "و", "را", "رو", "مورد",
+    "های", "ها",
+})
+
+
+def _query_tokens(value: str, *, city: str | None) -> frozenset[str]:
+    """Preserve only content terms; a city filter already constrains place.
+
+    A city-only query must still be able to retrieve city documents.
+    """
+    tokens = _tokenize(value) - _QUERY_STOPWORDS
+    if city is not None:
+        remaining = tokens - _tokenize(city)
+        if remaining:
+            return remaining
+    return tokens
+
+
+def _simple_english_plural(token: str) -> str:
+    """Only conservative plural normalization; never invent synonyms.
+
+    Applied to both queries and document fields so scoring stays symmetric.
+    """
+    if token.isascii() and token.isalpha():
+        if len(token) >= 6 and token.endswith("ies"):
+            return token[:-3] + "y"
+        if len(token) >= 5 and token.endswith("s") and not token.endswith(
+            ("ss", "us", "is")
+        ):
+            return token[:-1]
+    return token
+
+
 def _tokenize(value: str) -> frozenset[str]:
     return frozenset(
-        token
+        _simple_english_plural(token)
         for token in _TOKEN_PATTERN.findall(_canonical_text(value))
         if token
     )
