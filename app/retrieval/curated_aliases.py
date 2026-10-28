@@ -27,6 +27,26 @@ CURATED_TRAVEL_TERMS: dict[str, str] = {
     "میراث": "concept_heritage",
     "bazaar": "concept_bazaar",
     "بازار": "concept_bazaar",
+    # Fixed transliterations of known Iranian destinations. Do not infer
+    # locations not present in this deliberately small reviewed dictionary.
+    "tehran": "city_tehran",
+    "تهران": "city_tehran",
+    "shiraz": "city_shiraz",
+    "شیراز": "city_shiraz",
+    "isfahan": "city_isfahan",
+    "esfahan": "city_isfahan",
+    "اصفهان": "city_isfahan",
+    "yazd": "city_yazd",
+    "یزد": "city_yazd",
+    "kashan": "city_kashan",
+    "کاشان": "city_kashan",
+    "tabriz": "city_tabriz",
+    "تبریز": "city_tabriz",
+    "kerman": "city_kerman",
+    "کرمان": "city_kerman",
+    "qeshm": "city_qeshm",
+    "gheshm": "city_qeshm",
+    "قشم": "city_qeshm",
 }
 
 __all__ = ["CURATED_TRAVEL_TERMS"]
