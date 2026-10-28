@@ -5,6 +5,7 @@ import unicodedata
 from collections.abc import Iterable
 
 from app.knowledge.contract import TravelKnowledgeDocumentV1
+from app.retrieval.curated_aliases import CURATED_TRAVEL_TERMS
 from app.retrieval.contract import (
     RetrievalHitV1,
     RetrievalQueryV1,
@@ -20,8 +21,11 @@ class InMemoryTravelKnowledgeRetriever:
     def __init__(
         self,
         documents: Iterable[TravelKnowledgeDocumentV1],
+        *,
+        bilingual_aliases: bool = False,
     ) -> None:
         self._documents = tuple(documents)
+        self._bilingual_aliases = bilingual_aliases
 
     def retrieve(
         self,
@@ -34,12 +38,15 @@ class InMemoryTravelKnowledgeRetriever:
         )
 
         query_tokens = _query_tokens(query.text, city=query.city)
+        if self._bilingual_aliases:
+            query_tokens = _map_bilingual_terms(query_tokens)
 
         scored = [
             (
                 _score_document(
                     document=document,
                     query_tokens=query_tokens,
+                    bilingual_aliases=self._bilingual_aliases,
                 ),
                 document,
             )
@@ -104,17 +111,19 @@ def _score_document(
     *,
     document: TravelKnowledgeDocumentV1,
     query_tokens: frozenset[str],
+    bilingual_aliases: bool = False,
 ) -> float:
     if not query_tokens:
         return 0.0
 
-    title_tokens = _tokenize(document.title)
-    summary_tokens = _tokenize(document.summary)
-    content_tokens = _tokenize(document.content)
+    tokenize = (lambda value: _map_bilingual_terms(_tokenize(value))) if bilingual_aliases else _tokenize
+    title_tokens = tokenize(document.title)
+    summary_tokens = tokenize(document.summary)
+    content_tokens = tokenize(document.content)
     tag_tokens = frozenset(
         token
         for tag in document.tags
-        for token in _tokenize(tag)
+        for token in tokenize(tag)
     )
 
     title_overlap = len(query_tokens & title_tokens)
@@ -193,6 +202,10 @@ def _query_tokens(value: str, *, city: str | None) -> frozenset[str]:
         if remaining:
             return remaining
     return tokens
+
+
+def _map_bilingual_terms(tokens: frozenset[str]) -> frozenset[str]:
+    return frozenset(CURATED_TRAVEL_TERMS.get(token, token) for token in tokens)
 
 
 def _simple_english_plural(token: str) -> str:
