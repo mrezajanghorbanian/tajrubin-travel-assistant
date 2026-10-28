@@ -40,6 +40,11 @@ class InMemoryTravelKnowledgeRetriever:
         query_tokens = _query_tokens(query.text, city=query.city)
         if self._bilingual_aliases:
             query_tokens = _map_bilingual_terms(query_tokens)
+            if query.city is not None:
+                city_tokens = _map_bilingual_terms(_tokenize(query.city))
+                without_city = query_tokens - city_tokens
+                if without_city:
+                    query_tokens = without_city
 
         scored = [
             (
