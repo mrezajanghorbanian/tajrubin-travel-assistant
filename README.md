@@ -61,3 +61,7 @@ Planned adapters include:
 Early public extraction and architecture phase.
 
 The production Tajrubin marketplace backend remains a separate private system.
+
+## Retrieval evaluation
+
+See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for the synthetic fixture, metric definitions, limits and reproducible commands.

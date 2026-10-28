@@ -34,7 +34,9 @@ class InMemoryTravelKnowledgeRetriever:
         candidates = tuple(
             document
             for document in self._documents
-            if _matches_filters(document, query)
+            if _matches_filters(
+                document, query, bilingual_aliases=self._bilingual_aliases,
+            )
         )
 
         query_tokens = _query_tokens(query.text, city=query.city)
@@ -84,6 +86,8 @@ class InMemoryTravelKnowledgeRetriever:
 def _matches_filters(
     document: TravelKnowledgeDocumentV1,
     query: RetrievalQueryV1,
+    *,
+    bilingual_aliases: bool = False,
 ) -> bool:
     if (
         query.country_code is not None
@@ -99,7 +103,8 @@ def _matches_filters(
 
     if (
         query.city is not None
-        and _normalize(document.city) != _normalize(query.city)
+        and _city_key(document.city, bilingual_aliases=bilingual_aliases)
+        != _city_key(query.city, bilingual_aliases=bilingual_aliases)
     ):
         return False
 
@@ -110,6 +115,19 @@ def _matches_filters(
         return False
 
     return True
+
+
+def _city_key(
+    value: str | None, *, bilingual_aliases: bool,
+) -> tuple[str, str | None]:
+    normalized = _normalize(value)
+    if bilingual_aliases and normalized is not None:
+        alias = CURATED_TRAVEL_TERMS.get(normalized)
+        # Only full, reviewed city names qualify; never turn travel terms,
+        # partial names or unordered token sets into location filters.
+        if alias is not None and alias.startswith("city_"):
+            return ("reviewed", alias)
+    return ("literal", normalized)
 
 
 def _score_document(
