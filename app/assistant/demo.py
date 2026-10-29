@@ -70,6 +70,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--country", default=None, help="ISO 3166-1 alpha-2 code")
     parser.add_argument("--city", default=None, help="Optional city filter")
     parser.add_argument(
+        "--bilingual-aliases",
+        action="store_true",
+        help="Enable reviewed Persian/English term and city equivalents",
+    )
+    parser.add_argument(
         "--knowledge-root",
         type=Path,
         default=DEFAULT_KNOWLEDGE_ROOT,
@@ -92,7 +97,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         documents = load_local_knowledge_pack(args.knowledge_root)
         answer = answer_travel_question(
-            request, InMemoryTravelKnowledgeRetriever(documents)
+            request,
+            InMemoryTravelKnowledgeRetriever(
+                documents, bilingual_aliases=args.bilingual_aliases,
+            ),
         )
     except (ValidationError, ValueError, TravelKnowledgeLoadError) as exc:
         print(f"Travel demo input error: {exc}", file=sys.stderr)

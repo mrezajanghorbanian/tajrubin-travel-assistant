@@ -21,6 +21,12 @@ translations and city equivalences explicitly:
 retriever = InMemoryTravelKnowledgeRetriever(documents, bilingual_aliases=True)
 ```
 
+The offline QA demo exposes the same opt-in via `--bilingual-aliases`; see
+[the demo commands](DEMO.md#opt-in-persianenglish-retrieval). Its end-to-end
+tests exercise Markdown ingestion, Persian/English queries, city and country
+filters, result limits, source attribution and unsupported-query abstention.
+The CLI integration does not change this fixture or its relevance labels.
+
 In this mode, the city filter uses the same reviewed city equivalences as
 query normalization, in both directions (`تهران` / `Tehran`, `اصفهان` /
 `Isfahan` / `Esfahan`, and the other cities in `curated_aliases.py`). Unknown
@@ -106,4 +112,12 @@ account cannot create symlinks. Use a writable pytest temporary directory
 if the system temporary directory is restricted. These environment limits
 must not be handled by weakening assertions or claiming skipped tests passed.
 
-Final local suite: 353 passed, 1 skipped (the symlink test above). All 19 new tests passed. The repository security gate, Bandit and pip dependency consistency check passed.
+City-filter revision `be9661d`: local suite 353 passed, 1 skipped (the symlink
+test above); all 19 new tests passed. The repository security gate, Bandit and
+pip dependency consistency check passed.
+
+The subsequent CLI integration adds 16 end-to-end tests. Local validation:
+369 passed, 1 skipped (the same Windows symlink test); security gate, Bandit
+and pip dependency consistency check passed. The fixed 34-case retrieval
+benchmark retains the post-fix metrics above. This integration makes the
+opt-in mode available in the demo; it does not claim a further recall gain.
