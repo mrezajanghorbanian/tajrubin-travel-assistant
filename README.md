@@ -65,3 +65,5 @@ The production Tajrubin marketplace backend remains a separate private system.
 ## Retrieval evaluation
 
 See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for the synthetic fixture, metric definitions, limits and reproducible commands.
+
+See [the public Iran knowledge pack](docs/IRAN_KNOWLEDGE_PACK.md) for the source-attributed records and runnable Persian/English examples.

@@ -69,12 +69,19 @@ See [retrieval evaluation](RETRIEVAL_EVALUATION.md) for the fixed synthetic
 benchmark, precision/recall definitions and limits. Run the end-to-end CLI
 regressions with `python -m pytest tests/test_bilingual_qa_demo.py -q`.
 
+## Publicly sourced Iran records
+
+The demo also includes short bilingual records for Golestan Palace, the
+Isfahan congregational mosque and historic Yazd, with official source URLs.
+See [the Iran knowledge pack](IRAN_KNOWLEDGE_PACK.md) for source-review dates,
+examples and the boundary between background knowledge and scheduling evidence.
+
 ## Limitations
 
 - No itinerary planner, live map API, booking, autonomous web research or LLM answer generation yet.
 - Lexical retrieval is not semantically robust; irrelevant or partial matches are possible.
 - Knowledge snippets are **provisional**, not externally verified answers.
-- Current Tehran sample has no external source URLs. Never represent it as a verified tourism authority.
+- The original Tehran destination overview has no external source URLs. Never represent it as a verified tourism authority.
 - Do not treat old content as reliable for current opening hours, transport changes, pricing or safety conditions.
 - This CLI is intended for developers and testers; the traveler-facing web app is a future milestone.
 
