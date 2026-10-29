@@ -54,6 +54,9 @@ def test_cli_emits_failure_report_and_only_fails_when_check_enabled(tmp_path, mo
         'cases': [{
             'id': 'missed-garden', 'language': 'en',
             'query': {'text': 'garden', 'city': 'Tehran'}, 'relevant_ids': ['museum'],
+        }, {
+            'id': 'safe-negative', 'language': 'fa',
+            'query': {'text': 'پزشک', 'city': 'Tehran'}, 'relevant_ids': [],
         }],
     }
     path = tmp_path / 'controlled-failure.json'

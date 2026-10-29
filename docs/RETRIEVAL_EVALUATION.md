@@ -189,6 +189,30 @@ readiness claim or an independent held-out benchmark. Fixture changes require
 review of their relevance labels; passing a modified fixture alone is not
 evidence that retrieval improved.
 
+## Fixture integrity before scoring
+
+Both modes validate the fixture before retrieval. Only version 1 and an
+explicit JSON `synthetic: true` are accepted; numeric 1 is not interchangeable
+with a boolean version. Unknown top-level or case fields are rejected.
+
+Each fixture requires 1–500 schema-valid documents and 2–2000 cases, including
+at least one positive and one negative query. Document IDs and case IDs must
+be unique; case IDs must be nonblank and at most 160 characters. Language
+labels must be `en` or `fa`. Queries must satisfy `RetrievalQueryV1` and cannot
+override the evaluation cutoff with their own `limit`.
+
+Relevant-ID lists must contain unique existing document IDs. In particular,
+at k=1 a valid hit must not hide a second relevant label that points to a
+nonexistent document. Label validation is structural: the evaluator does not
+generate or revise relevance judgments using its own matching logic. It still
+cannot determine whether a human's semantic relevance judgment is correct.
+
+Unreadable files, invalid JSON or invalid fixture structure return exit code 2
+and a JSON error with code `invalid_fixture`, without success metrics. This
+applies both with and without `--check`. A structurally valid fixture whose
+retrieval fails the gate continues to return exit code 1 only with `--check`.
+The original frozen fixture files and their labels remain unchanged.
+
 ## Validation history
 
 The starting revision `942f0a923e58e5c8bfdc71046626078a32a12a47` passed
@@ -234,3 +258,5 @@ Attached-plural integration local validation: 401 passed, 1 skipped (the same Wi
 Cutoff/MRR evaluation local validation: 423 passed, 1 skipped (the same Windows symlink test); all 22 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.
 
 Synthetic gate integration local validation: 436 passed, 1 skipped (the same Windows symlink test); all 13 new tests passed. Both suite gates passed at k=1,3,5. Repository security gate, Bandit and pip dependency consistency check passed.
+
+Fixture-integrity local validation: 457 passed, 1 skipped (the same Windows symlink test); all 21 new tests passed. Both original suite gates passed with unchanged fixture files. Repository security gate, Bandit and pip dependency consistency check passed.

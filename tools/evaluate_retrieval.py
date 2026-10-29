@@ -99,13 +99,61 @@ def assess(cases: list[dict], *, k: int) -> dict:
     }
 
 
+def _validate_fixture(fixture: object) -> tuple[TravelKnowledgeDocumentV1, ...]:
+    """Validate gold-data structure without deriving labels from retrieval."""
+    if not isinstance(fixture, dict) or set(fixture) != {"version", "synthetic", "documents", "cases"}:
+        raise ValueError("Fixture must contain only version, synthetic, documents and cases")
+    if type(fixture["version"]) is not int or fixture["version"] != 1:
+        raise ValueError("Unsupported fixture version")
+    if fixture["synthetic"] is not True:
+        raise ValueError("Fixture must explicitly declare synthetic=true")
+    payload = fixture["documents"]
+    if not isinstance(payload, list) or not 1 <= len(payload) <= 500:
+        raise ValueError("Fixture must contain 1 to 500 documents")
+    documents = tuple(
+        TravelKnowledgeDocumentV1.model_validate(item) for item in payload
+    )
+    document_ids = {document.document_id for document in documents}
+    if len(document_ids) != len(documents):
+        raise ValueError("Duplicate fixture document IDs")
+    cases = fixture["cases"]
+    if not isinstance(cases, list) or not 2 <= len(cases) <= 2000:
+        raise ValueError("Fixture must contain 2 to 2000 cases")
+    case_ids: set[str] = set()
+    positives = 0
+    for case in cases:
+        if not isinstance(case, dict) or set(case) != {"id", "language", "query", "relevant_ids"}:
+            raise ValueError("Case must contain only id, language, query and relevant_ids")
+        identifier = case["id"]
+        if not isinstance(identifier, str) or not identifier.strip() or len(identifier) > 160:
+            raise ValueError("Case ID must be a nonblank string of at most 160 characters")
+        if identifier in case_ids:
+            raise ValueError("Duplicate fixture case ID: " + identifier)
+        case_ids.add(identifier)
+        if case["language"] not in ("en", "fa"):
+            raise ValueError("Case language must be en or fa: " + identifier)
+        query = case["query"]
+        if not isinstance(query, dict) or "limit" in query:
+            raise ValueError("Case query must be a mapping without limit: " + identifier)
+        RetrievalQueryV1.model_validate(query)
+        labels = case["relevant_ids"]
+        if not isinstance(labels, list) or len(labels) > 500 or not all(isinstance(label, str) for label in labels):
+            raise ValueError("Relevant IDs must be a list of at most 500 strings: " + identifier)
+        if len(set(labels)) != len(labels):
+            raise ValueError("Duplicate relevant IDs: " + identifier)
+        if not set(labels).issubset(document_ids):
+            raise ValueError("Unknown relevant document IDs: " + identifier)
+        positives += bool(labels)
+    if not 0 < positives < len(cases):
+        raise ValueError("Fixture requires both positive and negative cases")
+    return documents
+
+
 def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -> dict:
     _validate_k(k)
     fixture_bytes = FIXTURES[suite].read_bytes()
     fixture = json.loads(fixture_bytes)
-    documents = tuple(
-        TravelKnowledgeDocumentV1.model_validate(item) for item in fixture["documents"]
-    )
+    documents = _validate_fixture(fixture)
     retriever = InMemoryTravelKnowledgeRetriever(
         documents, bilingual_aliases=bilingual_aliases,
     )
@@ -140,11 +188,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--k", type=int, choices=range(1, 21), default=K)
     parser.add_argument("--check", action="store_true", help="Fail if the bilingual synthetic gate fails")
     args = parser.parse_args(argv)
-    report = {
-        "synthetic": True,
-        "default": evaluate(bilingual_aliases=False, suite=args.suite, k=args.k),
-        "bilingual": evaluate(bilingual_aliases=True, suite=args.suite, k=args.k),
-    }
+    try:
+        report = {
+            "synthetic": True,
+            "default": evaluate(bilingual_aliases=False, suite=args.suite, k=args.k),
+            "bilingual": evaluate(bilingual_aliases=True, suite=args.suite, k=args.k),
+        }
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"error": {"code": "invalid_fixture", "message": str(exc)}}))
+        return 2
     print(json.dumps(report, indent=2))
     return int(args.check and not report["bilingual"]["gate"]["passed"])
 
