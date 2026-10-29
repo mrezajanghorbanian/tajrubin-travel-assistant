@@ -1,5 +1,8 @@
 # Offline Travel QA Demo
 
+For one command that routes both knowledge questions and planning-readiness
+requests, see [the unified offline assistant](LOCAL_ASSISTANT.md).
+
 This is a working, **non-generative** first slice of the Tajrubin Travel AI project, not the promised production travel companion.
 
 ## Requirements

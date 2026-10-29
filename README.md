@@ -6,6 +6,10 @@ The first knowledge pack focuses on Iran. The architecture is designed to suppor
 
 ## Initial Goals
 
+The [unified offline assistant](docs/LOCAL_ASSISTANT.md) is runnable with
+`python -X utf8 -m app.assistant 'کاخ گلستان'`. It handles local knowledge
+questions and reports missing or resolved initial trip-planning details.
+
 - Answer grounded travel questions
 - Recommend destinations and experiences
 - Build multi-day itineraries
