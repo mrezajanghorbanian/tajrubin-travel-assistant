@@ -19,8 +19,15 @@ FIXTURES = {
 K = 3
 
 
+def _validate_k(k: int) -> None:
+    if type(k) is not int or not 1 <= k <= 20:
+        raise ValueError("k must be an integer from 1 to 20")
+
+
 def summarize(cases: list[dict], *, k: int) -> dict:
     """Keep positive recall separate from negative abstention and precision."""
+    _validate_k(k)
+    cases = [{**case, "retrieved_ids": case["retrieved_ids"][:k]} for case in cases]
     positives = [case for case in cases if case["relevant_ids"]]
     negatives = [case for case in cases if not case["relevant_ids"]]
 
@@ -47,6 +54,13 @@ def summarize(cases: list[dict], *, k: int) -> dict:
                 case["retrieved_ids"][0] in case["relevant_ids"] for case in positives)
             / len(positives) if positives else None
         ),
+        "mrr_at_k": (
+            sum(next((
+                1 / rank for rank, identifier in enumerate(case["retrieved_ids"], 1)
+                if identifier in case["relevant_ids"]
+            ), 0.0) for case in positives) / len(positives)
+            if positives else None
+        ),
         "negative_abstention": (
             sum(not case["retrieved_ids"] for case in negatives) / len(negatives)
             if negatives else None
@@ -54,7 +68,8 @@ def summarize(cases: list[dict], *, k: int) -> dict:
     }
 
 
-def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual") -> dict:
+def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -> dict:
+    _validate_k(k)
     fixture_bytes = FIXTURES[suite].read_bytes()
     fixture = json.loads(fixture_bytes)
     documents = tuple(
@@ -65,7 +80,7 @@ def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual") -> dict:
     )
     outcomes = []
     for case in fixture["cases"]:
-        result = retriever.retrieve(RetrievalQueryV1(**case["query"], limit=K))
+        result = retriever.retrieve(RetrievalQueryV1(**case["query"], limit=k))
         outcomes.append({
             **case,
             "retrieved_ids": [hit.document.document_id for hit in result.hits],
@@ -74,12 +89,12 @@ def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual") -> dict:
         "suite": suite,
         "fixture_version": fixture["version"],
         "fixture_sha256": hashlib.sha256(fixture_bytes).hexdigest(),
-        "k": K,
+        "k": k,
         "bilingual_aliases": bilingual_aliases,
-        "metrics": summarize(outcomes, k=K),
+        "metrics": summarize(outcomes, k=k),
         "by_language": {
             language: summarize(
-                [case for case in outcomes if case["language"] == language], k=K,
+                [case for case in outcomes if case["language"] == language], k=k,
             )
             for language in sorted({case["language"] for case in outcomes})
         },
@@ -90,11 +105,12 @@ def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual") -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", choices=tuple(FIXTURES), default="bilingual")
+    parser.add_argument("--k", type=int, choices=range(1, 21), default=K)
     args = parser.parse_args()
     print(json.dumps({
         "synthetic": True,
-        "default": evaluate(bilingual_aliases=False, suite=args.suite),
-        "bilingual": evaluate(bilingual_aliases=True, suite=args.suite),
+        "default": evaluate(bilingual_aliases=False, suite=args.suite, k=args.k),
+        "bilingual": evaluate(bilingual_aliases=True, suite=args.suite, k=args.k),
     }, indent=2))
 
 

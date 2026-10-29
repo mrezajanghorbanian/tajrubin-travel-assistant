@@ -4,6 +4,8 @@ Run from the repository root after installing the development dependencies:
 
 ```sh
 python -m tools.evaluate_retrieval
+python -m tools.evaluate_retrieval --k 1
+python -m tools.evaluate_retrieval --k 5
 python -m pytest tests -q
 ```
 
@@ -91,9 +93,14 @@ of 1/3 on this suite. The original bilingual suite retains its prior post-fix
 metrics. Both suites are synthetic development regressions, not independent
 held-out evidence of general Persian language quality.
 
-## Metrics at k = 3
+## Metrics at the selected k (default 3)
 
-For returned IDs R and explicitly relevant IDs G:
+`--k` accepts integers from 1 through 20, matching the retriever contract.
+It controls both the actual number requested from each retriever and the
+metric cutoff. The default remains 3. The offline QA demo independently
+limits `--max-results` to 1 through 5.
+
+For the first k returned IDs R and explicitly relevant IDs G:
 
 - `returned_precision`: total relevant returned documents / total returned
   documents, over **all** cases. Negative-query false positives count against
@@ -102,6 +109,9 @@ For returned IDs R and explicitly relevant IDs G:
   result slots count as zero; this is the conventional fixed-k denominator.
 - `recall_at_k`: mean `|R intersect G| / |G|` over positive queries.
 - `hit_at_1`: fraction of positive queries whose first result is relevant.
+- `mrr_at_k`: mean reciprocal rank of the first relevant result within the
+  first k results, over positive queries. A positive query with no relevant
+  result contributes zero. No positive queries means null.
 - `negative_abstention`: fraction of negative queries with no returned hits.
 
 Metrics with no eligible queries are null. Successful negative abstention is
@@ -114,6 +124,31 @@ relevant documents and empty results. Every bilingual fixture case must return
 exactly the labeled relevant set; aggregate averages cannot hide a bad case.
 Both baseline and opt-in reports are emitted so recall gains cannot conceal
 negative-query regressions.
+
+### Cutoff comparison on the fixed synthetic suites
+
+| Suite (bilingual mode) | k | Precision@k | Recall@k |
+| --- | ---: | ---: | ---: |
+| Original bilingual | 1 | 100% | 86.11% |
+| Original bilingual | 3 | 42.59% | 100% |
+| Original bilingual | 5 | 25.56% | 100% |
+| Attached Persian plurals | 1 | 100% | 50% |
+| Attached Persian plurals | 3 | 66.67% | 100% |
+| Attached Persian plurals | 5 | 40% | 100% |
+
+Returned precision, MRR@k and negative abstention are 100% in these six runs.
+Lower fixed-denominator Precision@k at larger k reflects unfilled slots here;
+it does not mean the retriever returned extra incorrect documents. Recall
+at k=1 exposes missed relevant documents that Recall@3 conceals. Equal
+relevance labels do not judge ordering among two relevant documents.
+
+The summarizer itself truncates supplied result lists at k, even if an
+external caller supplies more results; it does not mutate the caller's data.
+Previously it relied on the caller's result limit, so a list longer than k
+could inflate Precision@k above 1. Hand-counted tests include irrelevant
+results before and after the cutoff, a relevant result at rank 2, missing
+positive results and negative queries. This evaluator correction and the new
+MRR field do not change either knowledge fixture or the retrieval algorithm.
 
 ## Validation record
 
@@ -156,3 +191,5 @@ benchmark retains the post-fix metrics above. This integration makes the
 opt-in mode available in the demo; it does not claim a further recall gain.
 
 Attached-plural integration local validation: 401 passed, 1 skipped (the same Windows symlink test); all 32 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.
+
+Cutoff/MRR evaluation local validation: 423 passed, 1 skipped (the same Windows symlink test); all 22 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.
