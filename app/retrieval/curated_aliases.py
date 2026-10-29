@@ -11,12 +11,20 @@ Adding broader concepts here requires offline false-positive regression tests.
 CURATED_TRAVEL_TERMS: dict[str, str] = {
     "museum": "concept_museum",
     "موزه": "concept_museum",
+    # Explicit attached Persian plurals only. Do not strip arbitrary suffixes:
+    # garden-related words such as باغبان/باغچه are not garden equivalents.
+    "موزهها": "concept_museum",
+    "موزههای": "concept_museum",
     "garden": "concept_garden",
     "باغ": "concept_garden",
+    "باغها": "concept_garden",
+    "باغهای": "concept_garden",
     "desert": "concept_desert",
     "کویر": "concept_desert",
     "restaurant": "concept_restaurant",
     "رستوران": "concept_restaurant",
+    "رستورانها": "concept_restaurant",
+    "رستورانهای": "concept_restaurant",
     "architecture": "concept_architecture",
     "معماری": "concept_architecture",
     "food": "concept_food",
@@ -27,6 +35,8 @@ CURATED_TRAVEL_TERMS: dict[str, str] = {
     "میراث": "concept_heritage",
     "bazaar": "concept_bazaar",
     "بازار": "concept_bazaar",
+    "بازارها": "concept_bazaar",
+    "بازارهای": "concept_bazaar",
     # Fixed transliterations of known Iranian destinations. Do not infer
     # locations not present in this deliberately small reviewed dictionary.
     "tehran": "city_tehran",

@@ -54,6 +54,11 @@ Country filtering and the result limit still apply. Unknown qualifiers and
 misspelled city names are not silently discarded. The existing strict request
 validation also applies with this flag.
 
+Eight reviewed attached plural forms are also recognized for museum, garden,
+restaurant and bazaar. For example, `موزههای تهران` works with the same
+`--bilingual-aliases` flag. This does not enable general Persian stemming;
+words such as `باغبان` and `بازاریابی` are not reduced to garden or bazaar.
+
 This enables bilingual **retrieval**, not answer translation: returned summaries
 remain in their source document's language. It does not enable an LLM, network
 lookup, paid API or live verification. Both JSON and text output preserve

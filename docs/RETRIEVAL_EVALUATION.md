@@ -7,8 +7,8 @@ python -m tools.evaluate_retrieval
 python -m pytest tests -q
 ```
 
-The evaluator uses only local Python code and the checked-in synthetic fixture
-`evaluation/retrieval_bilingual_v1.json`. It calls no API or model and requires
+The evaluator uses only local Python code and the checked-in synthetic suites.
+Its default fixture is `evaluation/retrieval_bilingual_v1.json`. It calls no API or model and requires
 no Harness² package. Harness² is an optional evaluation methodology only;
 no external harness code is installed, imported, or executed here.
 
@@ -57,6 +57,39 @@ the retriever's tokenizer or aliases. Cases cover:
 These are development regression cases, not an independent held-out benchmark.
 The fixture was designed while inspecting the retriever. Perfect scores on
 it do not establish real-world tourism quality or general Persian understanding.
+
+## Attached Persian plural suite
+
+```sh
+python -m tools.evaluate_retrieval --suite persian-plurals
+python -m pytest tests/test_attached_persian_plurals.py -q
+```
+
+`evaluation/retrieval_persian_plurals_v1.json` is a separate development suite
+with 8 synthetic documents, 12 positive queries and 16 negative queries.
+It preserves the original 34-case suite and its relevance labels. Reports
+include the selected suite name, fixture version and fixture hash.
+
+Opt-in bilingual retrieval recognizes eight exact attached plural forms:
+`موزهها`, `موزههای`, `باغها`, `باغهای`, `رستورانها`, `رستورانهای`, `بازارها`
+and `بازارهای`. These forms map to the existing singular travel concepts on
+both query and document sides. There is no general Persian suffix stripping;
+`باغبان`, `باغچه`, `رستوراندار`, `بازاریابی` and other unlisted forms remain
+distinct. Unknown qualifiers and city constraints remain required.
+
+| Metric | Before plural aliases (`7b61c19`, bilingual) | After plural aliases (bilingual) |
+| --- | ---: | ---: |
+| Returned precision | 100% | 100% |
+| Precision@3 | 22.22% | 66.67% |
+| Recall@3 | 33.33% | 100% |
+| Hit@1 | 66.67% | 100% |
+| Negative abstention (16 queries) | 100% | 100% |
+
+Every positive query labels two documents as relevant, so perfect retrieval
+has Precision@3 of 2/3. The unchanged default lexical mode retains Recall@3
+of 1/3 on this suite. The original bilingual suite retains its prior post-fix
+metrics. Both suites are synthetic development regressions, not independent
+held-out evidence of general Persian language quality.
 
 ## Metrics at k = 3
 
@@ -121,3 +154,5 @@ The subsequent CLI integration adds 16 end-to-end tests. Local validation:
 and pip dependency consistency check passed. The fixed 34-case retrieval
 benchmark retains the post-fix metrics above. This integration makes the
 opt-in mode available in the demo; it does not claim a further recall gain.
+
+Attached-plural integration local validation: 401 passed, 1 skipped (the same Windows symlink test); all 32 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.

@@ -1,6 +1,7 @@
 """Reproducible synthetic retrieval evaluation; no network or model calls."""
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +12,10 @@ from app.retrieval.in_memory import InMemoryTravelKnowledgeRetriever
 
 
 FIXTURE = Path(__file__).resolve().parents[1] / "evaluation/retrieval_bilingual_v1.json"
+FIXTURES = {
+    "bilingual": FIXTURE,
+    "persian-plurals": FIXTURE.with_name("retrieval_persian_plurals_v1.json"),
+}
 K = 3
 
 
@@ -49,8 +54,8 @@ def summarize(cases: list[dict], *, k: int) -> dict:
     }
 
 
-def evaluate(*, bilingual_aliases: bool) -> dict:
-    fixture_bytes = FIXTURE.read_bytes()
+def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual") -> dict:
+    fixture_bytes = FIXTURES[suite].read_bytes()
     fixture = json.loads(fixture_bytes)
     documents = tuple(
         TravelKnowledgeDocumentV1.model_validate(item) for item in fixture["documents"]
@@ -66,6 +71,7 @@ def evaluate(*, bilingual_aliases: bool) -> dict:
             "retrieved_ids": [hit.document.document_id for hit in result.hits],
         })
     return {
+        "suite": suite,
         "fixture_version": fixture["version"],
         "fixture_sha256": hashlib.sha256(fixture_bytes).hexdigest(),
         "k": K,
@@ -82,10 +88,13 @@ def evaluate(*, bilingual_aliases: bool) -> dict:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--suite", choices=tuple(FIXTURES), default="bilingual")
+    args = parser.parse_args()
     print(json.dumps({
         "synthetic": True,
-        "default": evaluate(bilingual_aliases=False),
-        "bilingual": evaluate(bilingual_aliases=True),
+        "default": evaluate(bilingual_aliases=False, suite=args.suite),
+        "bilingual": evaluate(bilingual_aliases=True, suite=args.suite),
     }, indent=2))
 
 

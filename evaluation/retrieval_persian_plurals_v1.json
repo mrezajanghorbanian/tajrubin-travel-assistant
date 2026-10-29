@@ -1,0 +1,436 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "documents": [
+    {
+      "document_id": "museum.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "museum in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "museum.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "موزهها در تهران",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "garden.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "garden in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "garden.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "باغها در تهران",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "restaurant.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "restaurant in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "restaurant.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "رستورانها در تهران",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "bazaar.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "bazaar in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "bazaar.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "بازارها در تهران",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic travel example",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    }
+  ],
+  "cases": [
+    {
+      "id": "museum.0",
+      "language": "fa",
+      "query": {
+        "text": "موزهها در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "museum.1",
+      "language": "fa",
+      "query": {
+        "text": "موزههای در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "museum.2",
+      "language": "en",
+      "query": {
+        "text": "museum in Tehran",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "garden.0",
+      "language": "fa",
+      "query": {
+        "text": "باغها در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "garden.en",
+        "garden.fa"
+      ]
+    },
+    {
+      "id": "garden.1",
+      "language": "fa",
+      "query": {
+        "text": "باغهای در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "garden.en",
+        "garden.fa"
+      ]
+    },
+    {
+      "id": "garden.2",
+      "language": "en",
+      "query": {
+        "text": "garden in Tehran",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "garden.en",
+        "garden.fa"
+      ]
+    },
+    {
+      "id": "restaurant.0",
+      "language": "fa",
+      "query": {
+        "text": "رستورانها در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "restaurant.en",
+        "restaurant.fa"
+      ]
+    },
+    {
+      "id": "restaurant.1",
+      "language": "fa",
+      "query": {
+        "text": "رستورانهای در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "restaurant.en",
+        "restaurant.fa"
+      ]
+    },
+    {
+      "id": "restaurant.2",
+      "language": "en",
+      "query": {
+        "text": "restaurant in Tehran",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "restaurant.en",
+        "restaurant.fa"
+      ]
+    },
+    {
+      "id": "bazaar.0",
+      "language": "fa",
+      "query": {
+        "text": "بازارها در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "bazaar.en",
+        "bazaar.fa"
+      ]
+    },
+    {
+      "id": "bazaar.1",
+      "language": "fa",
+      "query": {
+        "text": "بازارهای در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "bazaar.en",
+        "bazaar.fa"
+      ]
+    },
+    {
+      "id": "bazaar.2",
+      "language": "en",
+      "query": {
+        "text": "bazaar in Tehran",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "bazaar.en",
+        "bazaar.fa"
+      ]
+    },
+    {
+      "id": "negative.0",
+      "language": "fa",
+      "query": {
+        "text": "موزهسازی",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.1",
+      "language": "fa",
+      "query": {
+        "text": "باغبان",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.2",
+      "language": "fa",
+      "query": {
+        "text": "رستوراندار",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.3",
+      "language": "fa",
+      "query": {
+        "text": "بازاریابی",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.4",
+      "language": "fa",
+      "query": {
+        "text": "موزههاسازی",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.5",
+      "language": "fa",
+      "query": {
+        "text": "باغچه",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.6",
+      "language": "fa",
+      "query": {
+        "text": "رستورانک",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.7",
+      "language": "fa",
+      "query": {
+        "text": "بازارچه",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.8",
+      "language": "fa",
+      "query": {
+        "text": "ساعت بازدید موزههای تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.9",
+      "language": "fa",
+      "query": {
+        "text": "هزینه بلیت باغهای تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.10",
+      "language": "fa",
+      "query": {
+        "text": "رزرو رستورانهای تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.11",
+      "language": "fa",
+      "query": {
+        "text": "ساعت بسته شدن بازارهای تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.12",
+      "language": "fa",
+      "query": {
+        "text": "موزهها",
+        "city": "Yazd",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.13",
+      "language": "fa",
+      "query": {
+        "text": "باغهای",
+        "city": "Shiraz",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.14",
+      "language": "en",
+      "query": {
+        "text": "museum opening hours",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negative.15",
+      "language": "en",
+      "query": {
+        "text": "garden ticket prices",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    }
+  ]
+}
