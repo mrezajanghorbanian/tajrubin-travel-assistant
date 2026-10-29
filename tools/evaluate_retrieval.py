@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from collections import Counter
 from pathlib import Path
 
 from app.knowledge.contract import TravelKnowledgeDocumentV1
@@ -68,6 +69,36 @@ def summarize(cases: list[dict], *, k: int) -> dict:
     }
 
 
+def assess(cases: list[dict], *, k: int) -> dict:
+    """Require exact synthetic relevance coverage up to the selected cutoff."""
+    _validate_k(k)
+    failures = []
+    for case in cases:
+        returned = case["retrieved_ids"]
+        relevant = set(case["relevant_ids"])
+        selected = set(returned[:k])
+        unexpected = sorted(selected - relevant)
+        missing = max(0, min(k, len(relevant)) - len(selected & relevant))
+        duplicates = sorted(identifier for identifier, count in Counter(returned).items() if count > 1)
+        over_limit = len(returned) > k
+        if unexpected or missing or duplicates or over_limit:
+            failures.append({
+                "case_id": case["id"],
+                "unexpected_ids": unexpected,
+                "missing_relevant_count": missing,
+                "duplicate_ids": duplicates,
+                "over_limit": over_limit,
+            })
+    errors = [] if cases else ["empty_case_set"]
+    return {
+        "policy": "exact_synthetic_relevance_at_k_v1",
+        "cases_checked": len(cases),
+        "passed": not errors and not failures,
+        "errors": errors,
+        "failures": failures,
+    }
+
+
 def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -> dict:
     _validate_k(k)
     fixture_bytes = FIXTURES[suite].read_bytes()
@@ -92,6 +123,7 @@ def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -
         "k": k,
         "bilingual_aliases": bilingual_aliases,
         "metrics": summarize(outcomes, k=k),
+        "gate": assess(outcomes, k=k),
         "by_language": {
             language: summarize(
                 [case for case in outcomes if case["language"] == language], k=k,
@@ -102,17 +134,20 @@ def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -
     }
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", choices=tuple(FIXTURES), default="bilingual")
     parser.add_argument("--k", type=int, choices=range(1, 21), default=K)
-    args = parser.parse_args()
-    print(json.dumps({
+    parser.add_argument("--check", action="store_true", help="Fail if the bilingual synthetic gate fails")
+    args = parser.parse_args(argv)
+    report = {
         "synthetic": True,
         "default": evaluate(bilingual_aliases=False, suite=args.suite, k=args.k),
         "bilingual": evaluate(bilingual_aliases=True, suite=args.suite, k=args.k),
-    }, indent=2))
+    }
+    print(json.dumps(report, indent=2))
+    return int(args.check and not report["bilingual"]["gate"]["passed"])
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

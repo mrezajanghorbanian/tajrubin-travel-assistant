@@ -150,7 +150,46 @@ results before and after the cutoff, a relevant result at rank 2, missing
 positive results and negative queries. This evaluator correction and the new
 MRR field do not change either knowledge fixture or the retrieval algorithm.
 
-## Validation record
+## Per-case synthetic CI gate
+
+```sh
+python -m tools.evaluate_retrieval --suite bilingual --check
+python -m tools.evaluate_retrieval --suite persian-plurals --check
+```
+
+Both commands run in the security workflow after pytest. The JSON report is
+printed in the Actions log, including fixture hash, per-language metrics and
+the gate result. No additional action, dependency or external runtime is used.
+
+Every report includes a `gate` section for each retriever mode, under policy
+`exact_synthetic_relevance_at_k_v1`. `--check` returns exit code 1 when the
+**bilingual** gate fails, and 0 when it passes. The weaker default retriever
+is reported as a comparison and does not determine this exit code. Without
+`--check`, the tool remains report-only and exits 0 after successful evaluation,
+even when the gate reports a retrieval failure. Invalid arguments exit 2.
+
+For every query, the gate requires:
+
+- no unexpected document IDs within the first k results;
+- at least `min(k, number of relevant IDs)` distinct relevant results;
+- no duplicate returned IDs or result count above k;
+- no results for a negative query.
+
+An empty case set fails. Each failure includes its `case_id`, unexpected IDs,
+the number of required relevant results missing, duplicate IDs and an
+over-limit flag. At k=1, returning one of two equally relevant documents is
+valid; the report still exposes Recall@1 of 50% for that query. A high aggregate
+average cannot hide an individual failed case.
+
+Tests cover controlled wrong judgments and an actual retrieval regression:
+aliases are removed only in a child process, the real module is run against
+unchanged labels, and its nonzero exit and failure report are verified.
+This is a strict gate for these synthetic development suites, not a production
+readiness claim or an independent held-out benchmark. Fixture changes require
+review of their relevance labels; passing a modified fixture alone is not
+evidence that retrieval improved.
+
+## Validation history
 
 The starting revision `942f0a923e58e5c8bfdc71046626078a32a12a47` passed
 [CI run 40762241953](https://github.com/mrezajanghorbanian/tajrubin-travel-assistant/actions/runs/40762241953):
@@ -193,3 +232,5 @@ opt-in mode available in the demo; it does not claim a further recall gain.
 Attached-plural integration local validation: 401 passed, 1 skipped (the same Windows symlink test); all 32 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.
 
 Cutoff/MRR evaluation local validation: 423 passed, 1 skipped (the same Windows symlink test); all 22 new tests passed. Repository security gate, Bandit and pip dependency consistency check passed.
+
+Synthetic gate integration local validation: 436 passed, 1 skipped (the same Windows symlink test); all 13 new tests passed. Both suite gates passed at k=1,3,5. Repository security gate, Bandit and pip dependency consistency check passed.

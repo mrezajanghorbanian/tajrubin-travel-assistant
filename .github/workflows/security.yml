@@ -37,6 +37,11 @@ jobs:
         run: |
           python -m pytest tests -q
 
+      - name: Run offline retrieval gates
+        run: |
+          python -m tools.evaluate_retrieval --suite bilingual --check
+          python -m tools.evaluate_retrieval --suite persian-plurals --check
+
       - name: Run repository security gate
         run: |
           python tools/security_gate.py
