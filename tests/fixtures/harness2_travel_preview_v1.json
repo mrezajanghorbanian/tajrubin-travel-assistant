@@ -1,0 +1,166 @@
+{
+  "dataset_version": "1.0",
+  "description": "Synthetic bilingual request-to-preview fixed evaluation cases inspired by Harness² probe methodology; not official Harness² benchmark or travel facts.",
+  "cases": [
+    {
+      "id": "en_01",
+      "request": "Plan a 3 day trip to Tehran",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "en_02",
+      "request": "Plan a 1 day trip to Tehran on 2026-11-03",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "en_03",
+      "request": "Plan a trip to Tehran",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_04",
+      "request": "Plan a 3 day trip to Atlantis",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_05",
+      "request": "Plan a 90 day trip to Tehran",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_06",
+      "request": "Plan a 3 day or 5 day trip to Tehran",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_07",
+      "request": "Plan a 3 day trip to Tehran on 2026-02-31",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_08",
+      "request": "Plan a 3 day trip to Yazd from 2026-11-03 to 2026-11-06",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_09",
+      "request": "Plan a trip to Yazd from 2026-11-03 to 2026-11-06",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "en_10",
+      "request": "Plan a 3 day trip to Tehran with budget 500",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_11",
+      "request": "Plan a 3 day trip to Tehran under 500 USD",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "en_12",
+      "request": "Plan a 3 day trip to Tehran and Shiraz",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "en_13",
+      "request": "Plan a 3 day trip to Tehran then Shiraz on 2026-11-03",
+      "expected_status": "unsupported_multicity"
+    },
+    {
+      "id": "en_14",
+      "request": "Tell me about Tehran museums",
+      "expected_status": "not_planning"
+    },
+    {
+      "id": "en_15",
+      "request": "Where should I go in Tehran",
+      "expected_status": "not_planning"
+    },
+    {
+      "id": "en_16",
+      "request": "Recommend Tehran parks",
+      "expected_status": "not_planning"
+    },
+    {
+      "id": "en_17",
+      "request": "Plan a 2 day trip to Qeshm on 2026-11-03",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "en_18",
+      "request": "Plan a 2 day trip to Tabriz on 2026-11-03",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "en_19",
+      "request": "Plan a 2 day trip to Tehran from 2026-11-03 to 2026-11-04",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "en_20",
+      "request": "Plan a 3 day trip from Tehran to Shiraz",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_01",
+      "request": "۳ روز شیراز، معماری و غذاهای محلی دوست دارم",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_02",
+      "request": "۴ روز شیراز و اصفهان، بودجه ۵ میلیون تومان",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "fa_03",
+      "request": "برای ۵ روز برنامه سفر میخوام",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "fa_04",
+      "request": "۳ روز شیراز، تاریخ ۱۴۰۵/۰۸/۱۵",
+      "expected_status": "needs_clarification"
+    },
+    {
+      "id": "fa_05",
+      "request": "۲ روز تهران برای ۳ نفر",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_06",
+      "request": "۳ روز شیراز، تاریخ 2026-11-03",
+      "expected_status": "needs_activity_selection"
+    },
+    {
+      "id": "fa_07",
+      "request": "۳ روز شیراز و بعد یزد در 2026-11-03",
+      "expected_status": "unsupported_multicity"
+    },
+    {
+      "id": "fa_08",
+      "request": "جاهای دیدنی یزد را پیشنهاد بده",
+      "expected_status": "not_planning"
+    },
+    {
+      "id": "fa_09",
+      "request": "سه روز تهران، طبیعت و موزه میخوام",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_10",
+      "request": "۵ روز قشم",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_11",
+      "request": "دو روز اصفهان، بودجه ۳ میلیون تومان",
+      "expected_status": "needs_visit_date"
+    },
+    {
+      "id": "fa_12",
+      "request": "برنامه سفر سه روزه شیراز",
+      "expected_status": "needs_visit_date"
+    }
+  ]
+}
