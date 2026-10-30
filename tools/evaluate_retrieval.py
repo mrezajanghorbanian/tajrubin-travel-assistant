@@ -116,7 +116,12 @@ def _validate_fixture(fixture: object) -> tuple[TravelKnowledgeDocumentV1, ...]:
     document_ids = {document.document_id for document in documents}
     if len(document_ids) != len(documents):
         raise ValueError("Duplicate fixture document IDs")
-    cases = fixture["cases"]
+    validate_cases(fixture["cases"], document_ids=document_ids)
+    return documents
+
+
+def validate_cases(cases: object, *, document_ids: set[str]) -> None:
+    """Validate explicit judgments against a separately loaded corpus."""
     if not isinstance(cases, list) or not 2 <= len(cases) <= 2000:
         raise ValueError("Fixture must contain 2 to 2000 cases")
     case_ids: set[str] = set()
@@ -146,7 +151,6 @@ def _validate_fixture(fixture: object) -> tuple[TravelKnowledgeDocumentV1, ...]:
         positives += bool(labels)
     if not 0 < positives < len(cases):
         raise ValueError("Fixture requires both positive and negative cases")
-    return documents
 
 
 def evaluate(*, bilingual_aliases: bool, suite: str = "bilingual", k: int = K) -> dict:

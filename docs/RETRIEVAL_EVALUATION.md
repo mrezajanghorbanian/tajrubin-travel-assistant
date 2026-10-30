@@ -213,6 +213,67 @@ applies both with and without `--check`. A structurally valid fixture whose
 retrieval fails the gate continues to return exit code 1 only with `--check`.
 The original frozen fixture files and their labels remain unchanged.
 
+## Repository Markdown corpus gate
+
+```sh
+python -m tools.evaluate_knowledge_pack --check
+python -m tools.evaluate_knowledge_pack --k 1 --check
+```
+
+This separate evaluator loads the same `knowledge/` Markdown pack as the
+offline assistant through its bounded, schema-validating loader. Documents
+are not copied into a synthetic fixture. The manual judgments in
+`evaluation/knowledge_pack_v1.json` contain 32 development queries: 16 positive
+and 16 negative, equally split between English and Persian. They cover named
+places, architecture with three equally relevant records, qanats, accented
+names, bilingual city filters, wrong cities/countries/categories, absent
+places, partial matches, and unsupported prices, hours and live weather.
+
+The current four-document pack includes the original Tehran overview without
+external sources plus three bilingual UNESCO-referenced records. These
+queries reuse known retrieval behaviors and existing regression examples.
+They are **not an independent held-out benchmark**, a test of general language
+understanding, or verification of current visitor facts. Paired queries here
+search bilingual records; this suite alone does not prove cross-language
+retrieval over monolingual content. The original synthetic suites remain
+unchanged and continue to cover that boundary.
+
+| Current corpus, k=3 | Default lexical | Bilingual |
+| --- | ---: | ---: |
+| Returned precision | 100% | 100% |
+| Precision@3 | 37.50% | 41.67% |
+| Recall@3 | 87.50% | 100% |
+| Hit@1 / MRR@3 | 87.50% | 100% |
+| Negative abstention (16 queries) | 100% | 100% |
+
+At k=1, bilingual Recall@1 is 91.67%; the architecture queries each label
+three equally relevant records. At k=3 and k=5 recall is 100%. Perfect
+returned precision is distinct from fixed-denominator Precision@k.
+
+Reports identify `development_queries=true`, `independent_benchmark=false`
+and `live_verified=false`. Separate SHA-256 hashes fingerprint judgment bytes
+and the actual parsed corpus. The latter uses records sorted by document ID
+and canonical JSON of validated fields, including source metadata. Formatting
+that does not change parsed input does not change this hash. New records are
+included automatically and can introduce false positives; removed labeled
+records fail validation rather than silently dropping cases.
+
+The shared case validator preserves synthetic integrity rules. The separate
+`exact_repository_relevance_at_k_v1` gate uses the same strict per-case
+requirements: no unexpected IDs, sufficient distinct relevant results up to
+k, no duplicates or excess results, and no negative-query hits. `--check`
+exits 1 on bilingual retrieval failure; report-only exits 0 while preserving
+failed gates in JSON. Invalid judgments or corpus inputs exit 2 with
+`invalid_evaluation_input` and no success metrics. The baseline is reported
+but does not decide the gate. This command also runs in CI.
+
+Tests inject an incorrect existing label and change actual Markdown content
+without changing the gold judgments. Both regressions fail the gate; the
+content change also changes the corpus fingerprint. Invalid IDs, duplicate
+case IDs, per-query cutoff overrides, missing negatives and unsupported
+schemas fail before scoring. No API, model, external harness or new
+dependency is used.
+
 ## Validation history
 
 The starting revision `942f0a923e58e5c8bfdc71046626078a32a12a47` passed

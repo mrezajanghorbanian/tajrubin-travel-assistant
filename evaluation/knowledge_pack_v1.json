@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "corpus": "repository_knowledge_markdown",
+  "cases": [
+    {
+      "id": "golestan-en",
+      "language": "en",
+      "query": {
+        "text": "Golestan Palace"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace"
+      ]
+    },
+    {
+      "id": "golestan-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ گلستان"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace"
+      ]
+    },
+    {
+      "id": "jame-en",
+      "language": "en",
+      "query": {
+        "text": "Masjed-e Jame"
+      },
+      "relevant_ids": [
+        "ir.isfahan.jame-mosque"
+      ]
+    },
+    {
+      "id": "jame-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد جامع"
+      },
+      "relevant_ids": [
+        "ir.isfahan.jame-mosque"
+      ]
+    },
+    {
+      "id": "yazd-en",
+      "language": "en",
+      "query": {
+        "text": "Historic City of Yazd"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "yazd-fa",
+      "language": "fa",
+      "query": {
+        "text": "شهر تاریخی یزد"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "architecture-en",
+      "language": "en",
+      "query": {
+        "text": "architecture",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace",
+        "ir.isfahan.jame-mosque",
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "architecture-fa",
+      "language": "fa",
+      "query": {
+        "text": "معماری",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace",
+        "ir.isfahan.jame-mosque",
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "yazd-architecture-en",
+      "language": "en",
+      "query": {
+        "text": "architecture in Yazd"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "yazd-architecture-fa",
+      "language": "fa",
+      "query": {
+        "text": "معماری در یزد"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "cross-language-city-en",
+      "language": "en",
+      "query": {
+        "text": "Golestan Palace",
+        "city": "تهران"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace"
+      ]
+    },
+    {
+      "id": "cross-language-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ گلستان",
+        "city": "تهران"
+      },
+      "relevant_ids": [
+        "ir.tehran.golestan-palace"
+      ]
+    },
+    {
+      "id": "jame-category-en",
+      "language": "en",
+      "query": {
+        "text": "Masjed-e Jāmé",
+        "category": "attraction"
+      },
+      "relevant_ids": [
+        "ir.isfahan.jame-mosque"
+      ]
+    },
+    {
+      "id": "jame-category-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد جامع",
+        "category": "attraction"
+      },
+      "relevant_ids": [
+        "ir.isfahan.jame-mosque"
+      ]
+    },
+    {
+      "id": "qanat-en",
+      "language": "en",
+      "query": {
+        "text": "qanat"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "qanat-fa",
+      "language": "fa",
+      "query": {
+        "text": "قنات"
+      },
+      "relevant_ids": [
+        "ir.yazd.historic-city"
+      ]
+    },
+    {
+      "id": "unsupported-price-en",
+      "language": "en",
+      "query": {
+        "text": "Golestan Palace ticket prices"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-price-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ گلستان قیمت بلیت"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-hours-en",
+      "language": "en",
+      "query": {
+        "text": "Masjed-e Jame opening hours"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-hours-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد جامع ساعت بازدید"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-weather-en",
+      "language": "en",
+      "query": {
+        "text": "Yazd live weather"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-weather-fa",
+      "language": "fa",
+      "query": {
+        "text": "یزد آب و هوای زنده"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-en",
+      "language": "en",
+      "query": {
+        "text": "Golestan Palace",
+        "city": "Yazd"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ گلستان",
+        "city": "Yazd"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-en",
+      "language": "en",
+      "query": {
+        "text": "Golestan Palace",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ گلستان",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-en",
+      "language": "en",
+      "query": {
+        "text": "Historic City of Yazd",
+        "category": "attraction"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-fa",
+      "language": "fa",
+      "query": {
+        "text": "شهر تاریخی یزد",
+        "category": "attraction"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "absent-place-en",
+      "language": "en",
+      "query": {
+        "text": "Persepolis"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "absent-place-fa",
+      "language": "fa",
+      "query": {
+        "text": "تخت جمشید"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "partial-match-en",
+      "language": "en",
+      "query": {
+        "text": "architecture submarine"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "partial-match-fa",
+      "language": "fa",
+      "query": {
+        "text": "معماری زیردریایی"
+      },
+      "relevant_ids": []
+    }
+  ]
+}
