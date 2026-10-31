@@ -9,6 +9,11 @@ Adding broader concepts here requires offline false-positive regression tests.
 # plurals. Keep concepts intentionally narrow (do not map garden to park,
 # museum to gallery, historic to old, or desert to unsafe live-conditions).
 CURATED_TRAVEL_TERMS: dict[str, str] = {
+    # Exact place types only: a palace is not a museum, nor a mosque a church.
+    "palace": "concept_palace",
+    "کاخ": "concept_palace",
+    "mosque": "concept_mosque",
+    "مسجد": "concept_mosque",
     "museum": "concept_museum",
     "موزه": "concept_museum",
     # Explicit attached Persian plurals only. Do not strip arbitrary suffixes:

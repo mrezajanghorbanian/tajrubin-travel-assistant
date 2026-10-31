@@ -93,6 +93,49 @@ of 1/3 on this suite. The original bilingual suite retains its prior post-fix
 metrics. Both suites are synthetic development regressions, not independent
 held-out evidence of general Persian language quality.
 
+## Palace and mosque term-equivalence suite
+
+```sh
+python -m tools.evaluate_retrieval --suite palace-mosque --check
+python -m pytest tests/test_palace_mosque_retrieval.py -q
+```
+
+Opt-in bilingual retrieval now maps exactly `palace` / `کاخ` and `mosque` /
+`مسجد`. These are place-type translations, not proper-name translation or
+broader semantic search. A palace is not treated as a museum, nor a mosque
+as a church. Existing English plural handling and Persian separated or
+half-space plural markers still apply. Attached `کاخها`, `مسجدها` and irregular
+`مساجد` are not newly recognized; there is no general stemming or expansion
+to synonyms such as `castle` or `shrine`.
+
+`evaluation/retrieval_palace_mosque_v1.json` contains six synthetic documents
+and 28 explicit judgments: 12 positive and 16 negative, equally split between
+English and Persian. English and Persian records keep their place-type terms
+in their own language, exposing cross-language misses that bilingual real
+records can conceal. English city metadata and translated city names in the
+titles exercise the existing city equivalences. Museum and church decoys,
+wrong filters, unknown hours/prices, required modifiers and unlisted compound
+words constrain false positives. Relevance labels are explicit and do not
+depend on the alias table.
+
+| k=3 on this suite | Before four new aliases (`6f14fc4`, bilingual) | After (bilingual) |
+| --- | ---: | ---: |
+| Returned precision | 100% | 100% |
+| Precision@3 | 33.33% | 66.67% |
+| Recall@3 | 50% | 100% |
+| Hit@1 / MRR@3 | 100% | 100% |
+| Negative abstention (16 cases) | 100% | 100% |
+
+Before implementation, each positive query retrieved only its same-language
+record. Each labels two equally relevant documents, so finding both changes
+recall but not Hit@1. The unchanged default lexical mode retains Recall@3 of
+50%. Removing the four new aliases in a regression test fails the unchanged
+gold gate with 12 missing-result cases. The new suite runs in CI alongside
+both original synthetic suites and the repository Markdown corpus gate.
+Original fixture files, corpus records, lexical AND requirements and filter
+rules are unchanged. These remain development regressions, not independent
+benchmark or live travel evidence. No runtime dependency or API is added.
+
 ## Metrics at the selected k (default 3)
 
 `--k` accepts integers from 1 through 20, matching the retriever contract.

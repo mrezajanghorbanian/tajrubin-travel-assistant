@@ -16,6 +16,7 @@ FIXTURE = Path(__file__).resolve().parents[1] / "evaluation/retrieval_bilingual_
 FIXTURES = {
     "bilingual": FIXTURE,
     "persian-plurals": FIXTURE.with_name("retrieval_persian_plurals_v1.json"),
+    "palace-mosque": FIXTURE.with_name("retrieval_palace_mosque_v1.json"),
 }
 K = 3
 
