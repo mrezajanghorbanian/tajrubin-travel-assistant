@@ -62,12 +62,18 @@ Planned adapters include:
 
 ## Project Status
 
-Early public extraction and architecture phase.
+Runnable public prototype with local source-attributed QA, Persian/English
+retrieval and initial planning readiness. Scheduling and signed-catalog
+components remain separate, bounded libraries.
+
+See [current status and CI evidence](docs/STATUS.md) for implemented slices,
+remaining product gaps and the review map. The goals above include future
+work; the offline command does not generate a verified traveler itinerary.
 
 The production Tajrubin marketplace backend remains a separate private system.
 
 ## Retrieval evaluation
 
-See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for the synthetic fixture, metric definitions, limits and reproducible commands.
+See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for synthetic suites, the repository-corpus gate, metric definitions, limits and reproducible commands.
 
 See [the public Iran knowledge pack](docs/IRAN_KNOWLEDGE_PACK.md) for the source-attributed records and runnable Persian/English examples.

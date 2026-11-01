@@ -1,6 +1,6 @@
 # Tajrubin Travel AI — Delivery Plan v1.0
 
-**Owner:** Tajrubin Travel AI community · **Updated:** 2026-10-24 · **Status:** In progress (Sprint 01)
+**Owner:** Tajrubin Travel AI community · **Updated:** 2026-11-01 · **Status:** Public prototype; Draft PR under development
 
 **Mission:** Create an open-source, privacy-conscious AI travel companion that converts a simple natural-language request into a **source-attributed, realistic and editable** trip. Start with reliable Iran knowledge and expand via country-specific knowledge packs. Keep the production Tajrubin marketplace backend and all proprietary assets separate.
 
@@ -26,7 +26,11 @@
 
 **Excluded until later:** purchasing/reserving autonomously, invented live hours/prices/availability, unlimited external tool execution, worldwide coverage, continuous location tracking.
 
-## Current repository baseline (read-only inspection)
+## Historical repository baseline (2026-10-24 inspection)
+
+This section records the starting inspection, not the current branch status.
+For verified runtime revision `0720a56`, CI evidence, implemented subsystems
+and remaining product gaps, use [the current status snapshot](STATUS.md).
 
 - **Existing:** Python package; Pydantic knowledge contracts and markdown loader; deterministic lexical retriever and context formatter; OpenAI-compatible/local model adapters; 9 test modules; GitHub Actions security workflow with pytest, Bandit, pip-audit and detect-secrets; Tehran example document.
 - **Not yet verified:** full CI health, test coverage, exact dependency vulnerability status and historical secret scan.
