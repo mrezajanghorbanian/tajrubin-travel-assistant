@@ -136,6 +136,51 @@ Original fixture files, corpus records, lexical AND requirements and filter
 rules are unchanged. These remain development regressions, not independent
 benchmark or live travel evidence. No runtime dependency or API is added.
 
+## Opt-in Persian query wrappers
+
+```sh
+python -m tools.evaluate_retrieval --suite persian-query-wrappers --check
+python -X utf8 -m app.assistant 'لطفاً درباره کاخ گلستان' --format json
+```
+
+The bilingual mode now ignores exactly two canonical query words: `درباره`
+(about) and `لطفا` (please). Existing diacritic normalization also covers
+`لطفاً`. They are removed only from query text, before city-term handling.
+Document fields and default lexical mode retain their previous behavior.
+This matches the existing treatment of English `about` and `please` without
+introducing a general Persian phrase parser or arbitrary stopword expansion.
+
+`evaluation/retrieval_persian_query_wrappers_v1.json` has three synthetic
+documents and 30 explicit development judgments: 12 positive and 18 negative,
+equally split between English and Persian. It covers each word alone or
+together, diacritics, cities in text, explicit city filters, and polite
+city-only queries. Negative cases retain unsupported hours/prices, required
+modifiers, wrong city/country/category, unknown words, explicit negation and
+queries containing only wrappers. A city filter with no content query does
+not authorize returning all records in that city.
+
+| k=3, bilingual on unchanged new fixture | Before (`5219d6f`) | After |
+| --- | ---: | ---: |
+| Returned precision | 100% | 100% |
+| Precision@3 | 33.33% | 66.67% |
+| Recall@3 | 50% | 100% |
+| Hit@1 / MRR@3 | 50% | 100% |
+| Negative abstention (18 queries) | 100% | 100% |
+
+Before implementation all six Persian positive cases failed while their
+English counterparts passed. Removing wrapper handling in a regression test
+restores exactly those six failures against unchanged judgments. The full
+assistant CLI is also tested with the real Golestan record and its UNESCO
+source URL, plus real-corpus negatives for hours, prices, negation, empty
+content and filters. Answers remain provisional and require verification.
+Preserving a negation token and abstaining here does not establish semantic
+negation understanding. Unlisted wording such as `توضیح بده` is not removed.
+
+The new suite runs in CI alongside the existing gates. Existing gold files,
+knowledge records, lexical AND requirements, and filter semantics are
+unchanged. Results describe a small development fixture, not independent
+language-quality evidence. No API, model or dependency is added.
+
 ## Metrics at the selected k (default 3)
 
 `--k` accepts integers from 1 through 20, matching the retriever contract.

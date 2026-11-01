@@ -1,0 +1,336 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "documents": [
+    {
+      "document_id": "museum.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "museum in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "museum.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "موزه در تهران",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "garden.decoy",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Yazd",
+      "category": "attraction",
+      "title": "garden in Yazd",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    }
+  ],
+  "cases": [
+    {
+      "id": "about-en",
+      "language": "en",
+      "query": {
+        "text": "about museum"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "about-fa",
+      "language": "fa",
+      "query": {
+        "text": "درباره موزه"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "please-en",
+      "language": "en",
+      "query": {
+        "text": "please museum"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "please-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفا موزه"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "both-en",
+      "language": "en",
+      "query": {
+        "text": "please about museum"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "both-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً درباره موزه"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-in-text-en",
+      "language": "en",
+      "query": {
+        "text": "please museum in Tehran"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-in-text-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً موزه در تهران"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-filter-en",
+      "language": "en",
+      "query": {
+        "text": "please about museum",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-filter-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً درباره موزه",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-only-en",
+      "language": "en",
+      "query": {
+        "text": "please Tehran",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "city-only-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً تهران",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "museum.en",
+        "museum.fa"
+      ]
+    },
+    {
+      "id": "unsupported-hours-en",
+      "language": "en",
+      "query": {
+        "text": "please museum opening hours"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-hours-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً ساعت بازدید موزه"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-prices-en",
+      "language": "en",
+      "query": {
+        "text": "please about museum ticket prices"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unsupported-prices-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً درباره قیمت بلیت موزه"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "required-modifier-en",
+      "language": "en",
+      "query": {
+        "text": "please museum garden"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "required-modifier-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً موزه باغ"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-en",
+      "language": "en",
+      "query": {
+        "text": "please museum",
+        "city": "Yazd"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً موزه",
+        "city": "Yazd"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-en",
+      "language": "en",
+      "query": {
+        "text": "please museum",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً موزه",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-en",
+      "language": "en",
+      "query": {
+        "text": "please museum",
+        "category": "food"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً موزه",
+        "category": "food"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "no-content-en",
+      "language": "en",
+      "query": {
+        "text": "please about"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "no-content-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً درباره"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negation-en",
+      "language": "en",
+      "query": {
+        "text": "please not museum"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "negation-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً نه موزه"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unknown-en",
+      "language": "en",
+      "query": {
+        "text": "please submarine"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unknown-fa",
+      "language": "fa",
+      "query": {
+        "text": "لطفاً زیردریایی"
+      },
+      "relevant_ids": []
+    }
+  ]
+}

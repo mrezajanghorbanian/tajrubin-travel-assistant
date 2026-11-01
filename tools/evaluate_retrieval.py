@@ -17,6 +17,7 @@ FIXTURES = {
     "bilingual": FIXTURE,
     "persian-plurals": FIXTURE.with_name("retrieval_persian_plurals_v1.json"),
     "palace-mosque": FIXTURE.with_name("retrieval_palace_mosque_v1.json"),
+    "persian-query-wrappers": FIXTURE.with_name("retrieval_persian_query_wrappers_v1.json"),
 }
 K = 3
 

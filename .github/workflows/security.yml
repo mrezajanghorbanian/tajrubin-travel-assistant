@@ -42,6 +42,7 @@ jobs:
           python -m tools.evaluate_retrieval --suite bilingual --check
           python -m tools.evaluate_retrieval --suite persian-plurals --check
           python -m tools.evaluate_retrieval --suite palace-mosque --check
+          python -m tools.evaluate_retrieval --suite persian-query-wrappers --check
           python -m tools.evaluate_knowledge_pack --check
 
       - name: Run repository security gate

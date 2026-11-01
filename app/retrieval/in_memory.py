@@ -39,7 +39,9 @@ class InMemoryTravelKnowledgeRetriever:
             )
         )
 
-        query_tokens = _query_tokens(query.text, city=query.city)
+        query_tokens = _query_tokens(
+            query.text, city=query.city, bilingual_aliases=self._bilingual_aliases,
+        )
         if self._bilingual_aliases:
             query_tokens = _map_bilingual_terms(query_tokens)
             if query.city is not None:
@@ -214,12 +216,21 @@ _QUERY_STOPWORDS = frozenset({
 })
 
 
-def _query_tokens(value: str, *, city: str | None) -> frozenset[str]:
+# Canonical forms only; diacritics already normalize لطفاً to لطفا.
+# Apply only to opt-in query text, never document fields or the default mode.
+_BILINGUAL_QUERY_STOPWORDS = frozenset({"درباره", "لطفا"})
+
+
+def _query_tokens(
+    value: str, *, city: str | None, bilingual_aliases: bool = False,
+) -> frozenset[str]:
     """Preserve only content terms; a city filter already constrains place.
 
     A city-only query must still be able to retrieve city documents.
     """
     tokens = _tokenize(value) - _QUERY_STOPWORDS
+    if bilingual_aliases:
+        tokens = tokens - _BILINGUAL_QUERY_STOPWORDS
     if city is not None:
         remaining = tokens - _tokenize(city)
         if remaining:
