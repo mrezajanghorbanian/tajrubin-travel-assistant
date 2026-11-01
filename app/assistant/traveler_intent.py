@@ -109,7 +109,8 @@ def _read_number(raw: str) -> int | None:
     return _NUMBER_WORDS.get(raw)
 
 
-def _extract_count(text: str, pattern: re.Pattern[str]) -> int | None:
+def _count_values(text: str, pattern: re.Pattern[str]) -> set[int]:
+    """Retain recognized values, including unsupported duration alternatives."""
     counts: set[int] = set()
     for match in pattern.finditer(text):
         # "in three days" / "سه روز دیگه" indicates departure, not duration.
@@ -119,9 +120,19 @@ def _extract_count(text: str, pattern: re.Pattern[str]) -> int | None:
             if re.match(r"\s*(?:later|دیگه|بعد)", after) or re.search(r"\bin\s*$", before):
                 continue
         value = _read_number(match.group("number"))
-        if value is not None and 1 <= value <= 30:
+        if value is not None:
             counts.add(value)
-    return next(iter(counts)) if len(counts) == 1 else None
+    return counts
+
+
+def _extract_count(text: str, pattern: re.Pattern[str]) -> int | None:
+    counts = _count_values(text, pattern)
+    if pattern is not _DAY_REGEX:
+        # Preserve the existing party-size extraction boundary.
+        counts = {value for value in counts if 1 <= value <= 30}
+    # A valid duration must not hide another explicit out-of-range value.
+    value = next(iter(counts)) if len(counts) == 1 else None
+    return value if value is not None and 1 <= value <= 30 else None
 
 
 def _matches_any(text: str, variants: tuple[str, ...]) -> bool:

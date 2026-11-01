@@ -31,6 +31,39 @@ python -m pytest tests/test_traveler_intent_v2.py -q
 6. Values returned by this module must not authorize bookings, payments, travel restrictions, or location tracking.
 7. No personally identifying traveler data should be persisted by default.
 
+## Explicit duration ambiguity and date fallback
+
+Recognized conflicting or out-of-range day counts stay unresolved even when
+valid ISO dates are also supplied. For example:
+
+```sh
+python -X utf8 -m app.assistant 'Plan a 3 day or 5 day trip to Tehran from 2026-11-03 to 2026-11-05' --format json
+```
+
+This returns `needs_clarification` with the `duration_days` blocker and no
+draft specification. The date range remains available in typed intent, but
+does not choose between explicit duration alternatives. Likewise, `90 day`
+or `0 day` cannot be silently replaced by a three-day date range. A valid
+count alongside an invalid count (for example `3 day or 90 day`) no longer
+causes the invalid alternative to disappear during v1 extraction.
+
+A date-only planning request can still derive its inclusive day count.
+Repeated identical counts do not create a conflict; recognized departure
+expressions such as `in 5 days` or `۵ روز بعد` are still excluded from duration.
+Party-size extraction retains its existing behavior. Tests cover English,
+Persian digits, v1/v2 extraction, readiness, the unified CLI and trip preview,
+plus valid dates, repeated counts and departure expressions.
+
+This rule applies to the parser's existing recognized count expressions,
+not arbitrary natural-language ranges or corrections. It does not understand
+every shorthand such as `3 or 5 days`, negated duration, fractional duration,
+or an unrecognized number phrase. Ambiguous requests still require broader
+language evaluation; no automatic correction or calendar conversion is added.
+
+```sh
+python -m pytest tests/test_duration_ambiguity.py -q
+```
+
 ## Known limits
 
 - English and Persian fixed-rule coverage is intentionally narrow; blended wording, flexible dates, implicit budgets and complex multi-stop sequencing require evaluation and further work.

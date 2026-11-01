@@ -16,6 +16,9 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.assistant.traveler_intent import (
     TravelerIntentV1,
     _CITY_ALIASES,
+    _DAY_REGEX,
+    _count_values,
+    _normalize,
     analyze_traveler_intent,
 )
 
@@ -190,7 +193,13 @@ def analyze_traveler_intent_v2(text: str) -> TravelerIntentV2:
     if base.intent_type == "trip_planning":
         if not destinations:
             unresolved.append("destinations")
-        if base.duration_days is None and not (dates and dates.end_date):
+        # Missing duration may be inferred from an ISO range. Explicit but
+        # invalid/conflicting duration must remain unresolved even with dates.
+        explicit_unresolved_days = (
+            bool(_count_values(_normalize(base.request), _DAY_REGEX))
+            and base.duration_days is None
+        )
+        if explicit_unresolved_days or (base.duration_days is None and not (dates and dates.end_date)):
             unresolved.append("duration_days")
     if ambiguous_dates:
         unresolved.append("travel_dates")

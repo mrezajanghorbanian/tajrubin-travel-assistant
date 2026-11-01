@@ -38,6 +38,11 @@ default lexical behavior. Knowledge filters `--country` and `--city` and the
 a planning request returns an input error; destinations belong in that request's
 text so hard constraints are not silently discarded or inferred from QA filters.
 
+Recognized conflicting or invalid durations cannot be replaced silently by
+an ISO date range: `3 day or 5 day` and `90 day` requests remain unresolved
+even with otherwise valid dates. A date-only request still derives inclusive
+days. See [duration ambiguity rules](TRAVELER_INTENT_V2.md#explicit-duration-ambiguity-and-date-fallback).
+
 Planning readiness does not load the knowledge pack. An unavailable pack blocks
 the question path while initial planning clarification remains usable. Invalid
 requests or inputs exit 2 with a bounded error message; successful knowledge
