@@ -43,6 +43,11 @@ _DAY_REGEX = re.compile(
     rf"(?<!\w)(?P<number>{_NUMBER})\s*-?\s*(?:days?|روز(?:ه)?)(?!\w)",
     re.IGNORECASE,
 )
+_SHARED_DAY_REGEX = re.compile(
+    rf"(?<!\w)(?P<first>{_NUMBER})\s+(?:or|to|یا|تا)\s+"
+    rf"(?P<second>{_NUMBER})\s*-?\s*(?:days?|روز(?:ه)?)(?!\w)",
+    re.IGNORECASE,
+)
 _PARTY_REGEX = re.compile(
     rf"(?<!\w)(?P<number>{_NUMBER})\s*(?:people|persons|travel(?:l)?ers|adults|نفر|آدم)(?!\w)",
     re.IGNORECASE,
@@ -109,15 +114,33 @@ def _read_number(raw: str) -> int | None:
     return _NUMBER_WORDS.get(raw)
 
 
+def _is_departure_count(text: str, start: int, end: int) -> bool:
+    after = text[end:end + 9]
+    before = text[max(0, start - 4):start]
+    return bool(
+        re.match(r"\s*(?:later|دیگه|بعد)", after)
+        or re.search(r"\bin\s*$", before)
+    )
+
+
 def _count_values(text: str, pattern: re.Pattern[str]) -> set[int]:
     """Retain recognized values, including unsupported duration alternatives."""
     counts: set[int] = set()
+    shared = tuple(_SHARED_DAY_REGEX.finditer(text)) if pattern is _DAY_REGEX else ()
+    for match in shared:
+        if not _is_departure_count(text, match.start(), match.end()):
+            for name in ("first", "second"):
+                value = _read_number(match.group(name))
+                if value is not None:
+                    counts.add(value)
     for match in pattern.finditer(text):
         # "in three days" / "سه روز دیگه" indicates departure, not duration.
         if pattern is _DAY_REGEX:
-            after = text[match.end():match.end() + 9]
-            before = text[max(0, match.start() - 4):match.start()]
-            if re.match(r"\s*(?:later|دیگه|بعد)", after) or re.search(r"\bin\s*$", before):
+            # A shared-unit endpoint has already been handled with the full
+            # expression, including its departure context and first value.
+            if any(group.start() <= match.start() < group.end() for group in shared):
+                continue
+            if _is_departure_count(text, match.start(), match.end()):
                 continue
         value = _read_number(match.group("number"))
         if value is not None:
@@ -194,7 +217,7 @@ def _detect_destination(text: str) -> str | None:
 def _type_of_request(text: str, duration_days: int | None) -> IntentType:
     if duration_days is not None or _matches_pattern(
         text,
-        (r"\bitinerary\b", r"\bplan (?:a |my |our )?trip\b", r"\bplan (?:a |my |our )?(?:(?:[0-9]+|one|two|three|four|five|six|seven|eight|nine|ten|or|day|days|\s|-)+)\s+trip\b", r"\btrip plan\b", r"برنامه سفر", r"برنامه ریزی سفر", r"سفر\s+\S+\s+روز"),
+        (r"\bitinerary\b", r"\bplan (?:a |my |our )?trip\b", r"\bplan (?:a |my |our )?(?:(?:[0-9]+|one|two|three|four|five|six|seven|eight|nine|ten|or|to|day|days|\s|-)+)\s+trip\b", r"\btrip plan\b", r"برنامه سفر", r"برنامه ریزی سفر", r"سفر\s+\S+\s+روز"),
     ):
         return "trip_planning"
     if _matches_pattern(

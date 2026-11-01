@@ -54,14 +54,29 @@ Party-size extraction retains its existing behavior. Tests cover English,
 Persian digits, v1/v2 extraction, readiness, the unified CLI and trip preview,
 plus valid dates, repeated counts and departure expressions.
 
-This rule applies to the parser's existing recognized count expressions,
-not arbitrary natural-language ranges or corrections. It does not understand
-every shorthand such as `3 or 5 days`, negated duration, fractional duration,
-or an unrecognized number phrase. Ambiguous requests still require broader
-language evaluation; no automatic correction or calendar conversion is added.
+Two explicitly separated counts sharing one day unit are also recognized:
+`3 or 5 days`, `3 to 5 day`, `۳ یا ۵ روز` and `سه تا پنج روز`. The connectors
+`or`, `to`, `یا` and `تا` must be separated by spaces. Both counts remain
+evidence, including zero or an out-of-range endpoint; differing counts require
+clarification even if dates happen to agree with the final value. Repeated
+equal values resolve to one count. These flexible ranges are not converted
+into an arbitrary exact duration.
+
+Departure context applies to the entire shared-unit expression. For example,
+`in 3 or 5 days` and `۳ تا ۵ روز بعد` do not become trip duration; dates may
+still supply duration when no explicit duration is present. Factual questions
+about a multi-day ticket are not forced into planning merely by that range.
+The unified CLI exercises both Persian and English unresolved requests.
+
+This remains a bounded two-value rule, not arbitrary natural-language range
+or correction handling. Dash-only ranges, unspaced connectors, longer lists,
+negated duration, fractional duration and unrecognized number phrases require
+further work. Ambiguous requests still require broader language evaluation;
+no automatic correction or calendar conversion is added.
 
 ```sh
 python -m pytest tests/test_duration_ambiguity.py -q
+python -m pytest tests/test_shared_unit_duration.py -q
 ```
 
 ## Known limits
