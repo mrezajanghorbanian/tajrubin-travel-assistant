@@ -1,6 +1,6 @@
 # Tajrubin Travel AI — Delivery Plan v1.0
 
-**Owner:** Tajrubin Travel AI community · **Updated:** 2026-11-01 · **Status:** Public prototype; Draft PR under development
+**Owner:** Tajrubin Travel AI community · **Updated:** 2026-11-02 · **Status:** Public prototype; Draft PR under development
 
 **Mission:** Create an open-source, privacy-conscious AI travel companion that converts a simple natural-language request into a **source-attributed, realistic and editable** trip. Start with reliable Iran knowledge and expand via country-specific knowledge packs. Keep the production Tajrubin marketplace backend and all proprietary assets separate.
 
@@ -11,6 +11,7 @@
 3. Build a multi-day plan that obeys opening hours, travel time, budget and accessibility constraints **when verified data is available**.
 4. Review as cards, timeline and map; change one stop without destroying the remainder of the trip.
 5. Clearly label source, freshness, estimates, missing evidence and unsupported real-time claims.
+6. Compare connected flight, hotel and experience offers against the traveler's preferences, then support provider checkout or explicitly approved booking when integrations and access are ready (planned feature F-BOOK-01).
 
 ## Personas
 
@@ -23,6 +24,12 @@
 **P0:** typed traveler intent; local knowledge ingestion; retrieval with provenance; abstention on insufficient evidence; planning constraints; partial replanning; responsive bilingual UI (Persian/English); map presentation; comprehensive automated evaluations and security safeguards.
 
 **P1:** save trips; share/export; persistent preferences with consent; feedback dashboard; provider selection and latency optimization.
+
+**F-BOOK-01 / planned commerce expansion:** live search, comparison and provider
+checkout links for flights, hotels and experiences. Direct booking and
+post-booking management are a later, conditional stage with explicit traveler
+approval and provider access. See [execution stages and acceptance gates](BOOKING_INTEGRATION.md).
+Adding this feature to the plan does not enable a paid service or transaction.
 
 **Excluded until later:** purchasing/reserving autonomously, invented live hours/prices/availability, unlimited external tool execution, worldwide coverage, continuous location tracking.
 
@@ -51,6 +58,12 @@ Web UI → safe API boundary → Agent Orchestrator (bounded steps/time/budget) 
 | M3 | Mobile-first bilingual web, cards/map/timeline, safe save/edit | End-to-end traveler journey works without developer assistance |
 | M4 | Quality, observability, privacy, threat-model, cost/load benchmarking | Meets public beta quality thresholds |
 | M5 | Live demo, onboarding, open-source governance, brand and GTM | Installation reproducible; meaningful feedback and analytics available |
+| M6 / F-BOOK-01 | Flight, hotel and experience integration: search/compare/redirect first; approved booking later | Provider access and coverage proven; fresh comparable offers; feasible combinations; no purchase without explicit approval; confirmed order state and recovery tested |
+
+F-BOOK-01 contract and offline-fixture work can run alongside M1/M2. Live
+rollout depends on the relevant M3 traveler flow, M4 quality/security checks
+and provider access; direct booking has its own additional gate. Dates and
+providers are not committed until those dependencies are assessed.
 
 ## Measurable beta targets (not current performance)
 

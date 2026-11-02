@@ -72,6 +72,10 @@ work; the offline command does not generate a verified traveler itinerary.
 
 The production Tajrubin marketplace backend remains a separate private system.
 
+Planned feature [F-BOOK-01: flight, hotel and experience integrations](docs/BOOKING_INTEGRATION.md)
+adds a staged path from live comparison and provider checkout links to
+customer-approved booking. These connections are not implemented or enabled.
+
 ## Retrieval evaluation
 
 See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for synthetic suites, the repository-corpus gate, metric definitions, limits and reproducible commands.
