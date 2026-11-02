@@ -4,6 +4,10 @@ Status: **planned; not implemented or enabled**. Added to the delivery plan
 on 2026-11-02 at the owner's request. This document authorizes planning, not
 paid API activation, account creation, production deployment or purchases.
 
+**Priority update, 2026-11-03:** implementation is deferred, including the
+offline adapter work, until [the core conversational Trip Planner journey](CONVERSATIONAL_AGENT.md)
+is accepted. Finish the existing paths before adding booking features.
+
 ## Customer outcome
 
 A traveler describes dates, origin/destinations, party, budget and preferences
@@ -29,7 +33,7 @@ must be visible rather than interpreted as proof that no offers exist.
 | BOOK-05 / approved booking | Reprice/recheck, show exact terms, collect explicit approval, create supported orders and verify final provider state | Separate provider booking permission/commercial arrangements; M4 checks; payment and personal-data handling established; idempotency and uncertain-result recovery tested |
 | BOOK-06 / post-booking support | Show confirmed references/vouchers and supported change/cancellation options with their fees and status | BOOK-05 plus provider capabilities; test reconciliation and partial failures; no unsupported refund promise or silent fee-bearing action |
 
-BOOK-02 can run alongside M1/M2 with fixtures. Live user rollout is the
+After the core journey is accepted, BOOK-02 can use offline fixtures. Live user rollout is the
 conditional M6 workstream and depends on the relevant M3/M4 acceptance gates.
 BOOK-03 delivers discovery and checkout handoff before BOOK-05 adds direct
 booking. No calendar estimate is committed before access, coverage and costs

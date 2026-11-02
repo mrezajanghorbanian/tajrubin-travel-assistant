@@ -1,8 +1,14 @@
 # Tajrubin Travel AI — Delivery Plan v1.0
 
-**Owner:** Tajrubin Travel AI community · **Updated:** 2026-11-02 · **Status:** Public prototype; Draft PR under development
+**Owner:** Tajrubin Travel AI community · **Updated:** 2026-11-03 · **Status:** Public prototype; core conversational journey in progress
 
 **Mission:** Create an open-source, privacy-conscious AI travel companion that converts a simple natural-language request into a **source-attributed, realistic and editable** trip. Start with reliable Iran knowledge and expand via country-specific knowledge packs. Keep the production Tajrubin marketplace backend and all proprietary assets separate.
+
+**Execution priority:** a Persian-first conversational agent using the existing
+local model, session context and bounded travel tools. Start with domestic Iran
+trips; expand to foreign destinations later. Close the connected request →
+clarification → grounded suggestions → initial plan → in-chat edit journey
+before implementing new features. [Canonical product direction and CORE-01–05 gates](CONVERSATIONAL_AGENT.md).
 
 ## Product promise
 
@@ -21,7 +27,7 @@
 
 ## Beta scope
 
-**P0:** typed traveler intent; local knowledge ingestion; retrieval with provenance; abstention on insufficient evidence; planning constraints; partial replanning; responsive bilingual UI (Persian/English); map presentation; comprehensive automated evaluations and security safeguards.
+**P0:** local-model-driven Persian conversation; session continuity; bounded tool orchestration; typed traveler intent; local knowledge ingestion; retrieval with provenance; abstention on insufficient evidence; planning constraints; partial replanning; responsive chat UI with Persian first and English retained; map presentation; comprehensive automated evaluations and security safeguards.
 
 **P1:** save trips; share/export; persistent preferences with consent; feedback dashboard; provider selection and latency optimization.
 
@@ -60,9 +66,10 @@ Web UI → safe API boundary → Agent Orchestrator (bounded steps/time/budget) 
 | M5 | Live demo, onboarding, open-source governance, brand and GTM | Installation reproducible; meaningful feedback and analytics available |
 | M6 / F-BOOK-01 | Flight, hotel and experience integration: search/compare/redirect first; approved booking later | Provider access and coverage proven; fresh comparable offers; feasible combinations; no purchase without explicit approval; confirmed order state and recovery tested |
 
-F-BOOK-01 contract and offline-fixture work can run alongside M1/M2. Live
-rollout depends on the relevant M3 traveler flow, M4 quality/security checks
-and provider access; direct booking has its own additional gate. Dates and
+F-BOOK-01 implementation, including contract/offline-fixture work, is deferred
+until the core conversational journey CORE-01–05 is accepted. Live rollout
+also depends on the relevant M3 traveler flow, M4 quality/security checks and
+provider access; direct booking has its own additional gate. Dates and
 providers are not committed until those dependencies are assessed.
 
 ## Measurable beta targets (not current performance)
@@ -94,4 +101,8 @@ Create a 60-second demo, a clear landing page, installation guide, open-source c
 
 ## Immediate next gate
 
-Complete Sprint 01 issues; keep main untouched until tests and reviews are complete. All scope additions must preserve the user promise: *deep intelligence, extremely simple interface*.
+Complete CORE-01–05 in order using the existing components. Require a real
+local-model Persian conversation that reaches an evidence-aware initial plan
+and an in-chat edit; standalone test counts do not establish completion.
+Keep main untouched until tests and reviews are complete. All scope additions
+must preserve the user promise: *deep intelligence, extremely simple interface*.

@@ -4,6 +4,13 @@ An open-source, local-first AI travel assistant for destination discovery, trave
 
 The first knowledge pack focuses on Iran. The architecture is designed to support additional countries without retraining the core language model.
 
+The product target is a **Persian-first conversational travel agent**: the
+existing local model works with session context and travel tools to help users
+plan and revise trips in chat. Domestic Iran travel comes first; foreign
+destinations follow. See [the product direction and active sprint gates](docs/CONVERSATIONAL_AGENT.md).
+This connected agent journey is still under development; the current offline
+command provides deterministic QA and planning readiness.
+
 ## Initial Goals
 
 The [unified offline assistant](docs/LOCAL_ASSISTANT.md) is runnable with
