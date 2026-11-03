@@ -12,6 +12,7 @@ from app.assistant.local_model_turn import (
 )
 from app.providers.runtime_config import LocalProviderRuntimeConfigV1, build_local_text_generation_provider
 from app.providers.text_generation import TextGenerationProvider
+from app.assistant.grounded_session import GROUNDED_PROMPT, GroundedDecisionV1, complete_knowledge_step
 
 SESSION_PROMPT = SYSTEM_PROMPT + """
 ورودی یک شیء JSON شامل previous_turns و current_user است.
@@ -42,9 +43,10 @@ class LocalModelSession:
     """
 
     def __init__(self, *, config: LocalProviderRuntimeConfigV1 | None = None,
-                 provider: TextGenerationProvider | None = None):
+                 provider: TextGenerationProvider | None = None, grounded: bool = False):
         self._config = config or LocalProviderRuntimeConfigV1(timeout_seconds=120)
         self._provider = provider
+        self._grounded = grounded
         self._turns: tuple[SessionTurnV1, ...] = ()
         self._lock = Lock()
 
@@ -74,24 +76,29 @@ class LocalModelSession:
             if len(prompt) > 2000:
                 raise SessionLimitError('Session context limit')
             bounded = LocalModelTurnRequestV1(message=prompt, max_tokens=request.max_tokens)
+            generation_options = dict(system_prompt=GROUNDED_PROMPT, intake_type=GroundedDecisionV1) if self._grounded else dict(system_prompt=SESSION_PROMPT)
             if self._provider is not None:
-                result = _generate(bounded, self._provider, self._config.model, system_prompt=SESSION_PROMPT)
+                result = _generate(bounded, self._provider, self._config.model, **generation_options)
             else:
                 with build_local_text_generation_provider(self._config) as provider:
-                    result = _generate(bounded, provider, self._config.model, system_prompt=SESSION_PROMPT)
-            if result.intake is not None:
-                self._turns += (SessionTurnV1(message=request.message, intake=result.intake),)
+                    result = _generate(bounded, provider, self._config.model, **generation_options)
+            if self._grounded:
+                result = complete_knowledge_step(result, tuple(t.message for t in self._turns) + (request.message,))
+            if result.intake is not None and getattr(result, 'tool_status', None) not in {'rejected', 'unavailable'}:
+                intake = LocalModelIntakeV1(understanding=result.intake.understanding, clarification_question=result.intake.clarification_question)
+                self._turns += (SessionTurnV1(message=request.message, intake=intake),)
             return result
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--format', choices=('text', 'json'), default='text')
+    parser.add_argument('--grounded', action='store_true', help='Enable model-selected read-only local knowledge search')
     args = parser.parse_args(argv)
     had_error = False
     # Provider lives only for this process; no conversation file is created.
     with build_local_text_generation_provider(LocalProviderRuntimeConfigV1(timeout_seconds=120)) as provider:
-        session = LocalModelSession(provider=provider)
+        session = LocalModelSession(provider=provider, grounded=args.grounded)
         if args.format == 'text':
             print('گفتگوی اولیه سفر؛ پایان: /exit، پاک‌کردن جلسه: /reset')
         while True:
@@ -118,12 +125,24 @@ def main(argv: list[str] | None = None) -> int:
                 print(result.model_dump_json())
             elif result.intake is not None:
                 print(result.intake.understanding)
+                if getattr(result, 'tool_status', None) in {'rejected', 'unavailable'}:
+                    print('جست‌وجوی معتبر انجام نشد؛ وضعیت جلسه حفظ شد.')
+                knowledge = getattr(result, 'knowledge', None)
+                if knowledge is not None:
+                    print('یادداشت منبع؛ اطلاعات زنده تأیید نشده است:')
+                    print(knowledge.answer)
+                    for evidence in knowledge.evidence:
+                        print(f'[{evidence.document_id}] {evidence.document_title}')
+                        print(evidence.last_reviewed_at)
+                        for url in evidence.external_urls:
+                            print(url)
                 if result.intake.clarification_question:
                     print(result.intake.clarification_question)
                 print('هنوز برنامه سفر یا رزروی ایجاد نشده است.')
             else:
                 print('پاسخ معتبر دریافت نشد؛ وضعیت جلسه حفظ شد. ' + str(result.error_code))
             had_error |= result.status != 'model_reply'
+            had_error |= getattr(result, 'tool_status', None) in {'rejected', 'unavailable'}
     return 1 if had_error else 0
 
 

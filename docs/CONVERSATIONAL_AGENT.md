@@ -42,8 +42,9 @@ model adapter; the deterministic command is not silently rebranded as model
 output. Real inference evidence and quality/runtime limitations are recorded
 in that entry-point document. A bounded [in-memory conversation checkpoint](LOCAL_MODEL_SESSION.md) now
 passes prior user turns and pending questions into subsequent local-model calls.
-Typed trip-state reconciliation and tool orchestration remain open; this does
-not close CORE-02 through CORE-05.
+An opt-in [grounded search mode](GROUNDED_SESSION.md) now lets the model select
+a bounded local knowledge read in that same session. Typed trip-state
+reconciliation and the complete CORE-02 through CORE-05 journey remain open.
 
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;
@@ -73,7 +74,8 @@ implemented, with two [recorded real Persian single-turn checks](LOCAL_MODEL_TUR
 This establishes the first connection checkpoint. Model quality, latency and
 runtime reliability remain limited evidence. CORE-02 now has bounded transcript
 continuity, isolated sessions and atomic failure handling; structured trip state
-and grounded tool use remain open. Three [real consecutive Persian turns](LOCAL_MODEL_SESSION.md#recorded-real-inference-2026-11-03)
+remains open. CORE-03 has a first attributed-retrieval checkpoint; model-written
+recommendations and a connected editable plan remain open. Three [real consecutive Persian turns](LOCAL_MODEL_SESSION.md#recorded-real-inference-2026-11-03)
 preserved and extended the same synthetic trip request. The complete
 conversational acceptance journey remains open.
 

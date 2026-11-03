@@ -69,3 +69,10 @@ hours, attractions, calendar conversion or booking facts were inferred. The
 model label is server-declared, not weight attestation. Separate-session
 isolation, failure recovery and CLI behavior have regression evidence, not a
 real-model multi-user quality benchmark.
+
+## Optional grounded mode
+
+Add `--grounded` to enable [CORE-03 local knowledge search](GROUNDED_SESSION.md)
+in the same session. The intake-only default described above is unchanged.
+Source notes are returned outside the model context; no selected plan or
+structured trip state is introduced.

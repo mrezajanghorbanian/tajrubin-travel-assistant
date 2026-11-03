@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-03",
+  "model_label": "qwen3.5-4b",
+  "gpu": "off",
+  "context_length": 2048,
+  "max_output_tokens": 384,
+  "method": "LocalModelSession.send(grounded=True); same instance; real model and local pack; synthetic messages",
+  "turns": [
+    {
+      "message": "برای سه روز شیراز یه سفر آروم می‌خوام. درباره شیراز اطلاعات داری؟",
+      "elapsed_seconds": 35.58,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست دارد برای سه روز در شیراز یک سفر آرام داشته باشد و از دستیار بخواهد که اطلاعاتی درباره شیراز ارائه دهد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "completed",
+        "knowledge_request": {
+          "query": "شیراز",
+          "city": "شیراز"
+        },
+        "knowledge": {
+          "status": "insufficient_evidence",
+          "answer": "در بسته دانش محلی، اطلاعات مستند کافی برای این شهر و موضوع ندارم.",
+          "evidence": [],
+          "needs_verification": true
+        }
+      },
+      "accepted_turns": 1
+    },
+    {
+      "message": "به جای شیراز، درباره کاخ گلستان در تهران بگو.",
+      "elapsed_seconds": 31.78,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست دارد به جای شیراز، اطلاعاتی درباره کاخ گلستان در تهران ارائه شود.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "completed",
+        "knowledge_request": {
+          "query": "درباره کاخ گلستان در تهران",
+          "city": "تهران"
+        },
+        "knowledge": {
+          "status": "provisional",
+          "answer": "Golestan Palace is a Qajar royal complex in Tehran. کاخ گلستان مجموعه‌ای سلطنتی از دوره قاجار در تهران است. [ir.tehran.golestan-palace]\n\nBased on local knowledge documents. Verify current hours, prices, access conditions and other time-sensitive details.",
+          "evidence": [
+            {
+              "document_id": "ir.tehran.golestan-palace",
+              "document_title": "Golestan Palace | کاخ گلستان",
+              "external_urls": [
+                "https://whc.unesco.org/en/list/1422/"
+              ],
+              "last_reviewed_at": "2026-10-29"
+            }
+          ],
+          "needs_verification": true
+        }
+      },
+      "accepted_turns": 2
+    }
+  ],
+  "cli_check": {
+    "max_output_tokens": 256,
+    "message": "درباره کاخ گلستان در تهران بگو.",
+    "elapsed_seconds": 23.0,
+    "exit_code": 0,
+    "result": {
+      "turn_version": "1.0",
+      "status": "model_reply",
+      "model_name": "qwen3.5-4b",
+      "intake": {
+        "understanding": "اطلاعات درباره کاخ گلستان در تهران",
+        "clarification_question": null
+      },
+      "error_code": null,
+      "live_verified": false,
+      "needs_verification": true,
+      "tool_status": "completed",
+      "knowledge_request": {
+        "query": "کاخ گلستان در تهران",
+        "city": "تهران"
+      },
+      "knowledge": {
+        "status": "provisional",
+        "answer": "Golestan Palace is a Qajar royal complex in Tehran. کاخ گلستان مجموعه‌ای سلطنتی از دوره قاجار در تهران است. [ir.tehran.golestan-palace]\n\nBased on local knowledge documents. Verify current hours, prices, access conditions and other time-sensitive details.",
+        "evidence": [
+          {
+            "document_id": "ir.tehran.golestan-palace",
+            "document_title": "Golestan Palace | کاخ گلستان",
+            "external_urls": [
+              "https://whc.unesco.org/en/list/1422/"
+            ],
+            "last_reviewed_at": "2026-10-29"
+          }
+        ],
+        "needs_verification": true
+      }
+    },
+    "stderr": ""
+  },
+  "scope": "Narrow synthetic-input observations; attributed local notes, not verified travel facts or a complete trip. Model label is server-declared."
+}

@@ -77,12 +77,12 @@ def _unique_keys(pairs: list[tuple[str, object]]) -> dict:
     return result
 
 
-def _generate(request: LocalModelTurnRequestV1, provider: TextGenerationProvider, model: str, *, system_prompt: str = SYSTEM_PROMPT) -> LocalModelTurnV1:
+def _generate(request: LocalModelTurnRequestV1, provider: TextGenerationProvider, model: str, *, system_prompt: str = SYSTEM_PROMPT, intake_type: type[LocalModelIntakeV1] = LocalModelIntakeV1) -> LocalModelTurnV1:
     try:
         response = provider.generate(TextGenerationRequestV1(
             prompt=request.message, system_prompt=system_prompt,
             temperature=0, max_tokens=request.max_tokens,
-            response_schema_json=json.dumps(LocalModelIntakeV1.model_json_schema()),
+            response_schema_json=json.dumps(intake_type.model_json_schema()),
         ))
     except ValidationError:
         return LocalModelTurnV1(status="invalid_model_reply", model_name=model, error_code="invalid_response")
@@ -97,7 +97,7 @@ def _generate(request: LocalModelTurnRequestV1, provider: TextGenerationProvider
         if len(response.text) > 8000:
             raise ValueError("Model output exceeds intake bound")
         payload = json.loads(response.text, object_pairs_hook=_unique_keys)
-        intake = LocalModelIntakeV1.model_validate(payload)
+        intake = intake_type.model_validate(payload)
     except (ValueError, RecursionError):
         return LocalModelTurnV1(status="invalid_model_reply", model_name=response.model_name or model, error_code="output_contract")
     return LocalModelTurnV1(status="model_reply", model_name=response.model_name or model, intake=intake)

@@ -99,3 +99,8 @@ multiple Persian intake turns in one in-memory process:
 `python -X utf8 -m app.assistant.local_model_session`. It retains literal user
 messages and pending questions within explicit capacity limits; structured trip
 state, grounded tools and itinerary editing remain open.
+
+The same session supports [model-selected grounded search](docs/GROUNDED_SESSION.md)
+with `--grounded`: read-only public Iran knowledge, literal user-anchored city/query
+arguments, original source IDs/URLs/review dates and explicit no-evidence results.
+This does not create recommendations, verified live facts or an itinerary.
