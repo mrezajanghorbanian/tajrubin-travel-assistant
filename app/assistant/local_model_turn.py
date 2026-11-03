@@ -77,10 +77,10 @@ def _unique_keys(pairs: list[tuple[str, object]]) -> dict:
     return result
 
 
-def _generate(request: LocalModelTurnRequestV1, provider: TextGenerationProvider, model: str) -> LocalModelTurnV1:
+def _generate(request: LocalModelTurnRequestV1, provider: TextGenerationProvider, model: str, *, system_prompt: str = SYSTEM_PROMPT) -> LocalModelTurnV1:
     try:
         response = provider.generate(TextGenerationRequestV1(
-            prompt=request.message, system_prompt=SYSTEM_PROMPT,
+            prompt=request.message, system_prompt=system_prompt,
             temperature=0, max_tokens=request.max_tokens,
             response_schema_json=json.dumps(LocalModelIntakeV1.model_json_schema()),
         ))

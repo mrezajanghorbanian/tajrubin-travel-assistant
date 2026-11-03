@@ -40,8 +40,10 @@ CORE-01 now has a separate [local-model intake entry point](LOCAL_MODEL_TURN.md)
 with explicit failure states and strict JSON validation. It calls the existing
 model adapter; the deterministic command is not silently rebranded as model
 output. Real inference evidence and quality/runtime limitations are recorded
-in that entry-point document. Session continuity and tool orchestration remain
-open; this does not close CORE-02 through CORE-05.
+in that entry-point document. A bounded [in-memory conversation checkpoint](LOCAL_MODEL_SESSION.md) now
+passes prior user turns and pending questions into subsequent local-model calls.
+Typed trip-state reconciliation and tool orchestration remain open; this does
+not close CORE-02 through CORE-05.
 
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;
@@ -69,8 +71,10 @@ do not replace it with more standalone parser rules or disconnected libraries.
 CORE-01 progress: the bounded entry point and explicit failure handling are
 implemented, with two [recorded real Persian single-turn checks](LOCAL_MODEL_TURN.md#recorded-real-inference-2026-11-03).
 This establishes the first connection checkpoint. Model quality, latency and
-runtime reliability remain limited evidence; the next implementation task is
-CORE-02 session continuity, followed by grounded tool use. The complete
+runtime reliability remain limited evidence. CORE-02 now has bounded transcript
+continuity, isolated sessions and atomic failure handling; structured trip state
+and grounded tool use remain open. Three [real consecutive Persian turns](LOCAL_MODEL_SESSION.md#recorded-real-inference-2026-11-03)
+preserved and extended the same synthetic trip request. The complete
 conversational acceptance journey remains open.
 
 ## Product acceptance conversation

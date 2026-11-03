@@ -93,3 +93,9 @@ customer-approved booking. These connections are not implemented or enabled.
 See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for synthetic suites, the repository-corpus gate, metric definitions, limits and reproducible commands.
 
 See [the public Iran knowledge pack](docs/IRAN_KNOWLEDGE_PACK.md) for the source-attributed records and runnable Persian/English examples.
+
+The [CORE-02 conversation checkpoint](docs/LOCAL_MODEL_SESSION.md) supports
+multiple Persian intake turns in one in-memory process:
+`python -X utf8 -m app.assistant.local_model_session`. It retains literal user
+messages and pending questions within explicit capacity limits; structured trip
+state, grounded tools and itinerary editing remain open.
