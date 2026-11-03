@@ -46,7 +46,10 @@ An opt-in [grounded search mode](GROUNDED_SESSION.md) now lets the model select
 a bounded local knowledge read in that same session. Typed trip-state
 semantic reconciliation and the complete CORE-02 through CORE-05 journey remain
 open. [Literal trip-state slots](TRIP_STATE_SESSION.md) now preserve attributed
-user statements and apply partial updates atomically in that same session.
+user statements and apply partial updates atomically in that same session. An
+explicit required-detail policy now supplies a source-labelled application
+question when a valid model reply omits one, without rewriting model text.
+Required slot presence still leads to needs-validation, not a completed trip.
 
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;

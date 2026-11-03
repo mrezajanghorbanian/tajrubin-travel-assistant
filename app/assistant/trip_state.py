@@ -51,9 +51,56 @@ class TripStateDecisionV1(GroundedDecisionV1):
     updates: TripUpdatesV1
 
 
+RequiredTripField = Literal['destination', 'dates', 'duration', 'party']
+_REQUIRED_QUESTIONS: dict[RequiredTripField, str] = {
+    'destination': 'مقصد سفرتان کدام شهر است؟',
+    'dates': 'تاریخ شروع سفر و سال آن را بفرمایید.',
+    'duration': 'سفر چند روز طول می‌کشد؟',
+    'party': 'چند نفر در این سفر همراه هستند؟',
+}
+
+
+class TripFollowUpV1(_Frozen):
+    status: Literal['needs_details', 'needs_validation']
+    missing_fields: tuple[RequiredTripField, ...]
+    question: str | None = Field(min_length=1, max_length=500)
+    source: Literal['application_policy', 'model'] | None
+    requested_field: RequiredTripField | None
+
+    @model_validator(mode='after')
+    def consistent_question(self) -> 'TripFollowUpV1':
+        if (self.status == 'needs_details') != bool(self.missing_fields):
+            raise ValueError('Missing fields must match collection status')
+        if len(set(self.missing_fields)) != len(self.missing_fields):
+            raise ValueError('Missing fields must be unique')
+        if self.source == 'application_policy':
+            valid = self.question is not None and self.requested_field in self.missing_fields
+        elif self.source == 'model':
+            valid = self.question is not None and self.requested_field is None
+        else:
+            valid = self.question is None and self.requested_field is None and not self.missing_fields
+        if not valid:
+            raise ValueError('Question must have matching provenance')
+        return self
+
+
+def select_trip_follow_up(state: TripStateV1, model_question: str | None) -> TripFollowUpV1:
+    """Presence policy, not language parsing or a claim of semantic readiness."""
+    missing = tuple(name for name in _REQUIRED_QUESTIONS if getattr(state, name) is None)
+    status = 'needs_details' if missing else 'needs_validation'
+    if model_question is not None:
+        return TripFollowUpV1(status=status, missing_fields=missing, question=model_question,
+                              source='model', requested_field=None)
+    field = missing[0] if missing else None
+    return TripFollowUpV1(status=status, missing_fields=missing,
+                          question=_REQUIRED_QUESTIONS[field] if field else None,
+                          source='application_policy' if field else None, requested_field=field)
+
+
 class TripStateTurnV1(GroundedModelTurnV1):
     trip_state: TripStateV1
     state_status: Literal['applied', 'unchanged', 'rejected', 'not_applied']
+    follow_up: TripFollowUpV1 | None = None
 
     @model_validator(mode='after')
     def matching_state_outcome(self) -> 'TripStateTurnV1':
@@ -62,6 +109,8 @@ class TripStateTurnV1(GroundedModelTurnV1):
             raise ValueError('State outcome requires an accepted model/tool outcome')
         if self.state_status == 'not_applied' and accepted:
             raise ValueError('Accepted state must have an explicit outcome')
+        if (self.follow_up is not None) != (self.state_status in {'applied', 'unchanged'}):
+            raise ValueError('Only committed turns contain a follow-up decision')
         return self
 
 

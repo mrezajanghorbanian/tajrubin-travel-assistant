@@ -13,7 +13,7 @@ from app.assistant.local_model_turn import (
 from app.providers.runtime_config import LocalProviderRuntimeConfigV1, build_local_text_generation_provider
 from app.providers.text_generation import TextGenerationProvider
 from app.assistant.grounded_session import GROUNDED_PROMPT, GroundedDecisionV1, GroundedModelTurnV1, complete_knowledge_step
-from app.assistant.trip_state import TRIP_STATE_PROMPT, TripStateDecisionV1, TripStateTurnV1, TripStateV1, stage_trip_updates
+from app.assistant.trip_state import TRIP_STATE_PROMPT, TripStateDecisionV1, TripStateTurnV1, TripStateV1, select_trip_follow_up, stage_trip_updates
 
 SESSION_PROMPT = SYSTEM_PROMPT + """
 ورودی یک شیء JSON شامل previous_turns و current_user است.
@@ -34,6 +34,7 @@ class SessionLimitError(ValueError):
 class SessionTurnV1(_Frozen):
     message: str
     intake: LocalModelIntakeV1
+    application_question: str | None = None
 
 
 class LocalModelSession:
@@ -67,7 +68,7 @@ class LocalModelSession:
     @property
     def pending_question(self) -> str | None:
         turns = self.turns
-        return turns[-1].intake.clarification_question if turns else None
+        return (turns[-1].application_question or turns[-1].intake.clarification_question) if turns else None
 
     def reset(self) -> None:
         with self._lock:
@@ -83,6 +84,9 @@ class LocalModelSession:
                 'previous_turns': [{'user': t.message, 'assistant': t.intake.model_dump()} for t in self._turns],
                 'current_user': request.message,
             }
+            for previous, turn in zip(context['previous_turns'], self._turns):
+                if turn.application_question is not None:
+                    previous['application_question'] = turn.application_question
             if self._state_enabled:
                 context['trip_state'] = self._trip_state.model_dump(exclude_none=True)
             prompt = json.dumps(context, ensure_ascii=False)
@@ -107,14 +111,18 @@ class LocalModelSession:
                     return TripStateTurnV1(**envelope.model_dump(), trip_state=self._trip_state, state_status='rejected')
             if self._grounded:
                 result = complete_knowledge_step(result, tuple(t.message for t in self._turns) + (request.message,))
+            follow_up = None
             if result.intake is not None and getattr(result, 'tool_status', None) not in {'rejected', 'unavailable'}:
                 intake = LocalModelIntakeV1(understanding=result.intake.understanding, clarification_question=result.intake.clarification_question)
-                self._turns += (SessionTurnV1(message=request.message, intake=intake),)
+                if self._state_enabled:
+                    follow_up = select_trip_follow_up(staged_state, intake.clarification_question)
+                application_question = follow_up.question if follow_up is not None and follow_up.source == 'application_policy' else None
+                self._turns += (SessionTurnV1(message=request.message, intake=intake, application_question=application_question),)
                 self._trip_state = staged_state
             if self._state_enabled:
                 accepted = result.intake is not None and result.tool_status not in {'rejected', 'unavailable'}
                 state_status = ('applied' if decision.updates.model_dump(exclude_none=True) else 'unchanged') if accepted else 'not_applied'
-                result = TripStateTurnV1(**result.model_dump(), trip_state=self._trip_state, state_status=state_status)
+                result = TripStateTurnV1(**result.model_dump(), trip_state=self._trip_state, state_status=state_status, follow_up=follow_up)
             return result
 
 
@@ -172,7 +180,12 @@ def main(argv: list[str] | None = None) -> int:
                         print(evidence.last_reviewed_at)
                         for url in evidence.external_urls:
                             print(url)
-                if result.intake.clarification_question:
+                if args.trip_state and result.follow_up is not None:
+                    if result.follow_up.question:
+                        print(result.follow_up.question)
+                    else:
+                        print('جزئیات اولیه ثبت شد؛ اعتبارسنجی اطلاعات و شواهد برنامه سفر باقی است.')
+                elif result.intake.clarification_question:
                     print(result.intake.clarification_question)
                 print('هنوز برنامه سفر یا رزروی ایجاد نشده است.')
             else:

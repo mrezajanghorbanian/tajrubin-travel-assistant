@@ -113,3 +113,64 @@ dates; the synthetic follow-up supplied them without a question. Thus clarificat
 quality and complete conversational acceptance remain open. The result proves
 this observed extraction/correction sequence plus application preservation controls,
 not general semantic reliability, normalized dates or a feasible travel plan.
+
+## Required-details follow-up policy
+
+In `--trip-state` mode an accepted turn now includes `follow_up` with `status`,
+`missing_fields`, `question`, `source` and `requested_field`. A deterministic
+application policy checks presence of destination, dates, duration and party,
+in that priority order. Budget and preferences remain optional at this gate.
+These are presence checks over the typed slots, not new natural-language parsers.
+
+If the valid model reply already contains a clarification question, it is retained
+with source `model`. Otherwise, the application asks for the first missing required
+field, with source `application_policy`. This explicitly handles the earlier real
+model's null question without rewriting its text: `intake.clarification_question`
+remains the original model value. No policy runs as a substitute for failed model
+inference, invalid patches or failed tools. There is no extra inference or retry.
+
+The session's effective pending question includes the accepted application question.
+History sends it back as `application_question`, outside the model's prior assistant
+intake. This preserves provenance and lets the next model call interpret the user's
+answer. CLI text prints one effective question; JSON reports its source explicitly.
+The original intake-only and grounded-only modes keep their question behavior.
+
+`needs_details` means required slots are missing. Once they are present, the status
+is `needs_validation`, never ready, feasible or complete. A literal phrase such as
+an incomplete date can occupy a slot without being a usable date; normalization,
+semantic confirmation, conflicting updates and itinerary evidence still need work.
+A model-supplied question may itself be irrelevant or repetitive; this policy does
+not classify its meaning or guarantee general clarification quality.
+
+The policy is recomputed after each successful state merge, so a supplied date
+is removed from the missing-field list. A failed call cannot change the effective
+question, state or transcript. Reset and per-session isolation include this question.
+A successful no-evidence knowledge search can still ask for missing trip details.
+
+### Real CLI follow-up evidence: 2026-11-03
+
+[Evidence](evidence/trip-follow-up-2026-11-03.json) records an actual two-turn
+`--trip-state --format json` subprocess with the existing local `qwen3.5-4b`
+server label, default 256 output tokens and unchanged 120-second request timeout.
+After explicitly reloading that installed model with `--gpu off` and context
+2048 (no download), the synthetic conversation completed:
+
+1. Three relaxed days in Shiraz: the model's question was null; the application
+   separately asked for travel dates, with source `application_policy` (56.69s).
+2. Reply with 20 Aban 1405 and two travelers: those literal slots were recorded
+   with source message 2; destination/duration/pace and their provenance survived.
+   The effective question cleared and status became `needs_validation` (46.39s).
+
+The subprocess exited 0 with empty stderr. No mock model responses were used.
+This establishes the narrow observed follow-up path, not general date parsing,
+clarification quality or trip completion. The known example pattern and local
+latencies are not an independent benchmark.
+
+Earlier attempts remain in the evidence: an initial timeout (~122s including
+process overhead), followed by a retry under an observed 4096 context that asked
+for dates but timed out on the answer (~111s / 120s). Failed turns returned no
+follow-up and did not commit new state. The model was then reloaded with the CPU
+configuration above. These observations do not isolate GPU/context/load as the
+cause, and runtime variability remains open. The application deadline was not
+extended and no automatic retry or rule-only substitute for failed inference was
+introduced.

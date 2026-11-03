@@ -110,3 +110,7 @@ Use `--trip-state` in that same session for [literal trip-state slots](docs/TRIP
 with source-message numbers and atomic partial corrections. This includes
 grounded search; the stored statements still need semantic confirmation and
 normalization before they can become planner inputs.
+
+In trip-state mode an [explicit follow-up policy](docs/TRIP_STATE_SESSION.md#required-details-follow-up-policy)
+asks for missing required details when the model gives no question, preserving
+question provenance. Complete literal slots still require validation before planning.
