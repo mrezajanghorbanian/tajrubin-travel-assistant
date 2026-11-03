@@ -44,7 +44,9 @@ in that entry-point document. A bounded [in-memory conversation checkpoint](LOCA
 passes prior user turns and pending questions into subsequent local-model calls.
 An opt-in [grounded search mode](GROUNDED_SESSION.md) now lets the model select
 a bounded local knowledge read in that same session. Typed trip-state
-reconciliation and the complete CORE-02 through CORE-05 journey remain open.
+semantic reconciliation and the complete CORE-02 through CORE-05 journey remain
+open. [Literal trip-state slots](TRIP_STATE_SESSION.md) now preserve attributed
+user statements and apply partial updates atomically in that same session.
 
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;
@@ -73,8 +75,9 @@ CORE-01 progress: the bounded entry point and explicit failure handling are
 implemented, with two [recorded real Persian single-turn checks](LOCAL_MODEL_TURN.md#recorded-real-inference-2026-11-03).
 This establishes the first connection checkpoint. Model quality, latency and
 runtime reliability remain limited evidence. CORE-02 now has bounded transcript
-continuity, isolated sessions and atomic failure handling; structured trip state
-remains open. CORE-03 has a first attributed-retrieval checkpoint; model-written
+continuity, isolated sessions and atomic failure handling, plus opt-in typed
+user-statement slots. Semantic confirmation, normalized planning inputs and
+selected-plan state remain open. CORE-03 has a first attributed-retrieval checkpoint; model-written
 recommendations and a connected editable plan remain open. Three [real consecutive Persian turns](LOCAL_MODEL_SESSION.md#recorded-real-inference-2026-11-03)
 preserved and extended the same synthetic trip request. The complete
 conversational acceptance journey remains open.

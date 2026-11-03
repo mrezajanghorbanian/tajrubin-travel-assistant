@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-03",
+  "model_label": "qwen3.5-4b",
+  "gpu": "off",
+  "context_length": 2048,
+  "max_output_tokens": 512,
+  "method": "LocalModelSession(trip_state=True).send; same instance; synthetic messages; real model",
+  "turns": [
+    {
+      "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+      "elapsed_seconds": 53.12,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست یک سفر سه روزه به شیراز با سبک آرام دارد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "شیراز",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": null,
+          "party": null,
+          "budget": null,
+          "preferences": {
+            "value": "آرام",
+            "source_turn": 1
+          }
+        },
+        "state_status": "applied"
+      },
+      "accepted_turns": 1,
+      "expected_literal_slots_match": true
+    },
+    {
+      "message": "از ۲۰ آبان ۱۴۰۵؛ دو نفر؛ بودجه کل ده میلیون تومان.",
+      "elapsed_seconds": 57.22,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست سفر سه روزه به شیراز با بودجه ده میلیون تومان برای دو نفر از تاریخ ۲۰ آبان ۱۴۰۵ دارد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "شیراز",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "۲۰ آبان ۱۴۰۵",
+            "source_turn": 2
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 2
+          },
+          "budget": {
+            "value": "ده میلیون تومان",
+            "source_turn": 2
+          },
+          "preferences": {
+            "value": "آرام",
+            "source_turn": 1
+          }
+        },
+        "state_status": "applied"
+      },
+      "accepted_turns": 2,
+      "expected_literal_slots_match": true
+    },
+    {
+      "message": "فقط بودجه را پانزده میلیون تومان کن؛ بقیه جزئیات همان باشد.",
+      "elapsed_seconds": 50.05,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر می‌خواهد بودجه سفر را از ده میلیون به پانزده میلیون تومان تغییر دهد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "شیراز",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "۲۰ آبان ۱۴۰۵",
+            "source_turn": 2
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 2
+          },
+          "budget": {
+            "value": "پانزده میلیون تومان",
+            "source_turn": 3
+          },
+          "preferences": {
+            "value": "آرام",
+            "source_turn": 1
+          }
+        },
+        "state_status": "applied"
+      },
+      "accepted_turns": 3,
+      "expected_literal_slots_match": true
+    }
+  ],
+  "checks": {
+    "all_three_accepted": true,
+    "all_six_slots_present_after_turn_2": true,
+    "only_budget_changed_on_turn_3": true,
+    "budget_corrected_with_turn_3_provenance": true,
+    "date_retained_without_conversion": true
+  },
+  "cli_check": {
+    "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+    "elapsed_seconds": 36.38,
+    "exit_code": 0,
+    "max_output_tokens": 256,
+    "result": {
+      "turn_version": "1.0",
+      "status": "model_reply",
+      "model_name": "qwen3.5-4b",
+      "intake": {
+        "understanding": "کاربر درخواست یک سفر سه روزه به شیراز با سبک آرام دارد.",
+        "clarification_question": null
+      },
+      "error_code": null,
+      "live_verified": false,
+      "needs_verification": true,
+      "tool_status": "not_requested",
+      "knowledge_request": null,
+      "knowledge": null,
+      "trip_state": {
+        "destination": {
+          "value": "شیراز",
+          "source_turn": 1
+        },
+        "duration": {
+          "value": "سه روز",
+          "source_turn": 1
+        },
+        "dates": null,
+        "party": null,
+        "budget": null,
+        "preferences": {
+          "value": "آرام",
+          "source_turn": 1
+        }
+      },
+      "state_status": "applied"
+    },
+    "stderr": ""
+  },
+  "earlier_attempt": {
+    "contract": "Variable-length list of field/value updates; replaced before publication",
+    "issue": "The first real reply omitted explicit destination and pace, while extracting duration. Schema validity was insufficient.",
+    "first_turn": {
+      "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+      "elapsed_seconds": 46.66,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "سفر سه روزه به شیراز با سبک آرام",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "completed",
+        "knowledge_request": {
+          "query": "شیراز",
+          "city": "شیراز"
+        },
+        "knowledge": {
+          "status": "insufficient_evidence",
+          "answer": "در بسته دانش محلی، اطلاعات مستند کافی برای این شهر و موضوع ندارم.",
+          "evidence": [],
+          "needs_verification": true
+        },
+        "trip_state": {
+          "destination": null,
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": null,
+          "party": null,
+          "budget": null,
+          "preferences": null
+        },
+        "state_status": "applied"
+      },
+      "accepted_turns": 1
+    }
+  },
+  "limits": [
+    "Synthetic messages with a known prompt example; not an independent benchmark.",
+    "Server-declared model label; not weight attestation.",
+    "Statements are not normalized or semantically confirmed trip facts.",
+    "The real first turn did not ask for missing dates; clarification quality remains open."
+  ]
+}

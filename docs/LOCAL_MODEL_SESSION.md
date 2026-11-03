@@ -76,3 +76,9 @@ Add `--grounded` to enable [CORE-03 local knowledge search](GROUNDED_SESSION.md)
 in the same session. The intake-only default described above is unchanged.
 Source notes are returned outside the model context; no selected plan or
 structured trip state is introduced.
+
+## Optional trip-state mode
+
+`--trip-state` enables [source-backed statement slots](TRIP_STATE_SESSION.md)
+and grounded search in this same session. It preserves unrelated slots on a
+partial correction; these are literal user statements, not a verified trip.

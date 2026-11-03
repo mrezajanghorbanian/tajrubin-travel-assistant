@@ -12,7 +12,8 @@ from app.assistant.local_model_turn import (
 )
 from app.providers.runtime_config import LocalProviderRuntimeConfigV1, build_local_text_generation_provider
 from app.providers.text_generation import TextGenerationProvider
-from app.assistant.grounded_session import GROUNDED_PROMPT, GroundedDecisionV1, complete_knowledge_step
+from app.assistant.grounded_session import GROUNDED_PROMPT, GroundedDecisionV1, GroundedModelTurnV1, complete_knowledge_step
+from app.assistant.trip_state import TRIP_STATE_PROMPT, TripStateDecisionV1, TripStateTurnV1, TripStateV1, stage_trip_updates
 
 SESSION_PROMPT = SYSTEM_PROMPT + """
 ورودی یک شیء JSON شامل previous_turns و current_user است.
@@ -43,12 +44,20 @@ class LocalModelSession:
     """
 
     def __init__(self, *, config: LocalProviderRuntimeConfigV1 | None = None,
-                 provider: TextGenerationProvider | None = None, grounded: bool = False):
+                 provider: TextGenerationProvider | None = None, grounded: bool = False,
+                 trip_state: bool = False):
         self._config = config or LocalProviderRuntimeConfigV1(timeout_seconds=120)
         self._provider = provider
-        self._grounded = grounded
+        self._grounded = grounded or trip_state
+        self._state_enabled = trip_state
+        self._trip_state = TripStateV1()
         self._turns: tuple[SessionTurnV1, ...] = ()
         self._lock = Lock()
+
+    @property
+    def trip_state(self) -> TripStateV1:
+        with self._lock:
+            return self._trip_state
 
     @property
     def turns(self) -> tuple[SessionTurnV1, ...]:
@@ -63,30 +72,49 @@ class LocalModelSession:
     def reset(self) -> None:
         with self._lock:
             self._turns = ()
+            self._trip_state = TripStateV1()
 
     def send(self, message: str, *, max_tokens: int = 256) -> LocalModelTurnV1:
         request = LocalModelTurnRequestV1(message=message, max_tokens=max_tokens)
         with self._lock:
             if len(self._turns) >= 4:
                 raise SessionLimitError('Session turn limit')
-            prompt = json.dumps({
+            context = {
                 'previous_turns': [{'user': t.message, 'assistant': t.intake.model_dump()} for t in self._turns],
                 'current_user': request.message,
-            }, ensure_ascii=False)
+            }
+            if self._state_enabled:
+                context['trip_state'] = self._trip_state.model_dump(exclude_none=True)
+            prompt = json.dumps(context, ensure_ascii=False)
             if len(prompt) > 2000:
                 raise SessionLimitError('Session context limit')
             bounded = LocalModelTurnRequestV1(message=prompt, max_tokens=request.max_tokens)
             generation_options = dict(system_prompt=GROUNDED_PROMPT, intake_type=GroundedDecisionV1) if self._grounded else dict(system_prompt=SESSION_PROMPT)
+            if self._state_enabled:
+                generation_options = dict(system_prompt=TRIP_STATE_PROMPT, intake_type=TripStateDecisionV1)
             if self._provider is not None:
                 result = _generate(bounded, self._provider, self._config.model, **generation_options)
             else:
                 with build_local_text_generation_provider(self._config) as provider:
                     result = _generate(bounded, provider, self._config.model, **generation_options)
+            decision = result.intake
+            staged_state = self._trip_state
+            if self._state_enabled and isinstance(decision, TripStateDecisionV1):
+                try:
+                    staged_state = stage_trip_updates(self._trip_state, decision, request.message, len(self._turns) + 1)
+                except ValueError:
+                    envelope = GroundedModelTurnV1(**result.model_dump())
+                    return TripStateTurnV1(**envelope.model_dump(), trip_state=self._trip_state, state_status='rejected')
             if self._grounded:
                 result = complete_knowledge_step(result, tuple(t.message for t in self._turns) + (request.message,))
             if result.intake is not None and getattr(result, 'tool_status', None) not in {'rejected', 'unavailable'}:
                 intake = LocalModelIntakeV1(understanding=result.intake.understanding, clarification_question=result.intake.clarification_question)
                 self._turns += (SessionTurnV1(message=request.message, intake=intake),)
+                self._trip_state = staged_state
+            if self._state_enabled:
+                accepted = result.intake is not None and result.tool_status not in {'rejected', 'unavailable'}
+                state_status = ('applied' if decision.updates.model_dump(exclude_none=True) else 'unchanged') if accepted else 'not_applied'
+                result = TripStateTurnV1(**result.model_dump(), trip_state=self._trip_state, state_status=state_status)
             return result
 
 
@@ -94,11 +122,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--format', choices=('text', 'json'), default='text')
     parser.add_argument('--grounded', action='store_true', help='Enable model-selected read-only local knowledge search')
+    parser.add_argument('--trip-state', action='store_true', help='Enable literal trip-state updates and grounded search')
     args = parser.parse_args(argv)
     had_error = False
     # Provider lives only for this process; no conversation file is created.
     with build_local_text_generation_provider(LocalProviderRuntimeConfigV1(timeout_seconds=120)) as provider:
-        session = LocalModelSession(provider=provider, grounded=args.grounded)
+        session = LocalModelSession(provider=provider, grounded=args.grounded, trip_state=args.trip_state)
         if args.format == 'text':
             print('گفتگوی اولیه سفر؛ پایان: /exit، پاک‌کردن جلسه: /reset')
         while True:
@@ -125,6 +154,13 @@ def main(argv: list[str] | None = None) -> int:
                 print(result.model_dump_json())
             elif result.intake is not None:
                 print(result.intake.understanding)
+                if getattr(result, 'state_status', None) == 'rejected':
+                    print('تغییر اطلاعات به متن پیام متکی نبود؛ وضعیت جلسه حفظ شد.')
+                if args.trip_state:
+                    print('اطلاعات نقل‌شده از پیام‌ها؛ نیازمند تأیید:')
+                    labels = {'destination':'مقصد', 'duration':'مدت', 'dates':'تاریخ', 'party':'مسافران', 'budget':'بودجه', 'preferences':'ترجیح‌ها'}
+                    for name, statement in result.trip_state.model_dump(exclude_none=True).items():
+                        print(f"{labels[name]}: {statement['value']} [پیام {statement['source_turn']}]")
                 if getattr(result, 'tool_status', None) in {'rejected', 'unavailable'}:
                     print('جست‌وجوی معتبر انجام نشد؛ وضعیت جلسه حفظ شد.')
                 knowledge = getattr(result, 'knowledge', None)
@@ -143,6 +179,7 @@ def main(argv: list[str] | None = None) -> int:
                 print('پاسخ معتبر دریافت نشد؛ وضعیت جلسه حفظ شد. ' + str(result.error_code))
             had_error |= result.status != 'model_reply'
             had_error |= getattr(result, 'tool_status', None) in {'rejected', 'unavailable'}
+            had_error |= getattr(result, 'state_status', None) == 'rejected'
     return 1 if had_error else 0
 
 

@@ -97,10 +97,16 @@ See [the public Iran knowledge pack](docs/IRAN_KNOWLEDGE_PACK.md) for the source
 The [CORE-02 conversation checkpoint](docs/LOCAL_MODEL_SESSION.md) supports
 multiple Persian intake turns in one in-memory process:
 `python -X utf8 -m app.assistant.local_model_session`. It retains literal user
-messages and pending questions within explicit capacity limits; structured trip
-state, grounded tools and itinerary editing remain open.
+messages and pending questions within explicit capacity limits. Optional grounded
+search and literal trip-state slots are described below; a complete editable
+itinerary remains open.
 
 The same session supports [model-selected grounded search](docs/GROUNDED_SESSION.md)
 with `--grounded`: read-only public Iran knowledge, literal user-anchored city/query
 arguments, original source IDs/URLs/review dates and explicit no-evidence results.
 This does not create recommendations, verified live facts or an itinerary.
+
+Use `--trip-state` in that same session for [literal trip-state slots](docs/TRIP_STATE_SESSION.md)
+with source-message numbers and atomic partial corrections. This includes
+grounded search; the stored statements still need semantic confirmation and
+normalization before they can become planner inputs.
