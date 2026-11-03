@@ -11,6 +11,11 @@ destinations follow. See [the product direction and active sprint gates](docs/CO
 This connected agent journey is still under development; the current offline
 command provides deterministic QA and planning readiness.
 
+The [CORE-01 local-model intake entry point](docs/LOCAL_MODEL_TURN.md) runs
+one real Persian model turn with the existing local provider:
+`python -X utf8 -m app.assistant.local_model_turn 'سه روز شیراز'`.
+It does not yet maintain a conversation, retrieve places or generate a trip.
+
 ## Initial Goals
 
 The [unified offline assistant](docs/LOCAL_ASSISTANT.md) is runnable with

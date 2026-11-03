@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from typing import Protocol
+import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class _StrictFrozenModel(BaseModel):
@@ -36,6 +37,20 @@ class TextGenerationRequestV1(_StrictFrozenModel):
         ge=1,
         le=32_768,
     )
+
+    response_schema_json: str | None = Field(default=None, max_length=20_000)
+
+    @field_validator("response_schema_json")
+    @classmethod
+    def validate_response_schema(cls, value: str | None) -> str | None:
+        if value is not None:
+            try:
+                schema = json.loads(value)
+            except (ValueError, RecursionError) as exc:
+                raise ValueError("Response schema must be valid JSON") from exc
+            if not isinstance(schema, dict) or schema.get("type") != "object":
+                raise ValueError("Response schema must describe a JSON object")
+        return value
 
 
 class TextGenerationUsageV1(_StrictFrozenModel):

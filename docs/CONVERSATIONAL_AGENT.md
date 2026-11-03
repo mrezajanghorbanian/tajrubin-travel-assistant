@@ -36,6 +36,13 @@ orchestration, session continuity and a complete editable trip are not yet
 integrated. An installed/configured model and a successful agent workflow
 are separate facts that require separate verification.
 
+CORE-01 now has a separate [local-model intake entry point](LOCAL_MODEL_TURN.md)
+with explicit failure states and strict JSON validation. It calls the existing
+model adapter; the deterministic command is not silently rebranded as model
+output. Real inference evidence and quality/runtime limitations are recorded
+in that entry-point document. Session continuity and tool orchestration remain
+open; this does not close CORE-02 through CORE-05.
+
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;
 model-generated text does not turn them into verified facts. A blocked or
@@ -58,6 +65,13 @@ parallel with core work.
 These are implementation gates, not newly completed features. The first
 deliverable is CORE-01 followed by the smallest connected CORE-02/03 journey;
 do not replace it with more standalone parser rules or disconnected libraries.
+
+CORE-01 progress: the bounded entry point and explicit failure handling are
+implemented, with two [recorded real Persian single-turn checks](LOCAL_MODEL_TURN.md#recorded-real-inference-2026-11-03).
+This establishes the first connection checkpoint. Model quality, latency and
+runtime reliability remain limited evidence; the next implementation task is
+CORE-02 session continuity, followed by grounded tool use. The complete
+conversational acceptance journey remains open.
 
 ## Product acceptance conversation
 
