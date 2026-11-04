@@ -14,6 +14,7 @@ from app.providers.runtime_config import LocalProviderRuntimeConfigV1, build_loc
 from app.providers.text_generation import TextGenerationProvider
 from app.assistant.grounded_session import GROUNDED_PROMPT, GroundedDecisionV1, GroundedModelTurnV1, complete_knowledge_step
 from app.assistant.trip_state import TRIP_STATE_PROMPT, TripStateDecisionV1, TripStateTurnV1, TripStateV1, select_trip_follow_up, stage_trip_updates
+from app.assistant.session_planning import PreviewRunner, SessionPlanningV1, confirm_and_preview
 
 SESSION_PROMPT = SYSTEM_PROMPT + """
 ورودی یک شیء JSON شامل previous_turns و current_user است.
@@ -46,14 +47,30 @@ class LocalModelSession:
 
     def __init__(self, *, config: LocalProviderRuntimeConfigV1 | None = None,
                  provider: TextGenerationProvider | None = None, grounded: bool = False,
-                 trip_state: bool = False):
+                 trip_state: bool = False, preview_runner: PreviewRunner | None = None):
         self._config = config or LocalProviderRuntimeConfigV1(timeout_seconds=120)
         self._provider = provider
         self._grounded = grounded or trip_state
         self._state_enabled = trip_state
         self._trip_state = TripStateV1()
+        self._preview_runner = preview_runner
+        self._planning_preview: SessionPlanningV1 | None = None
         self._turns: tuple[SessionTurnV1, ...] = ()
         self._lock = Lock()
+
+    @property
+    def planning_preview(self) -> SessionPlanningV1 | None:
+        with self._lock:
+            return self._planning_preview
+
+    def confirm_trip(self) -> SessionPlanningV1:
+        """Explicit user/application confirmation, not model-selected execution."""
+        with self._lock:
+            if not self._state_enabled:
+                raise ValueError('Trip-state mode is required')
+            options = {'runner': self._preview_runner} if self._preview_runner is not None else {}
+            self._planning_preview = confirm_and_preview(self._trip_state, **options)
+            return self._planning_preview
 
     @property
     def trip_state(self) -> TripStateV1:
@@ -67,13 +84,16 @@ class LocalModelSession:
 
     @property
     def pending_question(self) -> str | None:
-        turns = self.turns
-        return (turns[-1].application_question or turns[-1].intake.clarification_question) if turns else None
+        with self._lock:
+            if self._planning_preview is not None and self._planning_preview.question:
+                return self._planning_preview.question
+            return (self._turns[-1].application_question or self._turns[-1].intake.clarification_question) if self._turns else None
 
     def reset(self) -> None:
         with self._lock:
             self._turns = ()
             self._trip_state = TripStateV1()
+            self._planning_preview = None
 
     def send(self, message: str, *, max_tokens: int = 256) -> LocalModelTurnV1:
         request = LocalModelTurnRequestV1(message=message, max_tokens=max_tokens)
@@ -89,6 +109,8 @@ class LocalModelSession:
                     previous['application_question'] = turn.application_question
             if self._state_enabled:
                 context['trip_state'] = self._trip_state.model_dump(exclude_none=True)
+            if self._planning_preview is not None and self._planning_preview.question:
+                context['planning_question'] = self._planning_preview.question
             prompt = json.dumps(context, ensure_ascii=False)
             if len(prompt) > 2000:
                 raise SessionLimitError('Session context limit')
@@ -119,6 +141,7 @@ class LocalModelSession:
                 application_question = follow_up.question if follow_up is not None and follow_up.source == 'application_policy' else None
                 self._turns += (SessionTurnV1(message=request.message, intake=intake, application_question=application_question),)
                 self._trip_state = staged_state
+                self._planning_preview = None
             if self._state_enabled:
                 accepted = result.intake is not None and result.tool_status not in {'rejected', 'unavailable'}
                 state_status = ('applied' if decision.updates.model_dump(exclude_none=True) else 'unchanged') if accepted else 'not_applied'
@@ -147,6 +170,25 @@ def main(argv: list[str] | None = None) -> int:
                 break
             if message.strip() == '/reset':
                 session.reset()
+                continue
+            if message.strip() == '/confirm':
+                if not args.trip_state:
+                    print('تأیید اطلاعات در حالت گفتگوی سفر فعال است.', file=sys.stderr)
+                    had_error = True
+                    continue
+                planning = session.confirm_trip()
+                if args.format == 'json':
+                    print(planning.model_dump_json())
+                else:
+                    print(planning.feedback)
+                    if planning.question:
+                        print(planning.question)
+                    if planning.preview is not None and planning.preview.schedule is not None:
+                        for day in planning.preview.schedule.days:
+                            print(f'روز {day.day_index} — {day.on_date}')
+                            for visit in day.visits:
+                                print(f'{visit.begins_at} تا {visit.ends_at}: {visit.title} [{visit.knowledge_document_id}]')
+                had_error |= planning.status == 'unavailable'
                 continue
             try:
                 result = session.send(message)
@@ -185,6 +227,7 @@ def main(argv: list[str] | None = None) -> int:
                         print(result.follow_up.question)
                     else:
                         print('جزئیات اولیه ثبت شد؛ اعتبارسنجی اطلاعات و شواهد برنامه سفر باقی است.')
+                        print('پس از بررسی مقادیر بالا، تأیید و پیش‌نمایش: /confirm')
                 elif result.intake.clarification_question:
                     print(result.intake.clarification_question)
                 print('هنوز برنامه سفر یا رزروی ایجاد نشده است.')

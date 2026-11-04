@@ -78,7 +78,26 @@ def preview_trip_request(
     editor-approved dataset are necessary but not sufficient evidence of
     real-world truth. Selection and directed travel edges must be supplied.
     """
-    readiness = analyze_planning_request(text)
+    return preview_trip_readiness(
+        analyze_planning_request(text), selections=selections, travel_times=travel_times,
+        release=release, channel=channel, trusted_keys=trusted_keys,
+        current_date=current_date, editorial=editorial, state=state,
+    )
+
+
+def preview_trip_readiness(
+    readiness: PlanningReadinessV1,
+    *,
+    selections: tuple[VisitSelectionV1, ...] = (),
+    travel_times: tuple[TravelTimeV1, ...] = (),
+    release: SignedCatalogReleaseV2 | None = None,
+    channel: str = "iran",
+    trusted_keys: Mapping[str, VerificationKey] | None = None,
+    current_date: Callable[[], date] | None = None,
+    editorial: SQLiteEditorialReviewQueue | None = None,
+    state: SQLiteReleaseState | None = None,
+) -> TripPreviewV1:
+    """Reuse the same signed-evidence gates for an already assessed input."""
 
     def result(status: PreviewStatus, feedback: str, schedule=None, document_ids=()):
         return TripPreviewV1(
@@ -181,4 +200,4 @@ if __name__ == "__main__":
     main()
 
 
-__all__ = ["TripPreviewV1", "preview_trip_request"]
+__all__ = ["TripPreviewV1", "preview_trip_request", "preview_trip_readiness"]

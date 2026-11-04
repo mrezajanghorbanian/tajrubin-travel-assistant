@@ -50,6 +50,9 @@ user statements and apply partial updates atomically in that same session. An
 explicit required-detail policy now supplies a source-labelled application
 question when a valid model reply omits one, without rewriting model text.
 Required slot presence still leads to needs-validation, not a completed trip.
+An explicit [same-session confirmation/preview bridge](SESSION_PLANNING.md) now
+uses the current literal slots and the existing signed-evidence scheduler gates;
+unsupported statements and missing evidence remain blocked.
 
 The existing scheduler and evidence checks are reusable execution tools.
 Missing visitor hours, transfer times, durations or costs must remain explicit;

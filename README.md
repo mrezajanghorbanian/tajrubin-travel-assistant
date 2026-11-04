@@ -114,3 +114,7 @@ normalization before they can become planner inputs.
 In trip-state mode an [explicit follow-up policy](docs/TRIP_STATE_SESSION.md#required-details-follow-up-policy)
 asks for missing required details when the model gives no question, preserving
 question provenance. Complete literal slots still require validation before planning.
+
+In trip-state mode, `/confirm` requests a [planning preview](docs/SESSION_PLANNING.md)
+from the reviewed current statements. Unsupported constraints and missing
+activity/catalog evidence remain explicit; no attraction or logistics are invented.

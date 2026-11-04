@@ -1,0 +1,314 @@
+{
+  "date": "2026-11-05",
+  "model_label": "qwen3.5-4b",
+  "context_length": 2048,
+  "gpu_load_option": "off",
+  "max_output_tokens": 256,
+  "method": "Actual CLI subprocess; same session per request/confirmation; explicit reset between synthetic cases",
+  "rows": [
+    {
+      "case": 1,
+      "input": "برای یک روز به تهران در تاریخ 2026-11-20 با دو نفر سفر می‌خواهم.",
+      "elapsed_seconds": 49.3,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست سفر یک روزه به تهران برای دو نفر در تاریخ مشخص شده را دارد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "تهران",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "یک روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "2026-11-20",
+            "source_turn": 1
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 1
+          },
+          "budget": null,
+          "preferences": null
+        },
+        "state_status": "applied",
+        "follow_up": {
+          "status": "needs_validation",
+          "missing_fields": [],
+          "question": null,
+          "source": null,
+          "requested_field": null
+        }
+      }
+    },
+    {
+      "case": 1,
+      "input": "/confirm",
+      "elapsed_seconds": 0.0,
+      "result": {
+        "kind": "planning_preview",
+        "status": "blocked",
+        "feedback": "مکان‌های مستند برای روزهای سفر هنوز انتخاب نشده‌اند؛ برنامه‌ای ساخته نشد.",
+        "question": null,
+        "statements": {
+          "destination": {
+            "value": "تهران",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "یک روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "2026-11-20",
+            "source_turn": 1
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 1
+          },
+          "budget": null,
+          "preferences": null
+        },
+        "blockers": [
+          {
+            "field": "evidence",
+            "reason": "مکان‌های مستند برای روزهای سفر هنوز انتخاب نشده‌اند؛ برنامه‌ای ساخته نشد."
+          }
+        ],
+        "readiness": {
+          "status": "ready_for_draft",
+          "intent": {
+            "intent_version": "2.0",
+            "extraction_method": "rule_based",
+            "base": {
+              "intent_version": "1.0",
+              "extraction_method": "rule_based",
+              "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-20\nparty: دو نفر",
+              "intent_type": "trip_planning",
+              "destination": "Tehran",
+              "duration_days": 1,
+              "party_size": 2,
+              "interests": [],
+              "avoid": [],
+              "pace": null,
+              "missing_required": [],
+              "clarification_question": null
+            },
+            "origin": null,
+            "destinations": [
+              "Tehran"
+            ],
+            "route_order_explicit": false,
+            "travel_dates": {
+              "start_date": "2026-11-20",
+              "end_date": null
+            },
+            "budget": null,
+            "unresolved_fields": [],
+            "clarification_question": null
+          },
+          "blockers": [],
+          "clarification_question": null,
+          "draft_specification": {
+            "destinations": [
+              "Tehran"
+            ],
+            "origin": null,
+            "route_order_explicit": false,
+            "duration_days": 1,
+            "duration_source": "explicit",
+            "dates": {
+              "start_date": "2026-11-20",
+              "end_date": null
+            },
+            "party_size": 2,
+            "interests": [],
+            "avoid": [],
+            "pace": null,
+            "budget": null,
+            "logistics_verified": false
+          }
+        },
+        "preview": {
+          "status": "needs_activity_selection",
+          "readiness": {
+            "status": "ready_for_draft",
+            "intent": {
+              "intent_version": "2.0",
+              "extraction_method": "rule_based",
+              "base": {
+                "intent_version": "1.0",
+                "extraction_method": "rule_based",
+                "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-20\nparty: دو نفر",
+                "intent_type": "trip_planning",
+                "destination": "Tehran",
+                "duration_days": 1,
+                "party_size": 2,
+                "interests": [],
+                "avoid": [],
+                "pace": null,
+                "missing_required": [],
+                "clarification_question": null
+              },
+              "origin": null,
+              "destinations": [
+                "Tehran"
+              ],
+              "route_order_explicit": false,
+              "travel_dates": {
+                "start_date": "2026-11-20",
+                "end_date": null
+              },
+              "budget": null,
+              "unresolved_fields": [],
+              "clarification_question": null
+            },
+            "blockers": [],
+            "clarification_question": null,
+            "draft_specification": {
+              "destinations": [
+                "Tehran"
+              ],
+              "origin": null,
+              "route_order_explicit": false,
+              "duration_days": 1,
+              "duration_source": "explicit",
+              "dates": {
+                "start_date": "2026-11-20",
+                "end_date": null
+              },
+              "party_size": 2,
+              "interests": [],
+              "avoid": [],
+              "pace": null,
+              "budget": null,
+              "logistics_verified": false
+            }
+          },
+          "schedule": null,
+          "feedback": "Select sourced attractions for every day; activities are never invented.",
+          "source_document_ids": [],
+          "live_verified": false
+        },
+        "live_verified": false,
+        "needs_verification": true
+      }
+    },
+    {
+      "case": 2,
+      "input": "برای یک روز به تهران در تاریخ ۲۰ آبان ۱۴۰۵ با دو نفر سفر می‌خواهم.",
+      "elapsed_seconds": 38.09,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست سفر یک روزه به تهران در تاریخ ۲۰ آبان ۱۴۰۵ برای دو نفر را دارد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "تهران",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "یک روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "۲۰ آبان ۱۴۰۵",
+            "source_turn": 1
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 1
+          },
+          "budget": null,
+          "preferences": null
+        },
+        "state_status": "applied",
+        "follow_up": {
+          "status": "needs_validation",
+          "missing_fields": [],
+          "question": null,
+          "source": null,
+          "requested_field": null
+        }
+      }
+    },
+    {
+      "case": 2,
+      "input": "/confirm",
+      "elapsed_seconds": 0.0,
+      "result": {
+        "kind": "planning_preview",
+        "status": "needs_validation",
+        "feedback": "اطلاعات نقل‌شده هنوز برای ورودی برنامه‌ریز قابل اعتبارسنجی نیست.",
+        "question": "تاریخ دقیق میلادی با قالب YYYY-MM-DD لازم است؛ تقویم یا تاریخ حدس زده نمی‌شود.",
+        "statements": {
+          "destination": {
+            "value": "تهران",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "یک روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "۲۰ آبان ۱۴۰۵",
+            "source_turn": 1
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 1
+          },
+          "budget": null,
+          "preferences": null
+        },
+        "blockers": [
+          {
+            "field": "dates",
+            "reason": "تاریخ دقیق میلادی با قالب YYYY-MM-DD لازم است؛ تقویم یا تاریخ حدس زده نمی‌شود."
+          }
+        ],
+        "readiness": null,
+        "preview": null,
+        "live_verified": false,
+        "needs_verification": true
+      }
+    }
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "checks": {
+    "cli_exit_zero": true,
+    "iso_normalized_without_fabricated_schedule": true,
+    "explicit_party_preserved": true,
+    "persian_date_not_reinterpreted": true
+  },
+  "limits": [
+    "Narrow synthetic-input application observations, not a travel-quality benchmark.",
+    "Server-declared model label, not weight attestation.",
+    "The normal CLI has no activity selection, signed catalog or visitor logistics."
+  ]
+}
