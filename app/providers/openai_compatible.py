@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any, Mapping
+import json
 
 import httpx
 
@@ -30,6 +31,7 @@ class OpenAICompatibleTextGenerationProvider:
         api_key: str | None = None,
         timeout_seconds: float = 60.0,
         client: httpx.Client | None = None,
+        trust_env: bool = True,
     ) -> None:
         normalized_base_url = base_url.strip().rstrip("/")
 
@@ -49,6 +51,8 @@ class OpenAICompatibleTextGenerationProvider:
 
         self._client = client or httpx.Client(
             timeout=timeout_seconds,
+            trust_env=trust_env,
+            follow_redirects=False,
         )
 
     def generate(
@@ -78,6 +82,14 @@ class OpenAICompatibleTextGenerationProvider:
             "temperature": request.temperature,
             "max_tokens": request.max_tokens,
         }
+        if request.response_schema_json is not None:
+            payload["response_format"] = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "structured_response", "strict": True,
+                    "schema": json.loads(request.response_schema_json),
+                },
+            }
 
         headers = {
             "Content-Type": "application/json",

@@ -1,0 +1,517 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "documents": [
+    {
+      "document_id": "tehran.museum.a",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran museum",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "tehran.museum.b",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "تهران",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "موزه در تهران",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": [],
+      "languages": [
+        "fa"
+      ]
+    },
+    {
+      "document_id": "tehran.garden",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran garden",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "tehran.gallery",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran gallery",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "shiraz.museum",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Shiraz",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Shiraz museum",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "isfahan.garden",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "اصفهان",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "باغ در اصفهان",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": [],
+      "languages": [
+        "fa"
+      ]
+    },
+    {
+      "document_id": "yazd.desert",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Yazd",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Yazd desert",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "tehran.park",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran park",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "tehran.food",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran food",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    },
+    {
+      "document_id": "foreign.museum",
+      "country_code": "GB",
+      "country_name": "Synthetic foreign country",
+      "city": "Tehran",
+      "region": "Synthetic region",
+      "category": "attraction",
+      "title": "Tehran museum",
+      "summary": "Synthetic retrieval fixture",
+      "content": "Synthetic example only",
+      "sources": []
+    }
+  ],
+  "cases": [
+    {
+      "id": "en.museum.0",
+      "language": "en",
+      "query": {
+        "text": "museum",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.museum.a",
+        "tehran.museum.b"
+      ]
+    },
+    {
+      "id": "en.museum.1",
+      "language": "en",
+      "query": {
+        "text": "museums in Tehran",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.museum.a",
+        "tehran.museum.b"
+      ]
+    },
+    {
+      "id": "fa.museum.0",
+      "language": "fa",
+      "query": {
+        "text": "موزه",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.museum.a",
+        "tehran.museum.b"
+      ]
+    },
+    {
+      "id": "fa.museum.1",
+      "language": "fa",
+      "query": {
+        "text": "موزه در تهران",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.museum.a",
+        "tehran.museum.b"
+      ]
+    },
+    {
+      "id": "fa.museum.2",
+      "language": "fa",
+      "query": {
+        "text": "موزه‌ها در تهران",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.museum.a",
+        "tehran.museum.b"
+      ]
+    },
+    {
+      "id": "en.reverse",
+      "language": "en",
+      "query": {
+        "text": "garden in Isfahan",
+        "city": "Isfahan",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "isfahan.garden"
+      ]
+    },
+    {
+      "id": "en.transliteration",
+      "language": "en",
+      "query": {
+        "text": "gardens in Esfahan",
+        "city": "Esfahan",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "isfahan.garden"
+      ]
+    },
+    {
+      "id": "fa.garden",
+      "language": "fa",
+      "query": {
+        "text": "باغ در اصفهان",
+        "city": "اصفهان",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "isfahan.garden"
+      ]
+    },
+    {
+      "id": "en.desert",
+      "language": "en",
+      "query": {
+        "text": "desert in Yazd",
+        "city": "یزد",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "yazd.desert"
+      ]
+    },
+    {
+      "id": "fa.desert",
+      "language": "fa",
+      "query": {
+        "text": "کویر در یزد",
+        "city": "Yazd",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "yazd.desert"
+      ]
+    },
+    {
+      "id": "en.shiraz",
+      "language": "en",
+      "query": {
+        "text": "museum in Shiraz",
+        "city": "شیراز",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "shiraz.museum"
+      ]
+    },
+    {
+      "id": "fa.shiraz",
+      "language": "fa",
+      "query": {
+        "text": "موزه در شيراز",
+        "city": "Shiraz",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "shiraz.museum"
+      ]
+    },
+    {
+      "id": "en.garden",
+      "language": "en",
+      "query": {
+        "text": "gardens in Tehran",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.garden"
+      ]
+    },
+    {
+      "id": "fa.tehran.garden",
+      "language": "fa",
+      "query": {
+        "text": "باغ در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.garden"
+      ]
+    },
+    {
+      "id": "en.food",
+      "language": "en",
+      "query": {
+        "text": "food in Tehran",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.food"
+      ]
+    },
+    {
+      "id": "fa.food",
+      "language": "fa",
+      "query": {
+        "text": "غذا در تهران",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "tehran.food"
+      ]
+    },
+    {
+      "id": "fa.no_city_filter",
+      "language": "fa",
+      "query": {
+        "text": "موزه در شیراز",
+        "city": null,
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "shiraz.museum"
+      ]
+    },
+    {
+      "id": "en.no_city_filter",
+      "language": "en",
+      "query": {
+        "text": "Shiraz museum",
+        "city": null,
+        "country_code": "IR"
+      },
+      "relevant_ids": [
+        "shiraz.museum"
+      ]
+    },
+    {
+      "id": "en.unsupported",
+      "language": "en",
+      "query": {
+        "text": "museum opening hours",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.unsupported",
+      "language": "fa",
+      "query": {
+        "text": "ساعت بازدید موزه",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.price",
+      "language": "en",
+      "query": {
+        "text": "garden ticket prices",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.price",
+      "language": "fa",
+      "query": {
+        "text": "هزینه بلیت باغ",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.cross_city",
+      "language": "en",
+      "query": {
+        "text": "museum",
+        "city": "Yazd",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.cross_city",
+      "language": "fa",
+      "query": {
+        "text": "موزه",
+        "city": "یزد",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.partial",
+      "language": "en",
+      "query": {
+        "text": "museum garden",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.partial",
+      "language": "fa",
+      "query": {
+        "text": "موزه باغ",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.unknown",
+      "language": "en",
+      "query": {
+        "text": "hospital",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.unknown",
+      "language": "fa",
+      "query": {
+        "text": "پزشک",
+        "city": "تهران",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.near_concept",
+      "language": "en",
+      "query": {
+        "text": "gallery garden",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.near_concept",
+      "language": "fa",
+      "query": {
+        "text": "باغ park",
+        "city": "Tehran",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.unknown_city",
+      "language": "en",
+      "query": {
+        "text": "museum",
+        "city": "Tehrann",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.unknown_city",
+      "language": "fa",
+      "query": {
+        "text": "موزه",
+        "city": "تهران بزرگ",
+        "country_code": "IR"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "en.category",
+      "language": "en",
+      "query": {
+        "text": "museum",
+        "city": "Tehran",
+        "country_code": "IR",
+        "category": "food"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "fa.region",
+      "language": "fa",
+      "query": {
+        "text": "موزه",
+        "city": "تهران",
+        "country_code": "IR",
+        "region": "Unknown region"
+      },
+      "relevant_ids": []
+    }
+  ]
+}

@@ -51,6 +51,9 @@ class LocalProviderRuntimeConfigV1(BaseModel):
         normalized = value.strip().rstrip("/")
         parsed = urlparse(normalized)
 
+        if parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path:
+            raise ValueError("base_url must be a local server root without credentials, query or fragment.")
+
         if parsed.scheme not in {"http", "https"}:
             raise ValueError(
                 "base_url must use http or https."
@@ -95,6 +98,7 @@ def build_local_text_generation_provider(
         model=config.model,
         api_key=api_key,
         timeout_seconds=config.timeout_seconds,
+        trust_env=False,
     )
 
 

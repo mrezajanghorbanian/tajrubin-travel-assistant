@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-03",
+  "model_label": "qwen3.5-4b",
+  "gpu": "off",
+  "context_length": 2048,
+  "max_output_tokens": 256,
+  "method": "LocalModelSession.send; same instance, real adapter; synthetic inputs",
+  "turns": [
+    {
+      "message": "برای سه روز شیراز یه سفر آروم و کم‌هزینه می‌خوام.",
+      "elapsed_seconds": 40.16,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر قصد دارد برای مدت سه روز به شیراز سفر کند و ترجیح می‌دهد این سفر آرام و کم‌هزینه باشد.",
+          "clarification_question": "لطفاً تاریخ دقیق سفر خود را بفرمایید."
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true
+      },
+      "accepted_turns": 1
+    },
+    {
+      "message": "از ۲۰ آبان ۱۴۰۵؛ دو نفر هستیم.",
+      "elapsed_seconds": 35.41,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر قصد دارد برای مدت سه روز به شیراز سفر کند، ترجیح می‌دهد این سفر آرام و کم‌هزینه باشد. تاریخ سفر از ۲۰ آبان ۱۴۰۵ است و تعداد مسافران دو نفر می‌باشد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true
+      },
+      "accepted_turns": 2
+    },
+    {
+      "message": "بودجه کل سفر ده میلیون تومان؛ همان شیراز را نگه دار.",
+      "elapsed_seconds": 42.72,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر قصد دارد برای مدت سه روز به شیراز سفر کند، ترجیح می‌دهد این سفر آرام و کم‌هزینه باشد. تاریخ سفر از ۲۰ آبان ۱۴۰۵ است، تعداد مسافران دو نفر می‌باشد و بودجه کل سفر ده میلیون تومان تعیین شده است.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true
+      },
+      "accepted_turns": 3
+    }
+  ]
+}

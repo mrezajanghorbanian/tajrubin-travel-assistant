@@ -1,0 +1,251 @@
+{
+  "date": "2026-11-03",
+  "model_label": "qwen3.5-4b",
+  "context_length": 2048,
+  "gpu_load_option": "off",
+  "max_output_tokens": 256,
+  "method": "Actual CLI subprocess; same process/session, real model, synthetic messages; application-owned required-detail policy",
+  "turns": [
+    {
+      "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+      "elapsed_seconds": 56.69,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست یک سفر سه روزه به شیراز با سبک آرام دارد.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "شیراز",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": null,
+          "party": null,
+          "budget": null,
+          "preferences": {
+            "value": "آرام",
+            "source_turn": 1
+          }
+        },
+        "state_status": "applied",
+        "follow_up": {
+          "status": "needs_details",
+          "missing_fields": [
+            "dates",
+            "party"
+          ],
+          "question": "تاریخ شروع سفر و سال آن را بفرمایید.",
+          "source": "application_policy",
+          "requested_field": "dates"
+        }
+      }
+    },
+    {
+      "message": "از ۲۰ آبان ۱۴۰۵؛ دو نفر.",
+      "elapsed_seconds": 46.39,
+      "result": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست سفر دو نفره به شیراز برای سه روز با سبک آرام دارد و تاریخ شروع را مشخص کرده است.",
+          "clarification_question": null
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true,
+        "tool_status": "not_requested",
+        "knowledge_request": null,
+        "knowledge": null,
+        "trip_state": {
+          "destination": {
+            "value": "شیراز",
+            "source_turn": 1
+          },
+          "duration": {
+            "value": "سه روز",
+            "source_turn": 1
+          },
+          "dates": {
+            "value": "۲۰ آبان ۱۴۰۵",
+            "source_turn": 2
+          },
+          "party": {
+            "value": "دو نفر",
+            "source_turn": 2
+          },
+          "budget": null,
+          "preferences": {
+            "value": "آرام",
+            "source_turn": 1
+          }
+        },
+        "state_status": "applied",
+        "follow_up": {
+          "status": "needs_validation",
+          "missing_fields": [],
+          "question": null,
+          "source": null,
+          "requested_field": null
+        }
+      }
+    }
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "checks": {
+    "cli_exit_zero": true,
+    "model_question_not_rewritten": true,
+    "application_date_question": true,
+    "date_and_party_recorded_on_turn_2": true,
+    "prior_slots_preserved": true,
+    "question_cleared_but_no_readiness_claim": true
+  },
+  "earlier_attempts": [
+    {
+      "runtime_configuration": "Not verified before this attempt; later health check observed context 4096",
+      "turns": [
+        {
+          "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+          "elapsed_seconds": 122.2,
+          "result": {
+            "turn_version": "1.0",
+            "status": "model_unavailable",
+            "model_name": "qwen3.5-4b",
+            "intake": null,
+            "error_code": "timeout",
+            "live_verified": false,
+            "needs_verification": true,
+            "tool_status": "not_requested",
+            "knowledge_request": null,
+            "knowledge": null,
+            "trip_state": {
+              "destination": null,
+              "duration": null,
+              "dates": null,
+              "party": null,
+              "budget": null,
+              "preferences": null
+            },
+            "state_status": "not_applied",
+            "follow_up": null
+          }
+        }
+      ],
+      "exit_code": 1
+    },
+    {
+      "date": "2026-11-03",
+      "model_label": "qwen3.5-4b",
+      "context_length_observed_before_retry": 4096,
+      "gpu_configuration": "not verified",
+      "max_output_tokens": 256,
+      "method": "Actual CLI subprocess; same process/session, real model, synthetic messages; application-owned required-detail policy",
+      "turns": [
+        {
+          "message": "برای سه روز شیراز یه سفر آرام می‌خوام.",
+          "elapsed_seconds": 111.48,
+          "result": {
+            "turn_version": "1.0",
+            "status": "model_reply",
+            "model_name": "qwen3.5-4b",
+            "intake": {
+              "understanding": "کاربر درخواست یک سفر سه روزه به شیراز با سبک آرام دارد.",
+              "clarification_question": null
+            },
+            "error_code": null,
+            "live_verified": false,
+            "needs_verification": true,
+            "tool_status": "not_requested",
+            "knowledge_request": null,
+            "knowledge": null,
+            "trip_state": {
+              "destination": {
+                "value": "شیراز",
+                "source_turn": 1
+              },
+              "duration": {
+                "value": "سه روز",
+                "source_turn": 1
+              },
+              "dates": null,
+              "party": null,
+              "budget": null,
+              "preferences": {
+                "value": "آرام",
+                "source_turn": 1
+              }
+            },
+            "state_status": "applied",
+            "follow_up": {
+              "status": "needs_details",
+              "missing_fields": [
+                "dates",
+                "party"
+              ],
+              "question": "تاریخ شروع سفر و سال آن را بفرمایید.",
+              "source": "application_policy",
+              "requested_field": "dates"
+            }
+          }
+        },
+        {
+          "message": "از ۲۰ آبان ۱۴۰۵؛ دو نفر.",
+          "elapsed_seconds": 120.12,
+          "result": {
+            "turn_version": "1.0",
+            "status": "model_unavailable",
+            "model_name": "qwen3.5-4b",
+            "intake": null,
+            "error_code": "timeout",
+            "live_verified": false,
+            "needs_verification": true,
+            "tool_status": "not_requested",
+            "knowledge_request": null,
+            "knowledge": null,
+            "trip_state": {
+              "destination": {
+                "value": "شیراز",
+                "source_turn": 1
+              },
+              "duration": {
+                "value": "سه روز",
+                "source_turn": 1
+              },
+              "dates": null,
+              "party": null,
+              "budget": null,
+              "preferences": {
+                "value": "آرام",
+                "source_turn": 1
+              }
+            },
+            "state_status": "not_applied",
+            "follow_up": null
+          }
+        }
+      ],
+      "exit_code": 1,
+      "stderr": ""
+    }
+  ],
+  "limitations": [
+    "Synthetic known-pattern check, not an independent semantic or travel-quality benchmark.",
+    "Earlier timeouts remain evidence of runtime variability; no isolated root cause is established.",
+    "Required-slot presence is not semantic validation, date normalization or an itinerary.",
+    "Model label is server-declared, not weight attestation."
+  ]
+}

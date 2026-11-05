@@ -1,0 +1,56 @@
+{
+  "evidence_version": "1.0",
+  "recorded_on": "2026-11-03",
+  "synthetic_inputs": true,
+  "scope": "local connection and independent single-turn intake only",
+  "runtime": {
+    "model_label": "qwen3.5-4b",
+    "gpu": "off",
+    "context_length": 2048,
+    "max_output_tokens": 256,
+    "response_format": "json_schema"
+  },
+  "cases": [
+    {
+      "entrypoint": "generate_local_turn",
+      "message": "برای سه روز شیراز یه سفر آروم می‌خوام.",
+      "elapsed_seconds": 15.11,
+      "response": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست یک برنامه سفر آرام به مدت سه روز در شهر شیراز دارد.",
+          "clarification_question": "لطفاً تاریخ دقیق سفر خود را بفرمایید."
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true
+      }
+    },
+    {
+      "entrypoint": "python -m app.assistant.local_model_turn",
+      "message": "برای دو روز تهران با دو نفر یه سفر کم‌هزینه می‌خوام.",
+      "elapsed_seconds": 18.56,
+      "exit_code": 0,
+      "response": {
+        "turn_version": "1.0",
+        "status": "model_reply",
+        "model_name": "qwen3.5-4b",
+        "intake": {
+          "understanding": "کاربر درخواست یک برنامه سفر دو روزه در تهران برای دو نفر با بودجه کم دارد.",
+          "clarification_question": "لطفاً تاریخ دقیق سفر خود را بفرمایید."
+        },
+        "error_code": null,
+        "live_verified": false,
+        "needs_verification": true
+      }
+    }
+  ],
+  "limits": [
+    "two samples, not a benchmark",
+    "no session continuity or tool calls",
+    "server model label, not weight attestation",
+    "prior automatic-GPU attempts included timeout/HTTP failure; prompt-only output included Markdown or omitted clarification"
+  ]
+}

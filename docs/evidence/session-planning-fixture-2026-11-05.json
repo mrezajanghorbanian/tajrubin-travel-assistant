@@ -1,0 +1,327 @@
+{
+  "date": "2026-11-05",
+  "synthetic_clock": "2026-10-26",
+  "synthetic_visit_date": "2026-11-03",
+  "model_inference": false,
+  "method": "Synthetic provider; real editorial review, signed release, same-session confirmation and scheduler; no private keys serialized",
+  "provisional": {
+    "kind": "planning_preview",
+    "status": "provisional",
+    "feedback": "پیش‌نمایش صرفاً بر اساس شواهد ارائه‌شده ساخته شد؛ اطلاعات زنده و رزرو تأیید نشده‌اند.",
+    "question": null,
+    "statements": {
+      "destination": {
+        "value": "تهران",
+        "source_turn": 1
+      },
+      "duration": {
+        "value": "یک روز",
+        "source_turn": 1
+      },
+      "dates": {
+        "value": "2026-11-03",
+        "source_turn": 1
+      },
+      "party": {
+        "value": "دو نفر",
+        "source_turn": 1
+      },
+      "budget": null,
+      "preferences": null
+    },
+    "blockers": [],
+    "readiness": {
+      "status": "ready_for_draft",
+      "intent": {
+        "intent_version": "2.0",
+        "extraction_method": "rule_based",
+        "base": {
+          "intent_version": "1.0",
+          "extraction_method": "rule_based",
+          "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-03\nparty: دو نفر",
+          "intent_type": "trip_planning",
+          "destination": "Tehran",
+          "duration_days": 1,
+          "party_size": 2,
+          "interests": [],
+          "avoid": [],
+          "pace": null,
+          "missing_required": [],
+          "clarification_question": null
+        },
+        "origin": null,
+        "destinations": [
+          "Tehran"
+        ],
+        "route_order_explicit": false,
+        "travel_dates": {
+          "start_date": "2026-11-03",
+          "end_date": null
+        },
+        "budget": null,
+        "unresolved_fields": [],
+        "clarification_question": null
+      },
+      "blockers": [],
+      "clarification_question": null,
+      "draft_specification": {
+        "destinations": [
+          "Tehran"
+        ],
+        "origin": null,
+        "route_order_explicit": false,
+        "duration_days": 1,
+        "duration_source": "explicit",
+        "dates": {
+          "start_date": "2026-11-03",
+          "end_date": null
+        },
+        "party_size": 2,
+        "interests": [],
+        "avoid": [],
+        "pace": null,
+        "budget": null,
+        "logistics_verified": false
+      }
+    },
+    "preview": {
+      "status": "provisional",
+      "readiness": {
+        "status": "ready_for_draft",
+        "intent": {
+          "intent_version": "2.0",
+          "extraction_method": "rule_based",
+          "base": {
+            "intent_version": "1.0",
+            "extraction_method": "rule_based",
+            "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-03\nparty: دو نفر",
+            "intent_type": "trip_planning",
+            "destination": "Tehran",
+            "duration_days": 1,
+            "party_size": 2,
+            "interests": [],
+            "avoid": [],
+            "pace": null,
+            "missing_required": [],
+            "clarification_question": null
+          },
+          "origin": null,
+          "destinations": [
+            "Tehran"
+          ],
+          "route_order_explicit": false,
+          "travel_dates": {
+            "start_date": "2026-11-03",
+            "end_date": null
+          },
+          "budget": null,
+          "unresolved_fields": [],
+          "clarification_question": null
+        },
+        "blockers": [],
+        "clarification_question": null,
+        "draft_specification": {
+          "destinations": [
+            "Tehran"
+          ],
+          "origin": null,
+          "route_order_explicit": false,
+          "duration_days": 1,
+          "duration_source": "explicit",
+          "dates": {
+            "start_date": "2026-11-03",
+            "end_date": null
+          },
+          "party_size": 2,
+          "interests": [],
+          "avoid": [],
+          "pace": null,
+          "budget": null,
+          "logistics_verified": false
+        }
+      },
+      "schedule": {
+        "status": "provisional",
+        "days": [
+          {
+            "day_index": 1,
+            "on_date": "2026-11-03",
+            "city": "Tehran",
+            "visits": [
+              {
+                "activity_id": "synthetic.gallery",
+                "title": "Synthetic Gallery",
+                "begins_at": "09:00:00",
+                "ends_at": "10:00:00",
+                "travel_from_previous_minutes": null,
+                "knowledge_document_id": "synthetic.knowledge",
+                "opening_source_id": "synthetic.source",
+                "travel_source_id": null
+              }
+            ]
+          }
+        ],
+        "issues": [],
+        "verified_live": false,
+        "requires_independent_verification": true,
+        "notice": "Based solely on supplied availability and travel-time records; opening hours, transit times, prices and access were not verified live."
+      },
+      "feedback": "Provisional itinerary only. Hours, routes, access and prices require independent up-to-date verification.",
+      "source_document_ids": [
+        "synthetic.knowledge"
+      ],
+      "live_verified": false
+    },
+    "live_verified": false,
+    "needs_verification": true
+  },
+  "after_revocation": {
+    "kind": "planning_preview",
+    "status": "blocked",
+    "feedback": "شواهد مکان‌ها نامعتبر، قدیمی یا در دسترس نیستند؛ برنامه‌ای ساخته نشد.",
+    "question": null,
+    "statements": {
+      "destination": {
+        "value": "تهران",
+        "source_turn": 1
+      },
+      "duration": {
+        "value": "یک روز",
+        "source_turn": 1
+      },
+      "dates": {
+        "value": "2026-11-03",
+        "source_turn": 1
+      },
+      "party": {
+        "value": "دو نفر",
+        "source_turn": 1
+      },
+      "budget": null,
+      "preferences": null
+    },
+    "blockers": [
+      {
+        "field": "evidence",
+        "reason": "شواهد مکان‌ها نامعتبر، قدیمی یا در دسترس نیستند؛ برنامه‌ای ساخته نشد."
+      }
+    ],
+    "readiness": {
+      "status": "ready_for_draft",
+      "intent": {
+        "intent_version": "2.0",
+        "extraction_method": "rule_based",
+        "base": {
+          "intent_version": "1.0",
+          "extraction_method": "rule_based",
+          "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-03\nparty: دو نفر",
+          "intent_type": "trip_planning",
+          "destination": "Tehran",
+          "duration_days": 1,
+          "party_size": 2,
+          "interests": [],
+          "avoid": [],
+          "pace": null,
+          "missing_required": [],
+          "clarification_question": null
+        },
+        "origin": null,
+        "destinations": [
+          "Tehran"
+        ],
+        "route_order_explicit": false,
+        "travel_dates": {
+          "start_date": "2026-11-03",
+          "end_date": null
+        },
+        "budget": null,
+        "unresolved_fields": [],
+        "clarification_question": null
+      },
+      "blockers": [],
+      "clarification_question": null,
+      "draft_specification": {
+        "destinations": [
+          "Tehran"
+        ],
+        "origin": null,
+        "route_order_explicit": false,
+        "duration_days": 1,
+        "duration_source": "explicit",
+        "dates": {
+          "start_date": "2026-11-03",
+          "end_date": null
+        },
+        "party_size": 2,
+        "interests": [],
+        "avoid": [],
+        "pace": null,
+        "budget": null,
+        "logistics_verified": false
+      }
+    },
+    "preview": {
+      "status": "evidence_rejected",
+      "readiness": {
+        "status": "ready_for_draft",
+        "intent": {
+          "intent_version": "2.0",
+          "extraction_method": "rule_based",
+          "base": {
+            "intent_version": "1.0",
+            "extraction_method": "rule_based",
+            "request": "Plan a trip.\ndestination: تهران\nduration: یک روز\ndates: 2026-11-03\nparty: دو نفر",
+            "intent_type": "trip_planning",
+            "destination": "Tehran",
+            "duration_days": 1,
+            "party_size": 2,
+            "interests": [],
+            "avoid": [],
+            "pace": null,
+            "missing_required": [],
+            "clarification_question": null
+          },
+          "origin": null,
+          "destinations": [
+            "Tehran"
+          ],
+          "route_order_explicit": false,
+          "travel_dates": {
+            "start_date": "2026-11-03",
+            "end_date": null
+          },
+          "budget": null,
+          "unresolved_fields": [],
+          "clarification_question": null
+        },
+        "blockers": [],
+        "clarification_question": null,
+        "draft_specification": {
+          "destinations": [
+            "Tehran"
+          ],
+          "origin": null,
+          "route_order_explicit": false,
+          "duration_days": 1,
+          "duration_source": "explicit",
+          "dates": {
+            "start_date": "2026-11-03",
+            "end_date": null
+          },
+          "party_size": 2,
+          "interests": [],
+          "avoid": [],
+          "pace": null,
+          "budget": null,
+          "logistics_verified": false
+        }
+      },
+      "schedule": null,
+      "feedback": "The signed attraction evidence is unavailable, stale or invalid.",
+      "source_document_ids": [],
+      "live_verified": false
+    },
+    "live_verified": false,
+    "needs_verification": true
+  }
+}

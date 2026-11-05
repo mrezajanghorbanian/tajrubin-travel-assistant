@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "documents": [
+    {
+      "document_id": "palace.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "palace in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "palace.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "کاخ در تهران",
+      "summary": "نمونه ساختگی برای آزمون",
+      "content": "نمونه ساختگی",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "mosque.en",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Isfahan",
+      "category": "attraction",
+      "title": "mosque in Isfahan",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "mosque.fa",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Isfahan",
+      "category": "attraction",
+      "title": "مسجد در اصفهان",
+      "summary": "نمونه ساختگی برای آزمون",
+      "content": "نمونه ساختگی",
+      "languages": [
+        "fa"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "museum.decoy",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Tehran",
+      "category": "attraction",
+      "title": "museum in Tehran",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    },
+    {
+      "document_id": "church.decoy",
+      "country_code": "IR",
+      "country_name": "Iran",
+      "city": "Isfahan",
+      "category": "attraction",
+      "title": "church in Isfahan",
+      "summary": "Synthetic fixture only",
+      "content": "Synthetic example",
+      "languages": [
+        "en"
+      ],
+      "sources": []
+    }
+  ],
+  "cases": [
+    {
+      "id": "palace-en",
+      "language": "en",
+      "query": {
+        "text": "palace"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "palace-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "mosque-en",
+      "language": "en",
+      "query": {
+        "text": "mosque"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "mosque-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "palace-plural-city-en",
+      "language": "en",
+      "query": {
+        "text": "palaces in Tehran"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "palace-plural-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ‌ها در تهران"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "mosque-plural-city-en",
+      "language": "en",
+      "query": {
+        "text": "mosques in Isfahan"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "mosque-plural-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد‌ها در اصفهان"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "palace-city-filter-en",
+      "language": "en",
+      "query": {
+        "text": "palace",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "palace-city-filter-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ",
+        "city": "Tehran"
+      },
+      "relevant_ids": [
+        "palace.en",
+        "palace.fa"
+      ]
+    },
+    {
+      "id": "mosque-city-filter-en",
+      "language": "en",
+      "query": {
+        "text": "mosque",
+        "city": "Isfahan"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "mosque-city-filter-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد",
+        "city": "Isfahan"
+      },
+      "relevant_ids": [
+        "mosque.en",
+        "mosque.fa"
+      ]
+    },
+    {
+      "id": "unknown-hours-en",
+      "language": "en",
+      "query": {
+        "text": "palace opening hours"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unknown-hours-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ ساعت بازدید"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unknown-ticket-en",
+      "language": "en",
+      "query": {
+        "text": "mosque ticket prices"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "unknown-ticket-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد قیمت بلیت"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-en",
+      "language": "en",
+      "query": {
+        "text": "palace",
+        "city": "Isfahan"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-city-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ",
+        "city": "Isfahan"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-en",
+      "language": "en",
+      "query": {
+        "text": "mosque",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-country-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد",
+        "country_code": "GB"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-en",
+      "language": "en",
+      "query": {
+        "text": "palace",
+        "category": "food"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "wrong-category-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخ",
+        "category": "food"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "required-modifier-en",
+      "language": "en",
+      "query": {
+        "text": "mosque garden"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "required-modifier-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجد باغ"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "palace-compound-en",
+      "language": "en",
+      "query": {
+        "text": "palacekeeper"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "palace-compound-fa",
+      "language": "fa",
+      "query": {
+        "text": "کاخداری"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "mosque-compound-en",
+      "language": "en",
+      "query": {
+        "text": "mosquelet"
+      },
+      "relevant_ids": []
+    },
+    {
+      "id": "mosque-compound-fa",
+      "language": "fa",
+      "query": {
+        "text": "مسجدی"
+      },
+      "relevant_ids": []
+    }
+  ]
+}

@@ -4,7 +4,23 @@ An open-source, local-first AI travel assistant for destination discovery, trave
 
 The first knowledge pack focuses on Iran. The architecture is designed to support additional countries without retraining the core language model.
 
+The product target is a **Persian-first conversational travel agent**: the
+existing local model works with session context and travel tools to help users
+plan and revise trips in chat. Domestic Iran travel comes first; foreign
+destinations follow. See [the product direction and active sprint gates](docs/CONVERSATIONAL_AGENT.md).
+This connected agent journey is still under development; the current offline
+command provides deterministic QA and planning readiness.
+
+The [CORE-01 local-model intake entry point](docs/LOCAL_MODEL_TURN.md) runs
+one real Persian model turn with the existing local provider:
+`python -X utf8 -m app.assistant.local_model_turn 'سه روز شیراز'`.
+It does not yet maintain a conversation, retrieve places or generate a trip.
+
 ## Initial Goals
+
+The [unified offline assistant](docs/LOCAL_ASSISTANT.md) is runnable with
+`python -X utf8 -m app.assistant 'کاخ گلستان'`. It handles local knowledge
+questions and reports missing or resolved initial trip-planning details.
 
 - Answer grounded travel questions
 - Recommend destinations and experiences
@@ -58,6 +74,53 @@ Planned adapters include:
 
 ## Project Status
 
-Early public extraction and architecture phase.
+Runnable public prototype with local source-attributed QA, Persian/English
+retrieval and initial planning readiness. Scheduling and signed-catalog
+components remain separate, bounded libraries.
+
+See [current status and CI evidence](docs/STATUS.md) for implemented slices,
+remaining product gaps and the review map. The goals above include future
+work; the offline command does not generate a verified traveler itinerary.
 
 The production Tajrubin marketplace backend remains a separate private system.
+
+Planned feature [F-BOOK-01: flight, hotel and experience integrations](docs/BOOKING_INTEGRATION.md)
+adds a staged path from live comparison and provider checkout links to
+customer-approved booking. These connections are not implemented or enabled.
+
+## Retrieval evaluation
+
+See [offline bilingual retrieval evaluation](docs/RETRIEVAL_EVALUATION.md) for synthetic suites, the repository-corpus gate, metric definitions, limits and reproducible commands.
+
+See [the public Iran knowledge pack](docs/IRAN_KNOWLEDGE_PACK.md) for the source-attributed records and runnable Persian/English examples.
+
+The [CORE-02 conversation checkpoint](docs/LOCAL_MODEL_SESSION.md) supports
+multiple Persian intake turns in one in-memory process:
+`python -X utf8 -m app.assistant.local_model_session`. It retains literal user
+messages and pending questions within explicit capacity limits. Optional grounded
+search and literal trip-state slots are described below; a complete editable
+itinerary remains open.
+
+The same session supports [model-selected grounded search](docs/GROUNDED_SESSION.md)
+with `--grounded`: read-only public Iran knowledge, literal user-anchored city/query
+arguments, original source IDs/URLs/review dates and explicit no-evidence results.
+This does not create recommendations, verified live facts or an itinerary.
+
+Use `--trip-state` in that same session for [literal trip-state slots](docs/TRIP_STATE_SESSION.md)
+with source-message numbers and atomic partial corrections. This includes
+grounded search; the stored statements still need semantic confirmation and
+normalization before they can become planner inputs.
+
+In trip-state mode an [explicit follow-up policy](docs/TRIP_STATE_SESSION.md#required-details-follow-up-policy)
+asks for missing required details when the model gives no question, preserving
+question provenance. Complete literal slots still require validation before planning.
+
+In trip-state mode, `/confirm` requests a [planning preview](docs/SESSION_PLANNING.md)
+from the reviewed current statements. Unsupported constraints and missing
+activity/catalog evidence remain explicit; no attraction or logistics are invented.
+
+## Local browser test
+
+Run `python -X utf8 -m app.assistant.local_web` and open
+`http://127.0.0.1:8765` for the [Persian local chat](docs/LOCAL_WEB.md).
+It uses the existing real local-model session and planning boundaries.
