@@ -118,3 +118,9 @@ question provenance. Complete literal slots still require validation before plan
 In trip-state mode, `/confirm` requests a [planning preview](docs/SESSION_PLANNING.md)
 from the reviewed current statements. Unsupported constraints and missing
 activity/catalog evidence remain explicit; no attraction or logistics are invented.
+
+## Local browser test
+
+Run `python -X utf8 -m app.assistant.local_web` and open
+`http://127.0.0.1:8765` for the [Persian local chat](docs/LOCAL_WEB.md).
+It uses the existing real local-model session and planning boundaries.

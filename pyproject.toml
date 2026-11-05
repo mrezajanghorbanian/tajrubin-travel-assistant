@@ -30,4 +30,5 @@ exclude = ["knowledge", "knowledge.*", "tests", "tests.*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = ["."][tool.setuptools.package-data]
+"app.assistant" = ["web/*.html", "web/*.css", "web/*.js"]
